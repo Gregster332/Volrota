@@ -1,0 +1,15 @@
+xcassets:
+  - inputs: Volrota/Resources/Colors.xcassets
+    outputs:
+        templateName: swift5
+        params:
+            publicAccess: true
+            enumName: Colors
+        output: Volrota/Resources/SwiftGen/Colors.swift
+  - inputs: Volrota/Resources/Images.xcassets
+    outputs:
+        templateName: swift5
+        params:
+            publicAccess: true
+            enumName: Images
+        output: Volrota/Resources/SwiftGen/Images.swift

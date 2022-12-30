@@ -1,0 +1,26 @@
+PODS:
+  - SnapKit (5.6.0)
+  - SwiftGen (6.6.2)
+  - XCoordinator (2.2.0):
+    - XCoordinator/Core (= 2.2.0)
+  - XCoordinator/Core (2.2.0)
+
+DEPENDENCIES:
+  - SnapKit
+  - SwiftGen
+  - XCoordinator (~> 2.0)
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
+    - SwiftGen
+    - XCoordinator
+
+SPEC CHECKSUMS:
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
+  XCoordinator: a5f91e43ee944f508529763921165697d3211629
+
+PODFILE CHECKSUM: 81a5f97f7339e350ecae0c5990454f853fcadcc6
+
+COCOAPODS: 1.11.3

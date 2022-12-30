@@ -12,8 +12,11 @@
 		642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AA295ED44200E199F9 /* SceneDelegate.swift */; };
 		642F15AD295ED44200E199F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AC295ED44200E199F9 /* ViewController.swift */; };
 		642F15B0295ED44200E199F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 642F15AE295ED44200E199F9 /* Main.storyboard */; };
-		642F15B2295ED44700E199F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B1295ED44700E199F9 /* Assets.xcassets */; };
+		642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B1295ED44700E199F9 /* Colors.xcassets */; };
 		642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */; };
+		642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15BE295ED9F000E199F9 /* Images.xcassets */; };
+		642F15C3295EDBA000E199F9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15C1295EDBA000E199F9 /* Colors.swift */; };
+		642F15C4295EDBA000E199F9 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15C2295EDBA000E199F9 /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,9 +27,12 @@
 		642F15AA295ED44200E199F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		642F15AC295ED44200E199F9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		642F15AF295ED44200E199F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		642F15B1295ED44700E199F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		642F15B1295ED44700E199F9 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		642F15B4295ED44700E199F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		642F15B6295ED44700E199F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		642F15BE295ED9F000E199F9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		642F15C1295EDBA000E199F9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		642F15C2295EDBA000E199F9 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.release.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,15 +69,34 @@
 		642F15A7295ED44200E199F9 /* Volrota */ = {
 			isa = PBXGroup;
 			children = (
+				642F15BD295ED9C300E199F9 /* Resources */,
 				642F15A8295ED44200E199F9 /* AppDelegate.swift */,
 				642F15AA295ED44200E199F9 /* SceneDelegate.swift */,
 				642F15AC295ED44200E199F9 /* ViewController.swift */,
 				642F15AE295ED44200E199F9 /* Main.storyboard */,
-				642F15B1295ED44700E199F9 /* Assets.xcassets */,
 				642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */,
 				642F15B6295ED44700E199F9 /* Info.plist */,
 			);
 			path = Volrota;
+			sourceTree = "<group>";
+		};
+		642F15BD295ED9C300E199F9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				642F15C0295EDA0900E199F9 /* SwiftGen */,
+				642F15B1295ED44700E199F9 /* Colors.xcassets */,
+				642F15BE295ED9F000E199F9 /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		642F15C0295EDA0900E199F9 /* SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				642F15C1295EDBA000E199F9 /* Colors.swift */,
+				642F15C2295EDBA000E199F9 /* Images.swift */,
+			);
+			path = SwiftGen;
 			sourceTree = "<group>";
 		};
 		6AB663897E8C0476FACEEDD5 /* Frameworks */ = {
@@ -88,7 +113,6 @@
 				4DDB3B022B5CAAF42DD5B0CB /* Pods-Volrota.debug.xcconfig */,
 				72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -100,6 +124,7 @@
 			buildConfigurationList = 642F15B9295ED44700E199F9 /* Build configuration list for PBXNativeTarget "Volrota" */;
 			buildPhases = (
 				EF20ADF68FD77B7DC5EC1353 /* [CP] Check Pods Manifest.lock */,
+				642F15BC295ED91B00E199F9 /* SwiftGen */,
 				642F15A1295ED44200E199F9 /* Sources */,
 				642F15A2295ED44200E199F9 /* Frameworks */,
 				642F15A3295ED44200E199F9 /* Resources */,
@@ -152,7 +177,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */,
-				642F15B2295ED44700E199F9 /* Assets.xcassets in Resources */,
+				642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */,
+				642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */,
 				642F15B0295ED44200E199F9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,6 +186,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		642F15BC295ED91B00E199F9 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\n";
+		};
 		EF20ADF68FD77B7DC5EC1353 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -190,6 +234,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				642F15AD295ED44200E199F9 /* ViewController.swift in Sources */,
+				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
+				642F15C4295EDBA000E199F9 /* Images.swift in Sources */,
 				642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */,
 				642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */,
 			);
