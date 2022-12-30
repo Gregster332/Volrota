@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56B63692F7AC68DAB78362DA /* libPods-Volrota.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */; };
 		642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15A8295ED44200E199F9 /* AppDelegate.swift */; };
 		642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AA295ED44200E199F9 /* SceneDelegate.swift */; };
 		642F15AD295ED44200E199F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AC295ED44200E199F9 /* ViewController.swift */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Volrota.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DDB3B022B5CAAF42DD5B0CB /* Pods-Volrota.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.debug.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.debug.xcconfig"; sourceTree = "<group>"; };
 		642F15A5295ED44200E199F9 /* Volrota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volrota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		642F15A8295ED44200E199F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		642F15AA295ED44200E199F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		642F15B1295ED44700E199F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		642F15B4295ED44700E199F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		642F15B6295ED44700E199F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.release.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56B63692F7AC68DAB78362DA /* libPods-Volrota.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				642F15A7295ED44200E199F9 /* Volrota */,
 				642F15A6295ED44200E199F9 /* Products */,
+				8758E01FED81009997D4B05E /* Pods */,
+				6AB663897E8C0476FACEEDD5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,24 @@
 			path = Volrota;
 			sourceTree = "<group>";
 		};
+		6AB663897E8C0476FACEEDD5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8758E01FED81009997D4B05E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4DDB3B022B5CAAF42DD5B0CB /* Pods-Volrota.debug.xcconfig */,
+				72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +99,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 642F15B9295ED44700E199F9 /* Build configuration list for PBXNativeTarget "Volrota" */;
 			buildPhases = (
+				EF20ADF68FD77B7DC5EC1353 /* [CP] Check Pods Manifest.lock */,
 				642F15A1295ED44200E199F9 /* Sources */,
 				642F15A2295ED44200E199F9 /* Frameworks */,
 				642F15A3295ED44200E199F9 /* Resources */,
@@ -103,7 +129,7 @@
 				};
 			};
 			buildConfigurationList = 642F15A0295ED44100E199F9 /* Build configuration list for PBXProject "Volrota" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -132,6 +158,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EF20ADF68FD77B7DC5EC1353 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Volrota-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		642F15A1295ED44200E199F9 /* Sources */ = {
@@ -282,6 +333,7 @@
 		};
 		642F15BA295ED44700E199F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DDB3B022B5CAAF42DD5B0CB /* Pods-Volrota.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -311,6 +363,7 @@
 		};
 		642F15BB295ED44700E199F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
