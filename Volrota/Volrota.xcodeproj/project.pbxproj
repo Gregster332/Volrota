@@ -17,6 +17,27 @@
 		642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15BE295ED9F000E199F9 /* Images.xcassets */; };
 		642F15C3295EDBA000E199F9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15C1295EDBA000E199F9 /* Colors.swift */; };
 		642F15C4295EDBA000E199F9 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15C2295EDBA000E199F9 /* Images.swift */; };
+		642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15C9295EFB8E00E199F9 /* Dependencies.swift */; };
+		642F15CC295EFBDE00E199F9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15CB295EFBDE00E199F9 /* AppCoordinator.swift */; };
+		642F15CE295EFC2900E199F9 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15CD295EFC2900E199F9 /* TabCoordinator.swift */; };
+		642F15D3295EFCE200E199F9 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15D0295EFCE200E199F9 /* SplashPresenter.swift */; };
+		642F15D4295EFCE200E199F9 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15D1295EFCE200E199F9 /* SplashViewController.swift */; };
+		642F15D5295EFCE200E199F9 /* SplashBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15D2295EFCE200E199F9 /* SplashBuilder.swift */; };
+		642F15D9295EFE6D00E199F9 /* Do.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15D8295EFE6D00E199F9 /* Do.swift */; };
+		642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15DC295EFF1F00E199F9 /* UIView+Extension.swift */; };
+		642F15DF295EFFFB00E199F9 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15DE295EFFFB00E199F9 /* MainCoordinator.swift */; };
+		642F15E1295F001100E199F9 /* NewsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15E0295F001100E199F9 /* NewsCoordinator.swift */; };
+		642F15E3295F001D00E199F9 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15E2295F001D00E199F9 /* SettingsCoordinator.swift */; };
+		642F15E8295F030C00E199F9 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15E5295F030C00E199F9 /* MainPresenter.swift */; };
+		642F15E9295F030C00E199F9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15E6295F030C00E199F9 /* MainViewController.swift */; };
+		642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15E7295F030C00E199F9 /* MainBuilder.swift */; };
+		642F15EF295F033D00E199F9 /* NewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15EC295F033D00E199F9 /* NewsPresenter.swift */; };
+		642F15F0295F033D00E199F9 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15ED295F033D00E199F9 /* NewsViewController.swift */; };
+		642F15F1295F033D00E199F9 /* NewsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15EE295F033D00E199F9 /* NewsBuilder.swift */; };
+		642F15F6295F037C00E199F9 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F3295F037C00E199F9 /* SettingsPresenter.swift */; };
+		642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F4295F037C00E199F9 /* SettingsViewController.swift */; };
+		642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F5295F037C00E199F9 /* SettingsBuilder.swift */; };
+		642F15FB295F050700E199F9 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15FA295F050700E199F9 /* Transition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +54,27 @@
 		642F15BE295ED9F000E199F9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		642F15C1295EDBA000E199F9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		642F15C2295EDBA000E199F9 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		642F15C9295EFB8E00E199F9 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		642F15CB295EFBDE00E199F9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		642F15CD295EFC2900E199F9 /* TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
+		642F15D0295EFCE200E199F9 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
+		642F15D1295EFCE200E199F9 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		642F15D2295EFCE200E199F9 /* SplashBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashBuilder.swift; sourceTree = "<group>"; };
+		642F15D8295EFE6D00E199F9 /* Do.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Do.swift; sourceTree = "<group>"; };
+		642F15DC295EFF1F00E199F9 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		642F15DE295EFFFB00E199F9 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		642F15E0295F001100E199F9 /* NewsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCoordinator.swift; sourceTree = "<group>"; };
+		642F15E2295F001D00E199F9 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		642F15E5295F030C00E199F9 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		642F15E6295F030C00E199F9 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		642F15E7295F030C00E199F9 /* MainBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBuilder.swift; sourceTree = "<group>"; };
+		642F15EC295F033D00E199F9 /* NewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPresenter.swift; sourceTree = "<group>"; };
+		642F15ED295F033D00E199F9 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		642F15EE295F033D00E199F9 /* NewsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsBuilder.swift; sourceTree = "<group>"; };
+		642F15F3295F037C00E199F9 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		642F15F4295F037C00E199F9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		642F15F5295F037C00E199F9 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
+		642F15FA295F050700E199F9 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.release.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,9 +111,11 @@
 		642F15A7295ED44200E199F9 /* Volrota */ = {
 			isa = PBXGroup;
 			children = (
+				642F15C7295EFAF800E199F9 /* Application */,
+				642F15C6295EFAE800E199F9 /* Coordinators */,
+				642F15C5295EFADF00E199F9 /* Screens */,
+				642F15C8295EFB0D00E199F9 /* Common */,
 				642F15BD295ED9C300E199F9 /* Resources */,
-				642F15A8295ED44200E199F9 /* AppDelegate.swift */,
-				642F15AA295ED44200E199F9 /* SceneDelegate.swift */,
 				642F15AC295ED44200E199F9 /* ViewController.swift */,
 				642F15AE295ED44200E199F9 /* Main.storyboard */,
 				642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */,
@@ -97,6 +141,129 @@
 				642F15C2295EDBA000E199F9 /* Images.swift */,
 			);
 			path = SwiftGen;
+			sourceTree = "<group>";
+		};
+		642F15C5295EFADF00E199F9 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				642F15F2295F036700E199F9 /* Settings */,
+				642F15EB295F032F00E199F9 /* News */,
+				642F15E4295F02F900E199F9 /* Main */,
+				642F15CF295EFCCF00E199F9 /* Splash */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		642F15C6295EFAE800E199F9 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				642F15CB295EFBDE00E199F9 /* AppCoordinator.swift */,
+				642F15CD295EFC2900E199F9 /* TabCoordinator.swift */,
+				642F15DE295EFFFB00E199F9 /* MainCoordinator.swift */,
+				642F15E0295F001100E199F9 /* NewsCoordinator.swift */,
+				642F15E2295F001D00E199F9 /* SettingsCoordinator.swift */,
+				642F15F9295F04F200E199F9 /* Extensions */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		642F15C7295EFAF800E199F9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				642F15AA295ED44200E199F9 /* SceneDelegate.swift */,
+				642F15A8295ED44200E199F9 /* AppDelegate.swift */,
+				642F15C9295EFB8E00E199F9 /* Dependencies.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		642F15C8295EFB0D00E199F9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				642F15DA295EFF0200E199F9 /* UI */,
+				642F15D6295EFE4900E199F9 /* Foundation */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		642F15CF295EFCCF00E199F9 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				642F15D0295EFCE200E199F9 /* SplashPresenter.swift */,
+				642F15D1295EFCE200E199F9 /* SplashViewController.swift */,
+				642F15D2295EFCE200E199F9 /* SplashBuilder.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		642F15D6295EFE4900E199F9 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				642F15D7295EFE5C00E199F9 /* Extensions */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		642F15D7295EFE5C00E199F9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				642F15D8295EFE6D00E199F9 /* Do.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		642F15DA295EFF0200E199F9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				642F15DB295EFF0A00E199F9 /* Extensions */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		642F15DB295EFF0A00E199F9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				642F15DC295EFF1F00E199F9 /* UIView+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		642F15E4295F02F900E199F9 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				642F15E5295F030C00E199F9 /* MainPresenter.swift */,
+				642F15E6295F030C00E199F9 /* MainViewController.swift */,
+				642F15E7295F030C00E199F9 /* MainBuilder.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		642F15EB295F032F00E199F9 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				642F15EC295F033D00E199F9 /* NewsPresenter.swift */,
+				642F15ED295F033D00E199F9 /* NewsViewController.swift */,
+				642F15EE295F033D00E199F9 /* NewsBuilder.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		642F15F2295F036700E199F9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				642F15F3295F037C00E199F9 /* SettingsPresenter.swift */,
+				642F15F4295F037C00E199F9 /* SettingsViewController.swift */,
+				642F15F5295F037C00E199F9 /* SettingsBuilder.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		642F15F9295F04F200E199F9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				642F15FA295F050700E199F9 /* Transition.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6AB663897E8C0476FACEEDD5 /* Frameworks */ = {
@@ -233,11 +400,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
+				642F15DF295EFFFB00E199F9 /* MainCoordinator.swift in Sources */,
+				642F15E8295F030C00E199F9 /* MainPresenter.swift in Sources */,
+				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
 				642F15AD295ED44200E199F9 /* ViewController.swift in Sources */,
+				642F15D9295EFE6D00E199F9 /* Do.swift in Sources */,
+				642F15FB295F050700E199F9 /* Transition.swift in Sources */,
+				642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */,
+				642F15EF295F033D00E199F9 /* NewsPresenter.swift in Sources */,
+				642F15CE295EFC2900E199F9 /* TabCoordinator.swift in Sources */,
+				642F15D5295EFCE200E199F9 /* SplashBuilder.swift in Sources */,
 				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
+				642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */,
+				642F15E1295F001100E199F9 /* NewsCoordinator.swift in Sources */,
+				642F15E3295F001D00E199F9 /* SettingsCoordinator.swift in Sources */,
 				642F15C4295EDBA000E199F9 /* Images.swift in Sources */,
 				642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */,
 				642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */,
+				642F15F1295F033D00E199F9 /* NewsBuilder.swift in Sources */,
+				642F15CC295EFBDE00E199F9 /* AppCoordinator.swift in Sources */,
+				642F15E9295F030C00E199F9 /* MainViewController.swift in Sources */,
+				642F15F6295F037C00E199F9 /* SettingsPresenter.swift in Sources */,
+				642F15F0295F033D00E199F9 /* NewsViewController.swift in Sources */,
+				642F15D3295EFCE200E199F9 /* SplashPresenter.swift in Sources */,
+				642F15D4295EFCE200E199F9 /* SplashViewController.swift in Sources */,
+				642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
