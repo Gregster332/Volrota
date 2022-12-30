@@ -10,8 +10,6 @@
 		56B63692F7AC68DAB78362DA /* libPods-Volrota.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */; };
 		642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15A8295ED44200E199F9 /* AppDelegate.swift */; };
 		642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AA295ED44200E199F9 /* SceneDelegate.swift */; };
-		642F15AD295ED44200E199F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AC295ED44200E199F9 /* ViewController.swift */; };
-		642F15B0295ED44200E199F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 642F15AE295ED44200E199F9 /* Main.storyboard */; };
 		642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B1295ED44700E199F9 /* Colors.xcassets */; };
 		642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */; };
 		642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15BE295ED9F000E199F9 /* Images.xcassets */; };
@@ -46,8 +44,6 @@
 		642F15A5295ED44200E199F9 /* Volrota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volrota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		642F15A8295ED44200E199F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		642F15AA295ED44200E199F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		642F15AC295ED44200E199F9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		642F15AF295ED44200E199F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		642F15B1295ED44700E199F9 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		642F15B4295ED44700E199F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		642F15B6295ED44700E199F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,9 +112,6 @@
 				642F15C5295EFADF00E199F9 /* Screens */,
 				642F15C8295EFB0D00E199F9 /* Common */,
 				642F15BD295ED9C300E199F9 /* Resources */,
-				642F15AC295ED44200E199F9 /* ViewController.swift */,
-				642F15AE295ED44200E199F9 /* Main.storyboard */,
-				642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */,
 				642F15B6295ED44700E199F9 /* Info.plist */,
 			);
 			path = Volrota;
@@ -130,6 +123,7 @@
 				642F15C0295EDA0900E199F9 /* SwiftGen */,
 				642F15B1295ED44700E199F9 /* Colors.xcassets */,
 				642F15BE295ED9F000E199F9 /* Images.xcassets */,
+				642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -346,7 +340,6 @@
 				642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */,
 				642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */,
 				642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */,
-				642F15B0295ED44200E199F9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,7 +397,6 @@
 				642F15DF295EFFFB00E199F9 /* MainCoordinator.swift in Sources */,
 				642F15E8295F030C00E199F9 /* MainPresenter.swift in Sources */,
 				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
-				642F15AD295ED44200E199F9 /* ViewController.swift in Sources */,
 				642F15D9295EFE6D00E199F9 /* Do.swift in Sources */,
 				642F15FB295F050700E199F9 /* Transition.swift in Sources */,
 				642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */,
@@ -432,14 +424,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		642F15AE295ED44200E199F9 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				642F15AF295ED44200E199F9 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -578,7 +562,6 @@
 				INFOPLIST_FILE = Volrota/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -608,7 +591,6 @@
 				INFOPLIST_FILE = Volrota/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
