@@ -1,23 +1,27 @@
 // 
-//  NewsViewController.swift
+//  HelperViewController.swift
 //  Volrota
 //
-//  Created by Григорий on 30.12.2022.
+//  Created by Greg Zenkov on 3/17/23.
 //
 
 import UIKit
 
-protocol NewsViewControllerProtocol: AnyObject {
+protocol HelperViewControllerProtocol: AnyObject {
 }
 
-final class NewsViewController: UIViewController, NewsViewControllerProtocol {
+final class HelperViewController: UIViewController, HelperViewControllerProtocol {
     
     // MARK: - Properties
-    var presenter: NewsPresenterProtocol!
+    
+    // swiftlint:disable implicitly_unwrapped_optional
+    var presenter: HelperPresenterProtocol!
+    // swiftlint:enable implicitly_unwrapped_optional
     
     // MARK: - Views
 
     // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -26,10 +30,12 @@ final class NewsViewController: UIViewController, NewsViewControllerProtocol {
     }
     
     // MARK: - Methods
+
 }
 
 // MARK: - Private Methods
-private extension NewsViewController {
+
+private extension HelperViewController {
     
     func setupView() {
         view.backgroundColor = .red
@@ -42,4 +48,5 @@ private extension NewsViewController {
     }
     
     // MARK: - UI Actions
+
 }

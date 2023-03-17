@@ -22,7 +22,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.overrideUserInterfaceStyle = .light
         self.window = window
         rootCoordinator?.setRoot(for: window)
-        
     }
 
 //    func sceneDidDisconnect(_ scene: UIScene) {

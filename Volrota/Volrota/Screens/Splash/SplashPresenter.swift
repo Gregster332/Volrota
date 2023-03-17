@@ -25,7 +25,7 @@ final class SplashPresenter: SplashPresenterProtocol {
     }
     
     func openTabBar() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) { [weak self] in
             self?.router.trigger(.tabbar)
         }
     }

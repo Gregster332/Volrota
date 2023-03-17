@@ -1,4 +1,5 @@
 PODS:
+  - lottie-ios (4.1.2)
   - SnapKit (5.6.0)
   - SwiftGen (6.6.2)
   - XCoordinator (2.2.0):
@@ -6,21 +7,24 @@ PODS:
   - XCoordinator/Core (2.2.0)
 
 DEPENDENCIES:
+  - lottie-ios
   - SnapKit
   - SwiftGen
   - XCoordinator (~> 2.0)
 
 SPEC REPOS:
   trunk:
+    - lottie-ios
     - SnapKit
     - SwiftGen
     - XCoordinator
 
 SPEC CHECKSUMS:
+  lottie-ios: b3846a9fa8ca1a1a3bebfa256ebe8b6fd4aaaaad
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: 1366a7f71aeef49954ca5a63ba4bef6b0f24138c
   XCoordinator: a5f91e43ee944f508529763921165697d3211629
 
-PODFILE CHECKSUM: 81a5f97f7339e350ecae0c5990454f853fcadcc6
+PODFILE CHECKSUM: 5fffe0b81df95cdecfab667ccbf280af71c53f09
 
 COCOAPODS: 1.11.3

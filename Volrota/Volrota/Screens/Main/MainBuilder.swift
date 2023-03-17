@@ -12,9 +12,9 @@ final class MainBuilder {
     
     static func build(router: WeakRouter<MainRoute>) -> MainViewController {
         let view = MainViewController()
-        let presenter = MainPresenter(view: view, router: router)
+        _ = MainPresenter(view: view, router: router)
         
-        view.presenter = presenter
+        //view.presenter = presenter
         return view
     }
 }

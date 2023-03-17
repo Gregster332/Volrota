@@ -17,7 +17,7 @@ final class SplashViewController: UIViewController, SplashViewControllerProtocol
     var presenter: SplashPresenterProtocol!
     
     // MARK: - Views
-    private let welcomeLabel = UILabel()
+    private let logoImage = UIImageView()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -28,6 +28,11 @@ final class SplashViewController: UIViewController, SplashViewControllerProtocol
         presenter.openTabBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startAnimate()
+    }
+    
     // MARK: - Methods
 }
 
@@ -35,27 +40,29 @@ final class SplashViewController: UIViewController, SplashViewControllerProtocol
 private extension SplashViewController {
     
     func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.accentColor.color
         
-        welcomeLabel.do {
-            $0.text = "Welcome Splash"
-            $0.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-            $0.textColor = .black
-            $0.textAlignment = .center
-            $0.numberOfLines = 0
+        logoImage.do {
+            $0.image = Images.volhubLogo.image
+            $0.contentMode = .scaleAspectFill
+            $0.alpha = 0
         }
     }
     
     func addViews() {
-        view.addSubviews([welcomeLabel])
+        view.addSubviews([logoImage])
     }
     
     func setupConstraints() {
-        welcomeLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(16)
+        logoImage.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(82)
+            $0.centerY.equalToSuperview()
         }
     }
     
-    // MARK: - UI Actions
+    func startAnimate() {
+        UIView.animate(withDuration: 3, delay: 0, options: .curveEaseInOut) {
+            self.logoImage.alpha = 1
+        }
+    }
 }

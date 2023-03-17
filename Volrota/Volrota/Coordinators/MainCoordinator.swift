@@ -9,6 +9,7 @@ import XCoordinator
 
 enum MainRoute: Route {
     case main
+    case profile
 }
 
 final class MainCoordinator: NavigationCoordinator<MainRoute> {
@@ -25,11 +26,21 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
         case .main:
             let mainViewController = main()
             return .set([mainViewController])
+        case .profile:
+            let profile = profile()
+            return .push(profile)
         }
     }
     
-    private func main() -> MainViewController {
+    private func main() -> UIViewController {
         let mainViewController = MainBuilder.build(router: weakRouter)
         return mainViewController
+    }
+    
+    private func profile() -> UIViewController {
+        let controller = UIViewController()
+        controller.view.backgroundColor = .white
+        controller.title = "Профиль"
+        return controller
     }
 }

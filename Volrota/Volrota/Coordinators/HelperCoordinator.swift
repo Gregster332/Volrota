@@ -7,11 +7,11 @@
 
 import XCoordinator
 
-enum NewsRoute: Route {
+enum HelperRoute: Route {
     case news
 }
 
-final class NewsCoordinator: NavigationCoordinator<NewsRoute> {
+final class HelperCoordinator: NavigationCoordinator<HelperRoute> {
     
     private var dependencies: Dependencies
     
@@ -20,7 +20,7 @@ final class NewsCoordinator: NavigationCoordinator<NewsRoute> {
         super.init(initialRoute: .news)
     }
     
-    override func prepareTransition(for route: NewsRoute) -> NavigationTransition {
+    override func prepareTransition(for route: HelperRoute) -> NavigationTransition {
         switch route {
         case .news:
             let newsViewController = news()
@@ -28,9 +28,9 @@ final class NewsCoordinator: NavigationCoordinator<NewsRoute> {
         }
     }
     
-    private func news() -> NewsViewController {
-        let newsViewController = NewsBuilder.build(router: weakRouter)
-        return newsViewController
+    private func news() -> UIViewController {
+        let helperViewController = HelperBuilder.build(router: weakRouter)
+        return helperViewController
     }
 }
 

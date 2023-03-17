@@ -13,5 +13,6 @@ target 'Volrota' do
   #Other
   pod 'SnapKit'
   pod 'SwiftGen'
+  pod 'lottie-ios'
 
 end

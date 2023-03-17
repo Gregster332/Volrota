@@ -18,24 +18,31 @@ final class TabCoordinator: TabBarCoordinator<TabRoute> {
     private let dependencies: Dependencies
     
     private let mainRouter: StrongRouter<MainRoute>
-    private let newsRouter: StrongRouter<NewsRoute>
+    private let newsRouter: StrongRouter<HelperRoute>
     private let settingsRouter: StrongRouter<SettingsRoute>
     
     convenience init(dependencies: Dependencies) {
         let mainCoordinator = MainCoordinator(dependencies: dependencies)
-        mainCoordinator.rootViewController.tabBarItem = UITabBarItem(title: "Main",
-                                                                        image: UIImage(systemName: "plus"),
-                                                                        tag: 1)
+        let mainItem = UITabBarItem(
+            title: "Main",
+            image: UIImage(systemName: "house.fill"),
+            tag: 1
+        )
+        mainCoordinator.rootViewController.tabBarItem = mainItem
         
-        let newsCoordinator = NewsCoordinator(dependencies: dependencies)
-        newsCoordinator.rootViewController.tabBarItem = UITabBarItem(title: "News",
-                                                                        image: UIImage(systemName: "plus"),
-                                                                        tag: 2)
+        let newsCoordinator = HelperCoordinator(dependencies: dependencies)
+        let newsItem = UITabBarItem(
+            title: "Помощник",
+            image: UIImage(systemName: "face.dashed.fill"),
+            tag: 2)
+        newsCoordinator.rootViewController.tabBarItem = newsItem
         
         let settingsCoordinator = SettingsCoordinator(dependencies: dependencies)
-        settingsCoordinator.rootViewController.tabBarItem = UITabBarItem(title: "Settings",
-                                                                        image: UIImage(systemName: "plus"),
-                                                                        tag: 3)
+        let settingsItem = UITabBarItem(
+            title: "Настройки",
+            image: UIImage(systemName: "gearshape.2.fill"),
+            tag: 3)
+        settingsCoordinator.rootViewController.tabBarItem = settingsItem
         
         self.init(dependencies: dependencies,
                   mainRouter: mainCoordinator.strongRouter,
@@ -47,7 +54,7 @@ final class TabCoordinator: TabBarCoordinator<TabRoute> {
     
     init(dependencies: Dependencies,
          mainRouter: StrongRouter<MainRoute>,
-         newsRouter: StrongRouter<NewsRoute>,
+         newsRouter: StrongRouter<HelperRoute>,
          settingsRouter: StrongRouter<SettingsRoute>) {
         self.dependencies = dependencies
         self.mainRouter = mainRouter
@@ -69,7 +76,7 @@ final class TabCoordinator: TabBarCoordinator<TabRoute> {
     
     private func setupTabBarAppearance() {
         rootViewController.view.backgroundColor = .white
-        UITabBar.appearance().tintColor = .blue
+        UITabBar.appearance().tintColor = Colors.accentColor.color
         UITabBar.appearance().isTranslucent = false
         if #available(iOS 13.0, *) {
             let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
