@@ -30,6 +30,7 @@ class HorizontalTableViewCell: UITableViewCell {
     
     func render(with props: MainViewController.MainViewControllerProps.Section) {
         section = props
+        collectionView.reloadData()
     }
 }
 

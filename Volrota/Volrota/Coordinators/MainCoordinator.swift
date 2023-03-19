@@ -10,6 +10,7 @@ import XCoordinator
 enum MainRoute: Route {
     case main
     case profile
+    case actualDetail(MainViewController.MainViewControllerProps.ActualProps)
 }
 
 final class MainCoordinator: NavigationCoordinator<MainRoute> {
@@ -28,7 +29,10 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
             return .set([mainViewController])
         case .profile:
             let profile = profile()
-            return .push(profile)
+            return .presentFullScreen(profile)
+        case .actualDetail(let actualProps):
+            let actualDetail = actualDetail(actualProps: actualProps)
+            return .push(actualDetail)
         }
     }
     
@@ -37,10 +41,18 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
         return mainViewController
     }
     
-    private func profile() -> UIViewController {
-        let controller = UIViewController()
-        controller.view.backgroundColor = .white
-        controller.title = "Профиль"
-        return controller
+    private func profile() -> ProfileCoordinator {
+        let profile = ProfileCoordinator(dependencies: dependencies)
+        return profile
+    }
+    
+    private func actualDetail(
+        actualProps: MainViewController.MainViewControllerProps.ActualProps
+    ) -> UIViewController {
+        let actualDetail = ActualDetailBuilder.build(
+            router: weakRouter,
+            props: actualProps
+        )
+        return actualDetail
     }
 }

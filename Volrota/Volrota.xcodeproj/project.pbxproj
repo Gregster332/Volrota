@@ -33,6 +33,9 @@
 		642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F4295F037C00E199F9 /* SettingsViewController.swift */; };
 		642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F5295F037C00E199F9 /* SettingsBuilder.swift */; };
 		642F15FB295F050700E199F9 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15FA295F050700E199F9 /* Transition.swift */; };
+		ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */; };
+		ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292629C602800066EA22 /* ProfileSettingsCell.swift */; };
+		ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292829C605F10066EA22 /* ProfileCoordinator.swift */; };
 		ED28268929C308600026000B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28268829C308600026000B /* ProfileView.swift */; };
 		ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28268E29C325FC0026000B /* UIViewController+Extension.swift */; };
 		ED28269129C32DEB0026000B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */; };
@@ -45,6 +48,19 @@
 		ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1829C483A0003C0A0E /* HelperBuilder.swift */; };
 		ED455B1D29C49C8F003C0A0E /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1C29C49C8F003C0A0E /* ErrorView.swift */; };
 		ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */; };
+		ED455B2429C4B66E003C0A0E /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2129C4B66E003C0A0E /* ProfilePresenter.swift */; };
+		ED455B2529C4B66E003C0A0E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2229C4B66E003C0A0E /* ProfileViewController.swift */; };
+		ED455B2629C4B66E003C0A0E /* ProfileBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2329C4B66E003C0A0E /* ProfileBuilder.swift */; };
+		ED455B2B29C4BDB9003C0A0E /* ActualDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2829C4BDB9003C0A0E /* ActualDetailPresenter.swift */; };
+		ED455B2C29C4BDB9003C0A0E /* ActualDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2929C4BDB9003C0A0E /* ActualDetailViewController.swift */; };
+		ED455B2D29C4BDB9003C0A0E /* ActualDetailBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B2A29C4BDB9003C0A0E /* ActualDetailBuilder.swift */; };
+		ED455B3229C5EB54003C0A0E /* NotificationsPermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3029C5EB54003C0A0E /* NotificationsPermissionService.swift */; };
+		ED455B3329C5EB54003C0A0E /* PermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3129C5EB54003C0A0E /* PermissionService.swift */; };
+		ED455B3829C5EB95003C0A0E /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3529C5EB95003C0A0E /* OnboardingPresenter.swift */; };
+		ED455B3929C5EB95003C0A0E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3629C5EB95003C0A0E /* OnboardingViewController.swift */; };
+		ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3729C5EB95003C0A0E /* OnboardingBuilder.swift */; };
+		ED455B3F29C5EC4D003C0A0E /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B3E29C5EC4D003C0A0E /* BorderedButton.swift */; };
+		ED455B4129C5EFF0003C0A0E /* envelope.json in Resources */ = {isa = PBXBuildFile; fileRef = ED455B4029C5EFF0003C0A0E /* envelope.json */; };
 		ED4E0FC529C34FC6007B503B /* EventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E0FC429C34FC6007B503B /* EventCollectionViewCell.swift */; };
 		ED4E0FC729C35056007B503B /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E0FC629C35056007B503B /* EventView.swift */; };
 		ED4E0FCD29C37D61007B503B /* ActualTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4E0FCC29C37D61007B503B /* ActualTableViewCell.swift */; };
@@ -84,6 +100,9 @@
 		642F15F5295F037C00E199F9 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		642F15FA295F050700E199F9 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.release.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.release.xcconfig"; sourceTree = "<group>"; };
+		ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		ED10292629C602800066EA22 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
+		ED10292829C605F10066EA22 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		ED28268829C308600026000B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		ED28268E29C325FC0026000B /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -96,6 +115,19 @@
 		ED455B1829C483A0003C0A0E /* HelperBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperBuilder.swift; sourceTree = "<group>"; };
 		ED455B1C29C49C8F003C0A0E /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		ED455B2129C4B66E003C0A0E /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
+		ED455B2229C4B66E003C0A0E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		ED455B2329C4B66E003C0A0E /* ProfileBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBuilder.swift; sourceTree = "<group>"; };
+		ED455B2829C4BDB9003C0A0E /* ActualDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDetailPresenter.swift; sourceTree = "<group>"; };
+		ED455B2929C4BDB9003C0A0E /* ActualDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDetailViewController.swift; sourceTree = "<group>"; };
+		ED455B2A29C4BDB9003C0A0E /* ActualDetailBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDetailBuilder.swift; sourceTree = "<group>"; };
+		ED455B3029C5EB54003C0A0E /* NotificationsPermissionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsPermissionService.swift; sourceTree = "<group>"; };
+		ED455B3129C5EB54003C0A0E /* PermissionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionService.swift; sourceTree = "<group>"; };
+		ED455B3529C5EB95003C0A0E /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
+		ED455B3629C5EB95003C0A0E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		ED455B3729C5EB95003C0A0E /* OnboardingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBuilder.swift; sourceTree = "<group>"; };
+		ED455B3E29C5EC4D003C0A0E /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
+		ED455B4029C5EFF0003C0A0E /* envelope.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = envelope.json; sourceTree = "<group>"; };
 		ED4E0FC429C34FC6007B503B /* EventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionViewCell.swift; sourceTree = "<group>"; };
 		ED4E0FC629C35056007B503B /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
 		ED4E0FCC29C37D61007B503B /* ActualTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualTableViewCell.swift; sourceTree = "<group>"; };
@@ -137,6 +169,7 @@
 		642F15A7295ED44200E199F9 /* Volrota */ = {
 			isa = PBXGroup;
 			children = (
+				ED455B2E29C5EB23003C0A0E /* Services */,
 				642F15C7295EFAF800E199F9 /* Application */,
 				642F15C6295EFAE800E199F9 /* Coordinators */,
 				642F15C5295EFADF00E199F9 /* Screens */,
@@ -150,6 +183,7 @@
 		642F15BD295ED9C300E199F9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				ED455B3B29C5EBF3003C0A0E /* Lottie */,
 				642F15C0295EDA0900E199F9 /* SwiftGen */,
 				642F15B1295ED44700E199F9 /* Colors.xcassets */,
 				642F15BE295ED9F000E199F9 /* Images.xcassets */,
@@ -170,6 +204,9 @@
 		642F15C5295EFADF00E199F9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				ED455B3429C5EB72003C0A0E /* Onboarding */,
+				ED455B2729C4BDA5003C0A0E /* ActualDetail */,
+				ED455B2029C4B65D003C0A0E /* Profile */,
 				ED455B1529C48390003C0A0E /* Helper */,
 				642F15F2295F036700E199F9 /* Settings */,
 				642F15E4295F02F900E199F9 /* Main */,
@@ -186,6 +223,7 @@
 				642F15DE295EFFFB00E199F9 /* MainCoordinator.swift */,
 				642F15E0295F001100E199F9 /* HelperCoordinator.swift */,
 				642F15E2295F001D00E199F9 /* SettingsCoordinator.swift */,
+				ED10292829C605F10066EA22 /* ProfileCoordinator.swift */,
 				642F15F9295F04F200E199F9 /* Extensions */,
 			);
 			path = Coordinators;
@@ -313,6 +351,7 @@
 				EDD67FCC29C42AEE00529FF3 /* TableViewHeaderView.swift */,
 				ED455B1C29C49C8F003C0A0E /* ErrorView.swift */,
 				ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */,
+				ED455B3E29C5EC4D003C0A0E /* BorderedButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -346,10 +385,75 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		ED455B2029C4B65D003C0A0E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B4229C5FD9F003C0A0E /* Cells */,
+				ED455B2129C4B66E003C0A0E /* ProfilePresenter.swift */,
+				ED455B2229C4B66E003C0A0E /* ProfileViewController.swift */,
+				ED455B2329C4B66E003C0A0E /* ProfileBuilder.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		ED455B2729C4BDA5003C0A0E /* ActualDetail */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B2829C4BDB9003C0A0E /* ActualDetailPresenter.swift */,
+				ED455B2929C4BDB9003C0A0E /* ActualDetailViewController.swift */,
+				ED455B2A29C4BDB9003C0A0E /* ActualDetailBuilder.swift */,
+			);
+			path = ActualDetail;
+			sourceTree = "<group>";
+		};
+		ED455B2E29C5EB23003C0A0E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B2F29C5EB2E003C0A0E /* PermissionService */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		ED455B2F29C5EB2E003C0A0E /* PermissionService */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B3029C5EB54003C0A0E /* NotificationsPermissionService.swift */,
+				ED455B3129C5EB54003C0A0E /* PermissionService.swift */,
+			);
+			path = PermissionService;
+			sourceTree = "<group>";
+		};
+		ED455B3429C5EB72003C0A0E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B3529C5EB95003C0A0E /* OnboardingPresenter.swift */,
+				ED455B3629C5EB95003C0A0E /* OnboardingViewController.swift */,
+				ED455B3729C5EB95003C0A0E /* OnboardingBuilder.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		ED455B3B29C5EBF3003C0A0E /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				ED455B4029C5EFF0003C0A0E /* envelope.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
+		ED455B4229C5FD9F003C0A0E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		EDD67FCE29C451F600529FF3 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				EDD67FCF29C4520A00529FF3 /* SettingsTableViewCell.swift */,
+				ED10292629C602800066EA22 /* ProfileSettingsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -415,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */,
+				ED455B4129C5EFF0003C0A0E /* envelope.json in Resources */,
 				642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */,
 				642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */,
 			);
@@ -474,39 +579,54 @@
 				ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */,
 				ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */,
 				ED28269B29C32FC70026000B /* NewsView.swift in Sources */,
+				ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */,
 				EDD67FCD29C42AEE00529FF3 /* TableViewHeaderView.swift in Sources */,
 				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
 				ED4E0FC729C35056007B503B /* EventView.swift in Sources */,
 				ED4E0FCF29C37DDD007B503B /* ActualView.swift in Sources */,
 				ED28269629C32E490026000B /* HorizontalTableViewCell.swift in Sources */,
 				642F15DF295EFFFB00E199F9 /* MainCoordinator.swift in Sources */,
+				ED455B2D29C4BDB9003C0A0E /* ActualDetailBuilder.swift in Sources */,
+				ED455B3829C5EB95003C0A0E /* OnboardingPresenter.swift in Sources */,
 				ED455B1929C483A0003C0A0E /* HelperPresenter.swift in Sources */,
 				642F15E8295F030C00E199F9 /* MainPresenter.swift in Sources */,
 				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
 				ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */,
+				ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */,
+				ED455B2429C4B66E003C0A0E /* ProfilePresenter.swift in Sources */,
 				642F15D9295EFE6D00E199F9 /* Do.swift in Sources */,
 				642F15FB295F050700E199F9 /* Transition.swift in Sources */,
 				642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */,
+				ED455B2529C4B66E003C0A0E /* ProfileViewController.swift in Sources */,
 				ED28269129C32DEB0026000B /* UICollectionView+Extension.swift in Sources */,
 				642F15CE295EFC2900E199F9 /* TabCoordinator.swift in Sources */,
 				642F15D5295EFCE200E199F9 /* SplashBuilder.swift in Sources */,
 				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
 				642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */,
+				ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */,
 				ED4E0FC529C34FC6007B503B /* EventCollectionViewCell.swift in Sources */,
 				642F15E1295F001100E199F9 /* HelperCoordinator.swift in Sources */,
 				ED28269929C32F850026000B /* NewsCollectionViewCell.swift in Sources */,
 				642F15E3295F001D00E199F9 /* SettingsCoordinator.swift in Sources */,
+				ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */,
+				ED455B2C29C4BDB9003C0A0E /* ActualDetailViewController.swift in Sources */,
 				ED28268929C308600026000B /* ProfileView.swift in Sources */,
 				EDD67FD029C4520A00529FF3 /* SettingsTableViewCell.swift in Sources */,
+				ED455B3F29C5EC4D003C0A0E /* BorderedButton.swift in Sources */,
 				642F15C4295EDBA000E199F9 /* Images.swift in Sources */,
 				642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */,
 				ED28269329C32E040026000B /* UITableView+Extension.swift in Sources */,
 				642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */,
+				ED455B3929C5EB95003C0A0E /* OnboardingViewController.swift in Sources */,
 				642F15CC295EFBDE00E199F9 /* AppCoordinator.swift in Sources */,
+				ED455B2B29C4BDB9003C0A0E /* ActualDetailPresenter.swift in Sources */,
 				ED4E0FCD29C37D61007B503B /* ActualTableViewCell.swift in Sources */,
+				ED455B3229C5EB54003C0A0E /* NotificationsPermissionService.swift in Sources */,
+				ED455B2629C4B66E003C0A0E /* ProfileBuilder.swift in Sources */,
 				642F15E9295F030C00E199F9 /* MainViewController.swift in Sources */,
 				642F15F6295F037C00E199F9 /* SettingsPresenter.swift in Sources */,
 				642F15D3295EFCE200E199F9 /* SplashPresenter.swift in Sources */,
+				ED455B3329C5EB54003C0A0E /* PermissionService.swift in Sources */,
 				642F15D4295EFCE200E199F9 /* SplashViewController.swift in Sources */,
 				ED455B1D29C49C8F003C0A0E /* ErrorView.swift in Sources */,
 				642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */,

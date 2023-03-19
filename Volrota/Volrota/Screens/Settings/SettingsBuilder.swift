@@ -10,9 +10,9 @@ import XCoordinator
 
 final class SettingsBuilder {
     
-    static func build(router: WeakRouter<SettingsRoute>) -> SettingsViewController {
+    static func build(router: WeakRouter<SettingsRoute>, permissionService: PermissionService) -> SettingsViewController {
         let view = SettingsViewController()
-        let presenter = SettingsPresenter(view: view, router: router)
+        let presenter = SettingsPresenter(view: view, router: router, permissionService: permissionService)
         
         view.presenter = presenter
         return view

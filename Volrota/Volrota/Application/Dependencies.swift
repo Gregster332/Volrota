@@ -10,9 +10,14 @@ import Foundation
 extension SceneDelegate {
     
     func dependencies() -> Dependencies {
-        return Dependencies()
+        
+        let permissionService = NotificationsPermissionService()
+        
+        return Dependencies(permissionService: permissionService)
     }
     
 }
 
-struct Dependencies {}
+struct Dependencies {
+    let permissionService: PermissionService
+}

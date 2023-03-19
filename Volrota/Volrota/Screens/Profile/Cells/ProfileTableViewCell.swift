@@ -1,18 +1,15 @@
 //
-//  SettingsTableViewCell.swift
+//  ProfileTableViewCell.swift
 //  Volrota
 //
-//  Created by Greg Zenkov on 3/17/23.
+//  Created by Greg Zenkov on 3/18/23.
 //
 
 import UIKit
 
-class SettingsTableViewCell: UITableViewCell {
-    
-    private var toggleCompletion: (() -> Void)?
+class ProfileTableViewCell: UITableViewCell {
     
     private let titleLabel = UILabel()
-    private let toggle = UISwitch()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,15 +25,12 @@ class SettingsTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: SettingsViewController.SettingsProps.SettingsCellProps) {
+    func render(with props: ProfileViewController.ProfileProps.ProfileCell) {
         titleLabel.text = props.title
-        toggle.isHidden = !props.isToggled
-        toggle.isOn = props.initialValue
-        toggleCompletion = props.toggleAction
     }
 }
 
-private extension SettingsTableViewCell {
+private extension ProfileTableViewCell {
     
     func setupView() {
         
@@ -49,19 +43,15 @@ private extension SettingsTableViewCell {
         }
         
         titleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-            $0.textAlignment = .left
+            $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+            $0.textAlignment = .center
             $0.textColor = .black
-        }
-        
-        toggle.do {
-            $0.addTarget(self, action: #selector(handleToggle), for: .valueChanged)
         }
     }
     
     func addViews() {
         
-        contentView.addSubviews([titleLabel, toggle])
+        contentView.addSubviews([titleLabel])
     }
     
     func setupConstraints() {
@@ -70,14 +60,5 @@ private extension SettingsTableViewCell {
             $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
         }
-        
-        toggle.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-8)
-            $0.centerY.equalToSuperview()
-        }
-    }
-    
-    @objc func handleToggle() {
-        toggleCompletion?()
     }
 }

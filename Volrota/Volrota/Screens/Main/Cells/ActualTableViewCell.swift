@@ -30,6 +30,13 @@ class ActualTableViewCell: UITableViewCell {
 
 private extension ActualTableViewCell {
     
+    func setupViews() {
+        
+        self.do {
+            $0.selectionStyle = .none
+        }
+    }
+    
     func addViews() {
         contentView.addSubviews([actualView])
     }

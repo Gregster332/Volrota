@@ -18,6 +18,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         let sections: [Section]
         let mainViewControllerState: MainViewControllerState
         let profileTapCompletion: (() -> Void)?
+        let actualTapCompletion: ((ActualProps) -> Void)?
         
         enum Section {
             case news([NewsViewProps]?)
@@ -51,6 +52,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         struct ActualProps {
             let image: UIImage
             let actualTitle: String
+            let actualLongRead: String
         }
         
         struct HeaderProps {
@@ -65,6 +67,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     //var presenter: MainPresenterProtocol!
     private var sections: [MainViewControllerProps.Section] = []
     private var profileTapCompletion: (() -> Void)?
+    private var actualTapCompletion: ((MainViewControllerProps.ActualProps) -> Void)?
     
     // MARK: - Views
     
@@ -79,6 +82,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         setupView()
         addViews()
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // MARK: - Methods
@@ -149,6 +157,7 @@ private extension MainViewController {
         profileView.setNavTitle(props.profileViewTitle)
         sections = props.sections
         profileTapCompletion = props.profileTapCompletion
+        actualTapCompletion = props.actualTapCompletion
         
         let state = props.mainViewControllerState
         tableView.animated(hide: state != .success)
@@ -236,6 +245,19 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return 35
         default:
             return 55
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 2 {
+            let section = sections[indexPath.section]
+            
+            if case .actual(let actual) = section, let actual = actual {
+                DispatchQueue.main.async {
+                    self.actualTapCompletion?(actual[indexPath.row])
+                }
+            }
         }
     }
 }
