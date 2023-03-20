@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		56B63692F7AC68DAB78362DA /* libPods-Volrota.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */; };
 		642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15A8295ED44200E199F9 /* AppDelegate.swift */; };
 		642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15AA295ED44200E199F9 /* SceneDelegate.swift */; };
 		642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 642F15B1295ED44700E199F9 /* Colors.xcassets */; };
@@ -33,9 +32,17 @@
 		642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F4295F037C00E199F9 /* SettingsViewController.swift */; };
 		642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15F5295F037C00E199F9 /* SettingsBuilder.swift */; };
 		642F15FB295F050700E199F9 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642F15FA295F050700E199F9 /* Transition.swift */; };
+		8F263664410AAF151A4051B5 /* Pods_Volrota.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0329D156D8B72723B9850329 /* Pods_Volrota.framework */; };
+		ED08A36129C83BDA00DC9487 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36029C83BDA00DC9487 /* Date+Extension.swift */; };
+		ED08A36329C845D800DC9487 /* LocationPermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36229C845D800DC9487 /* LocationPermissionService.swift */; };
+		ED08A36529C8492E00DC9487 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36429C8492E00DC9487 /* ApplicationState.swift */; };
+		ED08A36729C84ED100DC9487 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36629C84ED100DC9487 /* LocationService.swift */; };
+		ED08A36929C8596B00DC9487 /* CLLlocation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */; };
 		ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */; };
 		ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292629C602800066EA22 /* ProfileSettingsCell.swift */; };
 		ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292829C605F10066EA22 /* ProfileCoordinator.swift */; };
+		ED10292B29C79FC10066EA22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */; };
+		ED10292E29C7B5A70066EA22 /* FirebaseDatabse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */; };
 		ED28268929C308600026000B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28268829C308600026000B /* ProfileView.swift */; };
 		ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28268E29C325FC0026000B /* UIViewController+Extension.swift */; };
 		ED28269129C32DEB0026000B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */; };
@@ -70,7 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Volrota.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0329D156D8B72723B9850329 /* Pods_Volrota.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volrota.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDB3B022B5CAAF42DD5B0CB /* Pods-Volrota.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.debug.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.debug.xcconfig"; sourceTree = "<group>"; };
 		642F15A5295ED44200E199F9 /* Volrota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volrota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		642F15A8295ED44200E199F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,9 +107,16 @@
 		642F15F5295F037C00E199F9 /* SettingsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBuilder.swift; sourceTree = "<group>"; };
 		642F15FA295F050700E199F9 /* Transition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		72CF3CD144CA89EAF2E4F1BA /* Pods-Volrota.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volrota.release.xcconfig"; path = "Target Support Files/Pods-Volrota/Pods-Volrota.release.xcconfig"; sourceTree = "<group>"; };
+		ED08A36029C83BDA00DC9487 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		ED08A36229C845D800DC9487 /* LocationPermissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionService.swift; sourceTree = "<group>"; };
+		ED08A36429C8492E00DC9487 /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
+		ED08A36629C84ED100DC9487 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLlocation+Extension.swift"; sourceTree = "<group>"; };
 		ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		ED10292629C602800066EA22 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
 		ED10292829C605F10066EA22 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabse.swift; sourceTree = "<group>"; };
 		ED28268829C308600026000B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		ED28268E29C325FC0026000B /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -141,7 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56B63692F7AC68DAB78362DA /* libPods-Volrota.a in Frameworks */,
+				8F263664410AAF151A4051B5 /* Pods_Volrota.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +190,7 @@
 				642F15C8295EFB0D00E199F9 /* Common */,
 				642F15BD295ED9C300E199F9 /* Resources */,
 				642F15B6295ED44700E199F9 /* Info.plist */,
+				ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */,
 			);
 			path = Volrota;
 			sourceTree = "<group>";
@@ -290,6 +305,8 @@
 				ED28268E29C325FC0026000B /* UIViewController+Extension.swift */,
 				ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */,
 				ED28269229C32E040026000B /* UITableView+Extension.swift */,
+				ED08A36029C83BDA00DC9487 /* Date+Extension.swift */,
+				ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -297,6 +314,7 @@
 		642F15E4295F02F900E199F9 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				ED10293029C835B50066EA22 /* Model */,
 				ED28269429C32E260026000B /* Cells */,
 				642F15E5295F030C00E199F9 /* MainPresenter.swift */,
 				642F15E6295F030C00E199F9 /* MainViewController.swift */,
@@ -327,7 +345,7 @@
 		6AB663897E8C0476FACEEDD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				36879C25EC67D15F5FBE1A39 /* libPods-Volrota.a */,
+				0329D156D8B72723B9850329 /* Pods_Volrota.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -341,7 +359,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		ED28268729C308510026000B /* Views */ = {
+		ED10292C29C7B5920066EA22 /* FirebaseDatabseService */ = {
+			isa = PBXGroup;
+			children = (
+				ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */,
+			);
+			path = FirebaseDatabseService;
+			sourceTree = "<group>";
+		};
+		ED10292F29C7BB6E0066EA22 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				ED28268829C308600026000B /* ProfileView.swift */,
@@ -349,6 +375,20 @@
 				ED4E0FC629C35056007B503B /* EventView.swift */,
 				ED4E0FCE29C37DDD007B503B /* ActualView.swift */,
 				EDD67FCC29C42AEE00529FF3 /* TableViewHeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ED10293029C835B50066EA22 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ED28268729C308510026000B /* Views */ = {
+			isa = PBXGroup;
+			children = (
 				ED455B1C29C49C8F003C0A0E /* ErrorView.swift */,
 				ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */,
 				ED455B3E29C5EC4D003C0A0E /* BorderedButton.swift */,
@@ -369,6 +409,7 @@
 		ED28269729C32F730026000B /* CollectionCells */ = {
 			isa = PBXGroup;
 			children = (
+				ED10292F29C7BB6E0066EA22 /* Views */,
 				ED28269829C32F850026000B /* NewsCollectionViewCell.swift */,
 				ED4E0FC429C34FC6007B503B /* EventCollectionViewCell.swift */,
 			);
@@ -409,7 +450,10 @@
 		ED455B2E29C5EB23003C0A0E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				ED08A36429C8492E00DC9487 /* ApplicationState.swift */,
+				ED10292C29C7B5920066EA22 /* FirebaseDatabseService */,
 				ED455B2F29C5EB2E003C0A0E /* PermissionService */,
+				ED08A36629C84ED100DC9487 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -419,6 +463,7 @@
 			children = (
 				ED455B3029C5EB54003C0A0E /* NotificationsPermissionService.swift */,
 				ED455B3129C5EB54003C0A0E /* PermissionService.swift */,
+				ED08A36229C845D800DC9487 /* LocationPermissionService.swift */,
 			);
 			path = PermissionService;
 			sourceTree = "<group>";
@@ -470,6 +515,7 @@
 				642F15A1295ED44200E199F9 /* Sources */,
 				642F15A2295ED44200E199F9 /* Frameworks */,
 				642F15A3295ED44200E199F9 /* Resources */,
+				654BDE297F3563CD016563D0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -520,6 +566,7 @@
 			files = (
 				642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */,
 				ED455B4129C5EFF0003C0A0E /* envelope.json in Resources */,
+				ED10292B29C79FC10066EA22 /* GoogleService-Info.plist in Resources */,
 				642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */,
 				642F15B2295ED44700E199F9 /* Colors.xcassets in Resources */,
 			);
@@ -545,6 +592,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\n";
+		};
+		654BDE297F3563CD016563D0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Volrota/Pods-Volrota-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Volrota/Pods-Volrota-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Volrota/Pods-Volrota-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		EF20ADF68FD77B7DC5EC1353 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -580,6 +644,7 @@
 				ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */,
 				ED28269B29C32FC70026000B /* NewsView.swift in Sources */,
 				ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */,
+				ED10292E29C7B5A70066EA22 /* FirebaseDatabse.swift in Sources */,
 				EDD67FCD29C42AEE00529FF3 /* TableViewHeaderView.swift in Sources */,
 				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
 				ED4E0FC729C35056007B503B /* EventView.swift in Sources */,
@@ -591,14 +656,17 @@
 				ED455B1929C483A0003C0A0E /* HelperPresenter.swift in Sources */,
 				642F15E8295F030C00E199F9 /* MainPresenter.swift in Sources */,
 				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
+				ED08A36129C83BDA00DC9487 /* Date+Extension.swift in Sources */,
 				ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */,
 				ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */,
 				ED455B2429C4B66E003C0A0E /* ProfilePresenter.swift in Sources */,
 				642F15D9295EFE6D00E199F9 /* Do.swift in Sources */,
+				ED08A36729C84ED100DC9487 /* LocationService.swift in Sources */,
 				642F15FB295F050700E199F9 /* Transition.swift in Sources */,
 				642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */,
 				ED455B2529C4B66E003C0A0E /* ProfileViewController.swift in Sources */,
 				ED28269129C32DEB0026000B /* UICollectionView+Extension.swift in Sources */,
+				ED08A36929C8596B00DC9487 /* CLLlocation+Extension.swift in Sources */,
 				642F15CE295EFC2900E199F9 /* TabCoordinator.swift in Sources */,
 				642F15D5295EFCE200E199F9 /* SplashBuilder.swift in Sources */,
 				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
@@ -609,6 +677,7 @@
 				ED28269929C32F850026000B /* NewsCollectionViewCell.swift in Sources */,
 				642F15E3295F001D00E199F9 /* SettingsCoordinator.swift in Sources */,
 				ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */,
+				ED08A36529C8492E00DC9487 /* ApplicationState.swift in Sources */,
 				ED455B2C29C4BDB9003C0A0E /* ActualDetailViewController.swift in Sources */,
 				ED28268929C308600026000B /* ProfileView.swift in Sources */,
 				EDD67FD029C4520A00529FF3 /* SettingsTableViewCell.swift in Sources */,
@@ -618,6 +687,7 @@
 				ED28269329C32E040026000B /* UITableView+Extension.swift in Sources */,
 				642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */,
 				ED455B3929C5EB95003C0A0E /* OnboardingViewController.swift in Sources */,
+				ED08A36329C845D800DC9487 /* LocationPermissionService.swift in Sources */,
 				642F15CC295EFBDE00E199F9 /* AppCoordinator.swift in Sources */,
 				ED455B2B29C4BDB9003C0A0E /* ActualDetailPresenter.swift in Sources */,
 				ED4E0FCD29C37D61007B503B /* ActualTableViewCell.swift in Sources */,
@@ -772,10 +842,11 @@
 				DEVELOPMENT_TEAM = 88DU546X6V;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Volrota/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "some text here";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -784,9 +855,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqsoftware.Volrota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -801,10 +875,11 @@
 				DEVELOPMENT_TEAM = 88DU546X6V;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Volrota/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "some text here";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -813,9 +888,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqsoftware.Volrota;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

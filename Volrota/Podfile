@@ -1,6 +1,6 @@
 platform :ios, '14.1'
 
-use_modular_headers!
+use_frameworks! :linkage => :static
 inhibit_all_warnings!
 
 target 'Volrota' do
@@ -14,5 +14,11 @@ target 'Volrota' do
   pod 'SnapKit'
   pod 'SwiftGen'
   pod 'lottie-ios'
+  pod 'Kingfisher'
+
+  #Firebase
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
 
 end

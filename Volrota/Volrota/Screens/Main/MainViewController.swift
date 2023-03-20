@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 protocol MainViewControllerProtocol: AnyObject {
     func render(with props: MainViewController.MainViewControllerProps)
@@ -15,10 +16,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     
     struct MainViewControllerProps {
         let profileViewTitle: String
-        let sections: [Section]
+        var sections: [Section]
         let mainViewControllerState: MainViewControllerState
         let profileTapCompletion: (() -> Void)?
         let actualTapCompletion: ((ActualProps) -> Void)?
+        let refreshCompletion: (() -> Void)?
         
         enum Section {
             case news([NewsViewProps]?)
@@ -33,20 +35,51 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
             case success
         }
         
-        struct NewsViewProps {
+        struct NewsViewProps: CustomStringConvertible {
+        
             let title: String
             let bannerTitle: String
             let viewBackgroundColor: UIColor
             let bannerBackgroundColor: UIColor
             let titleColor: UIColor
             let bannerTitleColor: UIColor
+            
+            var description: String {
+                return title
+            }
+            
+            init(_ dictionary: [String: Any]) {
+                title = dictionary["title"] as? String ?? ""
+                bannerTitle = dictionary["banner_title"] as? String ?? ""
+                viewBackgroundColor = UIColor(dictionary["bg_color"] as? String ?? "")
+                bannerBackgroundColor = UIColor(dictionary["banner_bg_color"] as? String ?? "")
+                titleColor = UIColor(dictionary["title_color"] as? String ?? "")
+                bannerTitleColor = UIColor(dictionary["banner_title_color"] as? String ?? "")
+            }
         }
         
-        struct EventViewProps {
+        struct EventViewProps: CustomStringConvertible {
+            
             let eventTitle: String
-            let eventImage: UIImage
-            let date: String
-            let location: String
+            let eventImageURL: String
+            let startDate: Timestamp
+            let endDate: Timestamp
+            let lat: Double
+            let long: Double
+            
+            var description: String {
+                return eventTitle
+            }
+            
+            init(_ dictionary: [String: Any]) {
+                //print(dictionary["start_date"])
+                eventTitle = dictionary["title"] as? String ?? ""
+                eventImageURL = dictionary["image"] as? String ?? ""
+                startDate = dictionary["start_date"] as? Timestamp ?? Timestamp()
+                endDate = dictionary["end_date"] as? Timestamp ?? Timestamp()
+                lat = dictionary["lat"] as? Double ?? 0.0
+                long = dictionary["long"] as? Double ?? 0.0
+            }
         }
         
         struct ActualProps {
@@ -68,11 +101,13 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     private var sections: [MainViewControllerProps.Section] = []
     private var profileTapCompletion: (() -> Void)?
     private var actualTapCompletion: ((MainViewControllerProps.ActualProps) -> Void)?
+    private var refreshCompletion: (() -> Void)?
     
     // MARK: - Views
     
     private let profileView = ProfileView()
     private let tableView = UITableView()
+    private let refreshControl = UIRefreshControl()
     private let errorView = ErrorView()
     private let loadingView = LoadingView()
 
@@ -120,6 +155,11 @@ private extension MainViewController {
             $0.showsVerticalScrollIndicator = false
         }
         
+        refreshControl.do {
+            $0.attributedTitle = NSAttributedString(string: "Pull to refresh")
+            $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        }
+        
         errorView.do {
             $0.isHidden = true
         }
@@ -131,6 +171,7 @@ private extension MainViewController {
     
     func addViews() {
         view.addSubviews([tableView, errorView, loadingView])
+        tableView.addSubviews([refreshControl])
     }
     
     func setupConstraints() {
@@ -158,6 +199,7 @@ private extension MainViewController {
         sections = props.sections
         profileTapCompletion = props.profileTapCompletion
         actualTapCompletion = props.actualTapCompletion
+        refreshCompletion = props.refreshCompletion
         
         let state = props.mainViewControllerState
         tableView.animated(hide: state != .success)
@@ -165,6 +207,7 @@ private extension MainViewController {
         loadingView.animated(hide: state != .loading)
         if !tableView.isHidden {
             tableView.reloadData()
+            refreshControl.endRefreshing()
         }
     }
     
@@ -172,6 +215,10 @@ private extension MainViewController {
     
     @objc func handleTapOnProfileView() {
         profileTapCompletion?()
+    }
+    
+    @objc func handleRefreshControl() {
+        refreshCompletion?()
     }
 }
 
@@ -210,7 +257,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let item = sections[indexPath.section]
         
         if case .news = item {
-            return 120
+            return 145
         } else if case .events = item {
             return 365
         } else {
@@ -244,7 +291,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 35
         default:
-            return 55
+            return 45
         }
     }
     
@@ -259,5 +306,27 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
+    }
+}
+
+extension UIColor {
+    
+    convenience init(_ hex: String, alpha: CGFloat = 1.0) {
+        var cString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if cString.hasPrefix("#") { cString.removeFirst() }
+        
+        if cString.count != 6 {
+            self.init("ff0000")
+            return
+        }
+        
+        var rgbValue: UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+        
+        self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+                  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+                  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+                  alpha: alpha)
     }
 }

@@ -37,12 +37,19 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
     }
     
     private func splash() -> UIViewController {
-        let splashViewController = SplashBuilder.build(router: weakRouter)
+        let splashViewController = SplashBuilder.build(
+            router: weakRouter,
+            applicationState: dependencies.applicationState
+        )
         return splashViewController
     }
     
     private func onboarding() -> UIViewController {
-        let onboarding = OnboardingBuilder.build(router: weakRouter, permissionService: dependencies.permissionService)
+        let onboarding = OnboardingBuilder.build(
+            router: weakRouter,
+            permissionService: dependencies.permissionService,
+            locationService: dependencies.locationPermissionService,
+            applicationState: dependencies.applicationState)
         return onboarding
     }
     

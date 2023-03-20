@@ -10,9 +10,20 @@ import XCoordinator
 
 final class OnboardingBuilder {
     
-    static func build(router: WeakRouter<RootRoute>, permissionService: PermissionService) -> OnboardingViewController {
+    static func build(
+        router: WeakRouter<RootRoute>,
+        permissionService: PermissionService,
+        locationService: PermissionService,
+        applicationState: ApplicationState
+    ) -> OnboardingViewController {
         let view = OnboardingViewController()
-        let presenter = OnboardingPresenter(view: view, router: router, permissionService: permissionService)
+        let presenter = OnboardingPresenter(
+            view: view,
+            router: router,
+            permissionService: permissionService,
+            locationService: locationService,
+            applicationState: applicationState
+        )
         
         view.presenter = presenter
         return view

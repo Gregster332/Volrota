@@ -10,9 +10,16 @@ import XCoordinator
 
 final class SplashBuilder {
     
-    static func build(router: WeakRouter<RootRoute>) -> SplashViewController {
+    static func build(
+        router: WeakRouter<RootRoute>,
+        applicationState: ApplicationState
+    ) -> SplashViewController {
         let view = SplashViewController()
-        let presenter = SplashPresenter(view: view, router: router)
+        let presenter = SplashPresenter(
+            view: view,
+            router: router,
+            applicationState: applicationState
+        )
         
         view.presenter = presenter
         return view

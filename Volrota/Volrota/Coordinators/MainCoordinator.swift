@@ -37,7 +37,11 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
     }
     
     private func main() -> UIViewController {
-        let mainViewController = MainBuilder.build(router: weakRouter)
+        let mainViewController = MainBuilder.build(
+            router: weakRouter,
+            database: dependencies.firebaseDatabse,
+            locationService: dependencies.locationService
+        )
         return mainViewController
     }
     

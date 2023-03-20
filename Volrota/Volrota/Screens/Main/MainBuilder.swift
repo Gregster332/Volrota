@@ -10,9 +10,18 @@ import XCoordinator
 
 final class MainBuilder {
     
-    static func build(router: WeakRouter<MainRoute>) -> MainViewController {
+    static func build(
+        router: WeakRouter<MainRoute>,
+        database: FirebaseDatabse,
+        locationService: LocationService
+    ) -> MainViewController {
         let view = MainViewController()
-        _ = MainPresenter(view: view, router: router)
+        _ = MainPresenter(
+            view: view,
+            router: router,
+            database: database,
+            locationService: locationService
+        )
         
         //view.presenter = presenter
         return view

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class EventView: UIView {
     
@@ -31,10 +32,12 @@ class EventView: UIView {
     }
     
     func render(with props: MainViewController.MainViewControllerProps.EventViewProps) {
-        eventImageView.image = props.eventImage
+        eventImageView.kf.setImage(with: URL(string: props.eventImageURL))
         eventTitleLabel.text = props.eventTitle
-        dateLabel.text = props.date
-        locationLabel.text = props.location
+        dateLabel.text = Date.datePeriod(
+            from: props.startDate.dateValue(),
+            endDate: props.endDate.dateValue())
+        locationLabel.text = "Нижний Новгород"
     }
 }
 
@@ -54,7 +57,7 @@ private extension EventView {
         }
         
         eventTitleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+            $0.font = UIFont.systemFont(ofSize: 18, weight: .medium)
             $0.numberOfLines = 0
             $0.textAlignment = .left
             $0.textColor = .black

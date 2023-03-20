@@ -41,7 +41,7 @@ private extension NewsView {
         }
         
         titleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
             $0.numberOfLines = 0
             $0.textAlignment = .left
         }
@@ -51,7 +51,7 @@ private extension NewsView {
         }
         
         bannerTitle.do {
-            $0.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+            $0.font = UIFont.systemFont(ofSize: 12, weight: .medium)
             $0.textAlignment = .center
         }
     }
@@ -65,19 +65,26 @@ private extension NewsView {
     func setupConstraints() {
         
         titleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(8)
+            $0.horizontalEdges.top.equalToSuperview().inset(10)
         }
         
-//        banner.snp.makeConstraints {
-//            $0.trailing.equalTo(titleLabel)
-//            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-//            $0.width.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
-//        }
+        banner.snp.makeConstraints {
+            $0.horizontalEdges.bottom.equalToSuperview().inset(10)
+            $0.height.equalTo(30)
+        }
+        
+        bannerTitle.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     func applyProps(props: MainViewController.MainViewControllerProps.NewsViewProps) {
         titleLabel.text = props.title
         titleLabel.textColor = props.titleColor
         backgroundColor = props.viewBackgroundColor
+        banner.backgroundColor = props.bannerBackgroundColor
+        bannerTitle.text = props.bannerTitle
+        bannerTitle.textColor = props.bannerTitleColor
+        bannerTitle.sizeToFit()
     }
 }

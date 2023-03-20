@@ -20,18 +20,39 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
     private weak var view: OnboardingViewControllerProtocol?
     private let router: WeakRouter<RootRoute>
     private let permissionService: PermissionService
+    private let locationService: PermissionService
+    private var applicationState: ApplicationState
 
     // MARK: - Initialize
 
-    init(view: OnboardingViewControllerProtocol, router: WeakRouter<RootRoute>, permissionService: PermissionService) {
+    init(
+        view: OnboardingViewControllerProtocol,
+        router: WeakRouter<RootRoute>,
+        permissionService: PermissionService,
+        locationService: PermissionService,
+        applicationState: ApplicationState
+    ) {
         self.view = view
         self.router = router
         self.permissionService = permissionService
+        self.locationService = locationService
+        self.applicationState = applicationState
         initialize()
     }
     
     func initialize() {
-        view?.render(with: OnboardingViewController.OnboardingProps(continueButtonAction: accessNotifications))
+        Task(priority: .high) {
+            
+            let status = await locationService.request()
+            
+            DispatchQueue.main.async {
+                self.view?.render(
+                    with: OnboardingViewController.OnboardingProps(
+                        continueButtonAction: self.accessNotifications
+                    )
+                )
+            }
+        }
     }
     
     func accessNotifications() {
@@ -39,6 +60,7 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
             let _ = await permissionService.request()
             
             DispatchQueue.main.async { [weak self] in
+                self?.applicationState.isOnboardingCompleted = true
                 self?.router.trigger(.tabbar)
             }
         }

@@ -110,7 +110,7 @@ extension HorizontalTableViewCell: UICollectionViewDelegate, UICollectionViewDat
 extension HorizontalTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if case .news = self.section {
-            return CGSize(width: 300, height: 80)
+            return CGSize(width: 300, height: 125)
         } else if case .events = self.section {
             return CGSize(width: 334, height: 355)
         } else {
