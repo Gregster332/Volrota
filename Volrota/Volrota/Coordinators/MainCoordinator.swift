@@ -11,6 +11,7 @@ enum MainRoute: Route {
     case main
     case profile
     case actualDetail(MainViewController.MainViewControllerProps.ActualProps)
+    case appSettings
 }
 
 final class MainCoordinator: NavigationCoordinator<MainRoute> {
@@ -32,7 +33,9 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
             return .presentFullScreen(profile)
         case .actualDetail(let actualProps):
             let actualDetail = actualDetail(actualProps: actualProps)
-            return .push(actualDetail)
+            return .present(actualDetail)
+        case .appSettings:
+            return .appSettings()
         }
     }
     

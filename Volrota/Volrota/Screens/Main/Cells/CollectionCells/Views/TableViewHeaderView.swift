@@ -31,14 +31,6 @@ class TableViewHeaderView: UIView {
     func render(with props: MainViewController.MainViewControllerProps.HeaderProps) {
         watchingAllCompletion = props.watchingAllCompletion
         headerLabel.text = props.headerTitle
-        if props.isLocationView {
-            headerLabel.textColor = Colors.purpleColor.color
-            headerLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-            watchingAllButton.isHidden = true
-        } else {
-            headerLabel.textColor = .black
-            watchingAllButton.isHidden = false
-        }
     }
 }
 
@@ -54,6 +46,7 @@ private extension TableViewHeaderView {
         headerLabel.do {
             $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
             $0.textAlignment = .left
+            $0.textColor = .black
         }
         
         watchingAllButton.do {
@@ -72,11 +65,12 @@ private extension TableViewHeaderView {
     func setupConstraints() {
         
         headerLabel.snp.makeConstraints {
-            $0.verticalEdges.leading.equalToSuperview().inset(8)
+            $0.leading.equalToSuperview().inset(16)
+            $0.verticalEdges.equalToSuperview().inset(8)
         }
         
         watchingAllButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-8)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
         }
     }

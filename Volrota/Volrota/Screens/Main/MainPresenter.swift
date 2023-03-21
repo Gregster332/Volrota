@@ -5,19 +5,17 @@
 //  Created by Григорий on 30.12.2022.
 //
 
-import Foundation
 import XCoordinator
 import FirebaseFirestore
+import CoreLocation
 
-protocol MainPresenterProtocol: AnyObject {
-    func initialize()
-    func error()
-    func success()
-    func openProfile()
-    func openActual(props: MainViewController.MainViewControllerProps.ActualProps)
-}
+typealias SomeReturningType = (
+    ads: [GlobalModel.AdsModel]?,
+    events: [GlobalModel.EventModel]?,
+    actulas: [GlobalModel.ActualModel]?,
+    currentLocation: CLLocation?)
 
-final class MainPresenter: MainPresenterProtocol {
+final class MainPresenter {
     
     // MARK: - Properties
     private weak var view: MainViewControllerProtocol?
@@ -25,7 +23,7 @@ final class MainPresenter: MainPresenterProtocol {
     private let database: FirebaseDatabse
     private let locationService: LocationService
     
-    private let testLongRead: String = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+    private var loadingTask: Task<Void, Never>?
 
     // MARK: - Initialize
     init(
@@ -38,14 +36,12 @@ final class MainPresenter: MainPresenterProtocol {
         self.router = router
         self.database = database
         self.locationService = locationService
-        initialize()
-        success()
     }
     
-    func initialize() {
+    func loading() {
         let props = MainViewController.MainViewControllerProps(
-            profileViewTitle: "Главная",
             sections: [],
+            locationViewProps: nil,
             mainViewControllerState: .loading,
             profileTapCompletion: nil,
             actualTapCompletion: nil,
@@ -54,79 +50,55 @@ final class MainPresenter: MainPresenterProtocol {
         view?.render(with: props)
     }
     
-    func error() {
+    func renderError() {
         let props = MainViewController.MainViewControllerProps(
-            profileViewTitle: "Главная",
             sections: [],
+            locationViewProps: nil,
             mainViewControllerState: .error,
             profileTapCompletion: nil,
             actualTapCompletion: nil,
-            refreshCompletion: success
+            refreshCompletion: fetchGlobalItems
         )
         view?.render(with: props)
     }
     
-    func success() {
-        Task(priority: .userInitiated) {
+    func fetchGlobalItems() {
+        loading()
+        loadingTask = Task(priority: .userInitiated) {
             do {
-                let ads = try await database.detAdvertisments()
-                let events = try await database.getEvents()
-                let curentLocation = try await locationService.getUserLocation().fetchCityAndCountry()
+                let globalModel = try await database.getGlobalData()
+                let curentLocation = await locationService.getUserLocation()
+                let formattedEvents = try await formattedEvents(globalModel.events)
+                let convertedAds = formattedAds(globalModel.ads)
+                let convertedActuals = formattedActuals(globalModel.actuals)
+               
                 
                 let props = MainViewController.MainViewControllerProps(
-                    profileViewTitle: "Главная",
                     sections: [
-                        .news(ads),
-                        .events(events),
-                        .actual([
-                            MainViewController.MainViewControllerProps.ActualProps(
-                                image: Images.oscar.image,
-                                actualTitle: "Премия Оскар 2023. Как премия вернула свою популярность?",
-                                actualLongRead: self.testLongRead
-                            ),
-                            MainViewController.MainViewControllerProps.ActualProps(
-                                image: Images.oscar.image,
-                                actualTitle: "Премия Оскар 2023. Как премия вернула свою популярность?",
-                                actualLongRead: self.testLongRead
-                            ),
-                            MainViewController.MainViewControllerProps.ActualProps(
-                                image: Images.oscar.image,
-                                actualTitle: "Премия Оскар 2023. Как премия вернула свою популярность?",
-                                actualLongRead: self.testLongRead
-                            ),
-                            MainViewController.MainViewControllerProps.ActualProps(
-                                image: Images.oscar.image,
-                                actualTitle: "Премия Оскар 2023. Как премия вернула свою популярность?",
-                                actualLongRead: self.testLongRead
-                            ),
-                            MainViewController.MainViewControllerProps.ActualProps(
-                                image: Images.oscar.image,
-                                actualTitle: "Премия Оскар 2023. Как премия вернула свою популярность?",
-                                actualLongRead: self.testLongRead
-                            )
-                        ]),
+                        .news(convertedAds),
+                        .events(formattedEvents),
+                        .actual(convertedActuals),
                         .header([
                             MainViewController.MainViewControllerProps.HeaderProps(
-                                headerTitle: curentLocation,
-                                isLocationView: true,
-                                watchingAllCompletion: nil
-                            ),
-                            MainViewController.MainViewControllerProps.HeaderProps(
-                                headerTitle: "Мероприятия",
-                                isLocationView: false,
+                                headerTitle: Strings.Main.eventsSectionTitle,
                                 watchingAllCompletion: self.openProfile
                             ),
                             MainViewController.MainViewControllerProps.HeaderProps(
-                                headerTitle: "Актуальное",
-                                isLocationView: false,
+                                headerTitle: Strings.Main.actualsSectionTitle,
                                 watchingAllCompletion: self.openProfile
                             )
                         ])
                     ],
+                    locationViewProps: MainViewController.MainViewControllerProps.LocationViewProps(
+                        locationName: try await locationService.fetchCityName(
+                            location: curentLocation
+                        ) ?? "Локация выключена",
+                        locationViewTapCompletion: openLocationSettings
+                    ),
                     mainViewControllerState: .success,
                     profileTapCompletion: self.openProfile,
                     actualTapCompletion: self.openActual,
-                    refreshCompletion: self.success
+                    refreshCompletion: self.fetchGlobalItems
                 )
                 
                 DispatchQueue.main.async {
@@ -134,21 +106,85 @@ final class MainPresenter: MainPresenterProtocol {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.error()
+                    self.renderError()
                 }
             }
         }
+    }
+}
+
+// MARK: - Private Methods
+private extension MainPresenter {
+    
+    func formattedAds(_ ads: [GlobalModel.AdsModel]) -> [MainViewController.MainViewControllerProps.NewsViewProps] {
+        var formattedAds = [MainViewController.MainViewControllerProps.NewsViewProps]()
+        
+        for ad in ads {
+            let formattedAd = MainViewController.MainViewControllerProps.NewsViewProps(
+                title: ad.title,
+                bannerTitle: ad.bannerTitle,
+                viewBackgroundColor: ad.viewBackgroundColor,
+                bannerBackgroundColor: ad.bannerBackgroundColor,
+                titleColor: ad.titleColor,
+                bannerTitleColor: ad.bannerTitleColor)
+            formattedAds.append(formattedAd)
+        }
+        
+        return formattedAds
+    }
+    
+    func formattedActuals(_ actuals: [GlobalModel.ActualModel]) -> [MainViewController.MainViewControllerProps.ActualProps] {
+        var formattedActuals = [MainViewController.MainViewControllerProps.ActualProps]()
+        
+        for actual in actuals {
+            let formattedActual = MainViewController.MainViewControllerProps.ActualProps(
+                imageUrl: actual.imageUrl,
+                actualTitle: actual.title,
+                actualDescription: actual.descriptionText)
+            formattedActuals.append(formattedActual)
+        }
+        
+        return formattedActuals
+    }
+    
+    func formattedEvents(
+        _ events: [GlobalModel.EventModel]
+    ) async throws -> [MainViewController.MainViewControllerProps.EventViewProps] {
+        let locations = events.map { CLLocation(latitude: $0.lat, longitude: $0.long) }
+        var places = [String]()
+        var formattedEvents = [MainViewController.MainViewControllerProps.EventViewProps]()
+        
+        for location in locations {
+            let placeData = try await CLLocation(
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude
+            ).placeData()
+            
+            let placeFullName = "\(placeData?.locality ?? ""), \(placeData?.name ?? "")"
+            places.append(placeFullName)
+        }
+        
+        for (index, event) in events.enumerated() {
+            let formattedEvent = MainViewController.MainViewControllerProps.EventViewProps(
+                eventTitle: event.eventTitle,
+                eventImageURL: event.eventImageURL,
+                datePeriod: Date.datePeriod(from: event.startDate.dateValue(), endDate: event.endDate.dateValue()),
+                placeFullName: places[index])
+            formattedEvents.append(formattedEvent)
+        }
+        
+        return formattedEvents
     }
     
     func openProfile() {
         router.trigger(.profile)
     }
     
+    func openLocationSettings() {
+        router.trigger(.appSettings)
+    }
+    
     func openActual(props: MainViewController.MainViewControllerProps.ActualProps) {
         router.trigger(.actualDetail(props))
     }
-}
-
-// MARK: - Private Methods
-private extension MainPresenter {
 }

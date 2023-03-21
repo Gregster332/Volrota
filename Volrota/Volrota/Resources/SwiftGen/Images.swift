@@ -30,6 +30,7 @@ public enum Images {
   public static let oscar = ImageAsset(name: "oscar")
   public static let plusAvatarImage = ImageAsset(name: "plus_avatar_image")
   public static let profileMockLogo = ImageAsset(name: "profile_mock_logo")
+  public static let refreshImage = ImageAsset(name: "refresh_image")
   public static let volhubLogo = ImageAsset(name: "volhub_logo")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

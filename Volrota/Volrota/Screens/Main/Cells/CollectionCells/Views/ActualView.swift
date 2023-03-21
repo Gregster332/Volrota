@@ -5,7 +5,7 @@
 //  Created by Greg Zenkov on 3/16/23.
 //
 
-import UIKit
+import Kingfisher
 
 class ActualView: UIView {
     
@@ -28,7 +28,10 @@ class ActualView: UIView {
     }
     
     func render(with props: MainViewController.MainViewControllerProps.ActualProps) {
-        imageView.image = props.image
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(
+            with: URL(string: props.imageUrl),
+            options: [.cacheOriginalImage])
         actualLabel.text = props.actualTitle
     }
     

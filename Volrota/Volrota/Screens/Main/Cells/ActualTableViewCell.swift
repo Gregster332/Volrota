@@ -13,12 +13,14 @@ class ActualTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
         addViews()
         setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupViews()
         addViews()
         setupConstraints()
     }
@@ -32,8 +34,10 @@ private extension ActualTableViewCell {
     
     func setupViews() {
         
-        self.do {
-            $0.selectionStyle = .none
+        selectionStyle = .none
+        
+        contentView.do {
+            $0.backgroundColor = .clear
         }
     }
     

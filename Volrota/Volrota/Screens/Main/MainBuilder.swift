@@ -16,14 +16,14 @@ final class MainBuilder {
         locationService: LocationService
     ) -> MainViewController {
         let view = MainViewController()
-        _ = MainPresenter(
+        let presenter = MainPresenter(
             view: view,
             router: router,
             database: database,
             locationService: locationService
         )
         
-        //view.presenter = presenter
+        view.initialCompletion = presenter.fetchGlobalItems
         return view
     }
 }

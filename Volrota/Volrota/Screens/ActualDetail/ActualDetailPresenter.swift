@@ -40,7 +40,9 @@ private extension ActualDetailPresenter {
         props: MainViewController.MainViewControllerProps.ActualProps
     ) {
         let actualProps = ActualDetailViewController.ActualDetailViewControllerProps(
-            descriptionText: props.actualLongRead
+            imageUrl: props.imageUrl,
+            actualTitle: props.actualTitle,
+            descriptionText: props.actualDescription
         )
         view?.render(with: actualProps)
     }

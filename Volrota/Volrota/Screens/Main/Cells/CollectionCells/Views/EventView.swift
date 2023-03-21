@@ -5,7 +5,6 @@
 //  Created by Greg Zenkov on 3/16/23.
 //
 
-import UIKit
 import Kingfisher
 
 class EventView: UIView {
@@ -34,10 +33,8 @@ class EventView: UIView {
     func render(with props: MainViewController.MainViewControllerProps.EventViewProps) {
         eventImageView.kf.setImage(with: URL(string: props.eventImageURL))
         eventTitleLabel.text = props.eventTitle
-        dateLabel.text = Date.datePeriod(
-            from: props.startDate.dateValue(),
-            endDate: props.endDate.dateValue())
-        locationLabel.text = "Нижний Новгород"
+        dateLabel.text = props.datePeriod
+        locationLabel.text = props.placeFullName
     }
 }
 

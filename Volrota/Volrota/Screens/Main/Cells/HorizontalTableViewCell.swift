@@ -112,7 +112,7 @@ extension HorizontalTableViewCell: UICollectionViewDelegateFlowLayout {
         if case .news = self.section {
             return CGSize(width: 300, height: 125)
         } else if case .events = self.section {
-            return CGSize(width: 334, height: 355)
+            return CGSize(width: 334, height: 345)
         } else {
             return CGSize(width: 0, height: 0)
         }

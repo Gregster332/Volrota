@@ -15,8 +15,8 @@ protocol MainViewControllerProtocol: AnyObject {
 final class MainViewController: UIViewController, MainViewControllerProtocol {
     
     struct MainViewControllerProps {
-        let profileViewTitle: String
-        var sections: [Section]
+        let sections: [Section]
+        let locationViewProps: LocationViewProps?
         let mainViewControllerState: MainViewControllerState
         let profileTapCompletion: (() -> Void)?
         let actualTapCompletion: ((ActualProps) -> Void)?
@@ -30,12 +30,13 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         }
         
         enum MainViewControllerState {
+            
             case loading
             case error
             case success
         }
         
-        struct NewsViewProps: CustomStringConvertible {
+        struct NewsViewProps {
         
             let title: String
             let bannerTitle: String
@@ -43,61 +44,36 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
             let bannerBackgroundColor: UIColor
             let titleColor: UIColor
             let bannerTitleColor: UIColor
-            
-            var description: String {
-                return title
-            }
-            
-            init(_ dictionary: [String: Any]) {
-                title = dictionary["title"] as? String ?? ""
-                bannerTitle = dictionary["banner_title"] as? String ?? ""
-                viewBackgroundColor = UIColor(dictionary["bg_color"] as? String ?? "")
-                bannerBackgroundColor = UIColor(dictionary["banner_bg_color"] as? String ?? "")
-                titleColor = UIColor(dictionary["title_color"] as? String ?? "")
-                bannerTitleColor = UIColor(dictionary["banner_title_color"] as? String ?? "")
-            }
         }
         
-        struct EventViewProps: CustomStringConvertible {
+        struct EventViewProps {
             
             let eventTitle: String
             let eventImageURL: String
-            let startDate: Timestamp
-            let endDate: Timestamp
-            let lat: Double
-            let long: Double
-            
-            var description: String {
-                return eventTitle
-            }
-            
-            init(_ dictionary: [String: Any]) {
-                //print(dictionary["start_date"])
-                eventTitle = dictionary["title"] as? String ?? ""
-                eventImageURL = dictionary["image"] as? String ?? ""
-                startDate = dictionary["start_date"] as? Timestamp ?? Timestamp()
-                endDate = dictionary["end_date"] as? Timestamp ?? Timestamp()
-                lat = dictionary["lat"] as? Double ?? 0.0
-                long = dictionary["long"] as? Double ?? 0.0
-            }
+            let datePeriod: String
+            let placeFullName: String
         }
         
         struct ActualProps {
-            let image: UIImage
+            let imageUrl: String
             let actualTitle: String
-            let actualLongRead: String
+            let actualDescription: String
         }
         
         struct HeaderProps {
             let headerTitle: String
-            let isLocationView: Bool
             let watchingAllCompletion: (() -> Void)?
+        }
+        
+        struct LocationViewProps {
+            let locationName: String
+            let locationViewTapCompletion: (() -> Void)
         }
     }
     
     // MARK: - Properties
     
-    //var presenter: MainPresenterProtocol!
+    var initialCompletion: (() -> Void)?
     private var sections: [MainViewControllerProps.Section] = []
     private var profileTapCompletion: (() -> Void)?
     private var actualTapCompletion: ((MainViewControllerProps.ActualProps) -> Void)?
@@ -106,6 +82,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     // MARK: - Views
     
     private let profileView = ProfileView()
+    private let locationView = LocationTrackingView()
     private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
     private let errorView = ErrorView()
@@ -117,11 +94,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         setupView()
         addViews()
         setupConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+        initialCompletion?()
     }
     
     // MARK: - Methods
@@ -142,6 +115,7 @@ private extension MainViewController {
         }
         
         profileView.do {
+            $0.setNavTitle(Strings.Main.mainTitle)
             $0.addTarget(self, action: #selector(handleTapOnProfileView), for: .touchUpInside)
         }
         
@@ -153,13 +127,15 @@ private extension MainViewController {
             $0.register(cellWithClass: HorizontalTableViewCell.self)
             $0.register(cellWithClass: ActualTableViewCell.self)
             $0.showsVerticalScrollIndicator = false
+            $0.alwaysBounceVertical = true
         }
         
         refreshControl.do {
-            $0.attributedTitle = NSAttributedString(string: "Pull to refresh")
+            
+            $0.tintColor = Colors.accentColor.color
             $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         }
-        
+    
         errorView.do {
             $0.isHidden = true
         }
@@ -170,7 +146,7 @@ private extension MainViewController {
     }
     
     func addViews() {
-        view.addSubviews([tableView, errorView, loadingView])
+        view.addSubviews([locationView, tableView, errorView, loadingView])
         tableView.addSubviews([refreshControl])
     }
     
@@ -181,8 +157,15 @@ private extension MainViewController {
             $0.height.equalTo(39)
         }
         
+        locationView.snp.makeConstraints {
+            $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(50)
+        }
+        
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(locationView.snp.bottom)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         errorView.snp.makeConstraints {
@@ -195,19 +178,24 @@ private extension MainViewController {
     }
     
     func applyProps(props: MainViewControllerProps) {
-        profileView.setNavTitle(props.profileViewTitle)
         sections = props.sections
         profileTapCompletion = props.profileTapCompletion
         actualTapCompletion = props.actualTapCompletion
         refreshCompletion = props.refreshCompletion
+        
+        if let locationViewProps = props.locationViewProps {
+            locationView.render(with: locationViewProps)
+        } else {
+            
+        }
         
         let state = props.mainViewControllerState
         tableView.animated(hide: state != .success)
         errorView.animated(hide: state != .error)
         loadingView.animated(hide: state != .loading)
         if !tableView.isHidden {
-            tableView.reloadData()
             refreshControl.endRefreshing()
+            tableView.reloadData()
         }
     }
     
@@ -222,7 +210,7 @@ private extension MainViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count - 1
@@ -245,12 +233,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if case .actual(let actuals) = item, let actuals = actuals {
             let cell = tableView.dequeueCell(withClass: ActualTableViewCell.self, for: indexPath) as ActualTableViewCell
             cell.render(with: actuals[indexPath.row])
+            return cell
         } else {
             let cell = tableView.dequeueCell(withClass: HorizontalTableViewCell.self, for: indexPath) as HorizontalTableViewCell
             cell.render(with: item)
             return cell
         }
-        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -259,7 +247,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if case .news = item {
             return 145
         } else if case .events = item {
-            return 365
+            return 355
         } else {
             return 347
         }
@@ -277,7 +265,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         switch item {
         case .header(let headers):
             let headerView = TableViewHeaderView()
-            if let current = headers?[section] {
+            if let current = headers?[section - 1] {
                 headerView.render(with: current)
             }
             return headerView
@@ -289,44 +277,33 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
-            return 35
+            return 0
         default:
             return 45
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.section == 2 {
             let section = sections[indexPath.section]
             
             if case .actual(let actual) = section, let actual = actual {
-                DispatchQueue.main.async {
-                    self.actualTapCompletion?(actual[indexPath.row])
+                DispatchQueue.main.async { [weak self] in
+                    self?.actualTapCompletion?(actual[indexPath.row])
                 }
             }
         }
     }
-}
-
-extension UIColor {
     
-    convenience init(_ hex: String, alpha: CGFloat = 1.0) {
-        var cString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        
-        if cString.hasPrefix("#") { cString.removeFirst() }
-        
-        if cString.count != 6 {
-            self.init("ff0000")
-            return
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 2 {
+            return 25
         }
-        
-        var rgbValue: UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-        
-        self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-                  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-                  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-                  alpha: alpha)
+        return 0
     }
 }

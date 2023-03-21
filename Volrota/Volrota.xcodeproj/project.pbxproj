@@ -37,7 +37,12 @@
 		ED08A36329C845D800DC9487 /* LocationPermissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36229C845D800DC9487 /* LocationPermissionService.swift */; };
 		ED08A36529C8492E00DC9487 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36429C8492E00DC9487 /* ApplicationState.swift */; };
 		ED08A36729C84ED100DC9487 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36629C84ED100DC9487 /* LocationService.swift */; };
-		ED08A36929C8596B00DC9487 /* CLLlocation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */; };
+		ED08A36C29C868A700DC9487 /* GlobalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36B29C868A700DC9487 /* GlobalModel.swift */; };
+		ED08A36E29C87A2000DC9487 /* CLLocation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36D29C87A2000DC9487 /* CLLocation+Extension.swift */; };
+		ED08A37029C8984D00DC9487 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A36F29C8984D00DC9487 /* UIColor+Extension.swift */; };
+		ED08A37629C999F600DC9487 /* LocationTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A37529C999F600DC9487 /* LocationTrackingView.swift */; };
+		ED08A37829C9B26600DC9487 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED08A37729C9B26600DC9487 /* Localizable.strings */; };
+		ED08A37A29C9B39F00DC9487 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A37929C9B39F00DC9487 /* Strings.swift */; };
 		ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */; };
 		ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292629C602800066EA22 /* ProfileSettingsCell.swift */; };
 		ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292829C605F10066EA22 /* ProfileCoordinator.swift */; };
@@ -111,7 +116,12 @@
 		ED08A36229C845D800DC9487 /* LocationPermissionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionService.swift; sourceTree = "<group>"; };
 		ED08A36429C8492E00DC9487 /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		ED08A36629C84ED100DC9487 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLlocation+Extension.swift"; sourceTree = "<group>"; };
+		ED08A36B29C868A700DC9487 /* GlobalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalModel.swift; sourceTree = "<group>"; };
+		ED08A36D29C87A2000DC9487 /* CLLocation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extension.swift"; sourceTree = "<group>"; };
+		ED08A36F29C8984D00DC9487 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		ED08A37529C999F600DC9487 /* LocationTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackingView.swift; sourceTree = "<group>"; };
+		ED08A37729C9B26600DC9487 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		ED08A37929C9B39F00DC9487 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		ED10292629C602800066EA22 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
 		ED10292829C605F10066EA22 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
@@ -183,6 +193,7 @@
 		642F15A7295ED44200E199F9 /* Volrota */ = {
 			isa = PBXGroup;
 			children = (
+				ED08A36A29C8689A00DC9487 /* Models */,
 				ED455B2E29C5EB23003C0A0E /* Services */,
 				642F15C7295EFAF800E199F9 /* Application */,
 				642F15C6295EFAE800E199F9 /* Coordinators */,
@@ -203,6 +214,7 @@
 				642F15B1295ED44700E199F9 /* Colors.xcassets */,
 				642F15BE295ED9F000E199F9 /* Images.xcassets */,
 				642F15B3295ED44700E199F9 /* LaunchScreen.storyboard */,
+				ED08A37729C9B26600DC9487 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -210,6 +222,7 @@
 		642F15C0295EDA0900E199F9 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
+				ED08A37929C9B39F00DC9487 /* Strings.swift */,
 				642F15C1295EDBA000E199F9 /* Colors.swift */,
 				642F15C2295EDBA000E199F9 /* Images.swift */,
 			);
@@ -306,7 +319,8 @@
 				ED28269029C32DEB0026000B /* UICollectionView+Extension.swift */,
 				ED28269229C32E040026000B /* UITableView+Extension.swift */,
 				ED08A36029C83BDA00DC9487 /* Date+Extension.swift */,
-				ED08A36829C8596B00DC9487 /* CLLlocation+Extension.swift */,
+				ED08A36D29C87A2000DC9487 /* CLLocation+Extension.swift */,
+				ED08A36F29C8984D00DC9487 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -359,6 +373,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		ED08A36A29C8689A00DC9487 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ED08A36B29C868A700DC9487 /* GlobalModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		ED10292C29C7B5920066EA22 /* FirebaseDatabseService */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +414,7 @@
 				ED455B1C29C49C8F003C0A0E /* ErrorView.swift */,
 				ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */,
 				ED455B3E29C5EC4D003C0A0E /* BorderedButton.swift */,
+				ED08A37529C999F600DC9487 /* LocationTrackingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -565,6 +588,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				642F15B5295ED44700E199F9 /* LaunchScreen.storyboard in Resources */,
+				ED08A37829C9B26600DC9487 /* Localizable.strings in Resources */,
 				ED455B4129C5EFF0003C0A0E /* envelope.json in Resources */,
 				ED10292B29C79FC10066EA22 /* GoogleService-Info.plist in Resources */,
 				642F15BF295ED9F000E199F9 /* Images.xcassets in Resources */,
@@ -643,8 +667,10 @@
 				ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */,
 				ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */,
 				ED28269B29C32FC70026000B /* NewsView.swift in Sources */,
+				ED08A36C29C868A700DC9487 /* GlobalModel.swift in Sources */,
 				ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */,
 				ED10292E29C7B5A70066EA22 /* FirebaseDatabse.swift in Sources */,
+				ED08A37A29C9B39F00DC9487 /* Strings.swift in Sources */,
 				EDD67FCD29C42AEE00529FF3 /* TableViewHeaderView.swift in Sources */,
 				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
 				ED4E0FC729C35056007B503B /* EventView.swift in Sources */,
@@ -659,14 +685,15 @@
 				ED08A36129C83BDA00DC9487 /* Date+Extension.swift in Sources */,
 				ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */,
 				ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */,
+				ED08A37029C8984D00DC9487 /* UIColor+Extension.swift in Sources */,
 				ED455B2429C4B66E003C0A0E /* ProfilePresenter.swift in Sources */,
 				642F15D9295EFE6D00E199F9 /* Do.swift in Sources */,
 				ED08A36729C84ED100DC9487 /* LocationService.swift in Sources */,
 				642F15FB295F050700E199F9 /* Transition.swift in Sources */,
+				ED08A36E29C87A2000DC9487 /* CLLocation+Extension.swift in Sources */,
 				642F15EA295F030C00E199F9 /* MainBuilder.swift in Sources */,
 				ED455B2529C4B66E003C0A0E /* ProfileViewController.swift in Sources */,
 				ED28269129C32DEB0026000B /* UICollectionView+Extension.swift in Sources */,
-				ED08A36929C8596B00DC9487 /* CLLlocation+Extension.swift in Sources */,
 				642F15CE295EFC2900E199F9 /* TabCoordinator.swift in Sources */,
 				642F15D5295EFCE200E199F9 /* SplashBuilder.swift in Sources */,
 				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
@@ -697,6 +724,7 @@
 				642F15F6295F037C00E199F9 /* SettingsPresenter.swift in Sources */,
 				642F15D3295EFCE200E199F9 /* SplashPresenter.swift in Sources */,
 				ED455B3329C5EB54003C0A0E /* PermissionService.swift in Sources */,
+				ED08A37629C999F600DC9487 /* LocationTrackingView.swift in Sources */,
 				642F15D4295EFCE200E199F9 /* SplashViewController.swift in Sources */,
 				ED455B1D29C49C8F003C0A0E /* ErrorView.swift in Sources */,
 				642F15F7295F037C00E199F9 /* SettingsViewController.swift in Sources */,

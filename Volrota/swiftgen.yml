@@ -13,3 +13,11 @@ xcassets:
             publicAccess: true
             enumName: Images
         output: Volrota/Resources/SwiftGen/Images.swift
+strings:
+  inputs: Volrota/Resources/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      params:
+        publicAccess: true
+        enumName: Strings
+      output: Volrota/Resources/SwiftGen/Strings.swift

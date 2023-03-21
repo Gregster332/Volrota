@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Volrota
+
+  Created by Greg Zenkov on 3/21/23.
+  
+*/
+
+// MARK: - Main
+"main.mainTitle" = "Главная";
+"main.eventsSectionTitle" = "Мероприятия";
+"main.actualsSectionTitle" = "Актуальное";

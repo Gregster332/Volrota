@@ -37,7 +37,7 @@ extension UIView {
     }
     
     func animated(hide: Bool) {
-        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: self, duration: 1, options: .curveLinear, animations: {
             self.isHidden = hide
         })
     }
