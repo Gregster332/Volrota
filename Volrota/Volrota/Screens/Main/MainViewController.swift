@@ -18,7 +18,7 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         let sections: [Section]
         let locationViewProps: LocationViewProps?
         let mainViewControllerState: MainViewControllerState
-        let profileTapCompletion: (() -> Void)?
+        let profileViewProps: ProfileViewProps?
         let actualTapCompletion: ((ActualProps) -> Void)?
         let refreshCompletion: (() -> Void)?
         
@@ -74,8 +74,8 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     // MARK: - Properties
     
     var initialCompletion: (() -> Void)?
+    var logOutAction: (() -> Void)?
     private var sections: [MainViewControllerProps.Section] = []
-    private var profileTapCompletion: (() -> Void)?
     private var actualTapCompletion: ((MainViewControllerProps.ActualProps) -> Void)?
     private var refreshCompletion: (() -> Void)?
     
@@ -94,11 +94,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         setupView()
         addViews()
         setupConstraints()
+        addObservers()
         initialCompletion?()
     }
     
     // MARK: - Methods
-    
     func render(with props: MainViewControllerProps) {
         applyProps(props: props)
     }
@@ -112,11 +112,6 @@ private extension MainViewController {
         self.do {
             $0.setupNavigationBar(with: profileView)
             $0.view.backgroundColor = .white
-        }
-        
-        profileView.do {
-            $0.setNavTitle(Strings.Main.mainTitle)
-            $0.addTarget(self, action: #selector(handleTapOnProfileView), for: .touchUpInside)
         }
         
         tableView.do {
@@ -177,9 +172,21 @@ private extension MainViewController {
         }
     }
     
+    func addObservers() {
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleLogOut),
+            name: .logOut,
+            object: nil
+        )
+    }
+    
     func applyProps(props: MainViewControllerProps) {
         sections = props.sections
-        profileTapCompletion = props.profileTapCompletion
+        
+        profileView.render(with: props.profileViewProps)
+        
         actualTapCompletion = props.actualTapCompletion
         refreshCompletion = props.refreshCompletion
         
@@ -200,13 +207,12 @@ private extension MainViewController {
     }
     
     // MARK: - UI Actions
-    
-    @objc func handleTapOnProfileView() {
-        profileTapCompletion?()
-    }
-    
     @objc func handleRefreshControl() {
         refreshCompletion?()
+    }
+    
+    @objc func handleLogOut() {
+        logOutAction?()
     }
 }
 
@@ -306,4 +312,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         }
         return 0
     }
+}
+
+extension Notification.Name {
+    static let logOut = Notification.Name("logOut")
 }

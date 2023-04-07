@@ -19,4 +19,20 @@ extension CLLocation {
         }
         return nil
     }
+    
+    func fetchPlaceFullName() -> CLPlacemark? {
+        var placemark: CLPlacemark? = nil
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        CLGeocoder().reverseGeocodeLocation(self) { placemarks, error in
+            if let first = placemarks?.first, error == nil {
+                placemark = first
+                semaphore.signal()
+            }
+        }
+        
+        semaphore.wait()
+        
+        return placemark
+    }
 }

@@ -25,8 +25,9 @@ class ProfileTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: ProfileViewController.ProfileProps.ProfileCell) {
+    func render(with props: ProfileViewController.ProfileProps.ProfileSettingsCell) {
         titleLabel.text = props.title
+        titleLabel.textColor = props.textColor
     }
 }
 

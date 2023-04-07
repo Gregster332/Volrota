@@ -18,48 +18,97 @@ final class ProfilePresenter: ProfilePresenterProtocol {
 
     private weak var view: ProfileViewControllerProtocol?
     private let router: WeakRouter<ProfileRoute>
+    private let authenticationService: AuthService
+    private var keyChainService: KeychainService
+    private let databse: FirebaseDatabse
+    private let firebaseStorageService: FirebaseStorage
+    
+    private var loadUserInfoTask: Task<Void, Never>?
 
     // MARK: - Initialize
-
     init(
         view: ProfileViewControllerProtocol,
-        router: WeakRouter<ProfileRoute>
+        router: WeakRouter<ProfileRoute>,
+        authenticationService: AuthService,
+        keyChainService: KeychainService,
+        databse: FirebaseDatabse,
+        firebaseStorageService: FirebaseStorage
     ) {
         self.view = view
         self.router = router
+        self.authenticationService = authenticationService
+        self.keyChainService = keyChainService
+        self.databse = databse
+        self.firebaseStorageService = firebaseStorageService
         initialize()
     }
     
     func initialize() {
-        let props = ProfileViewController.ProfileProps(
-            avatarImage: Images.profileMockLogo.image,
-            userName: "Ded",
-            closeButtonAction: dismiss,
-            cells: [
-                ProfileViewController.ProfileProps.ProfileCell(
-                    title: "Редактировать профиль",
-                    action: someAction
-                ),
-                ProfileViewController.ProfileProps.ProfileCell(
-                    title: "События",
-                    action: someAction
-                )
-            ]
-        )
-        
+        let props = getDefaultProps(true)
         view?.render(with: props)
+        loadUserInfoTask = Task {
+            do {
+                let user = try await databse.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
+                let organization = try await databse.getOrganizationBy(user.organizationId)
+                
+                let props = ProfileViewController.ProfileProps(
+                    isLoading: false,
+                    profileSettingsCells: [
+                        ProfileViewController.ProfileProps.ProfileSettingsCell(
+                            title: "Редактировать профиль",
+                            textColor: .black,
+                            action: someAction
+                        ),
+                        ProfileViewController.ProfileProps.ProfileSettingsCell(
+                            title: "События",
+                            textColor: .black,
+                            action: someAction
+                        ),
+                        ProfileViewController.ProfileProps.ProfileSettingsCell(
+                            title: "Выйти",
+                            textColor: .systemRed,
+                            action: logOut
+                        )
+                    ],
+                    aboutHeaderViewProps:
+                        ProfileViewController.ProfileProps.AboutHeaderViewProps(
+                            profileImageUrl: user.profileImageUrl,
+                            fullName: user.name + " " + user.secondName,
+                            organizationName: organization.name,
+                            organizationImageUrl: organization.imageUrl
+                        )
+                    
+                )
+                
+                await render(with: props)
+            } catch {
+                print(error)
+            }
+        }
     }
     
     func someAction() {
         print("dsdsdsd")
     }
     
-    func dismiss() {
-        router.trigger(.dismiss)
+    func logOut() {
+        loadUserInfoTask?.cancel()
+        keyChainService.userEmail = nil
+        keyChainService.userPassword = nil
+        authenticationService.logOut()
+        NotificationCenter.default.post(name: .logOut, object: nil)
+        router.trigger(.pop)
     }
-}
-
-// MARK: - Private Methods
-
-private extension ProfilePresenter {
+    
+    private func getDefaultProps(_ isLoading: Bool) -> ProfileViewController.ProfileProps {
+        let props = ProfileViewController.ProfileProps(
+            isLoading: isLoading
+        )
+        return props
+    }
+    
+    @MainActor
+    func render(with props: ProfileViewController.ProfileProps) {
+        view?.render(with: props)
+    }
 }

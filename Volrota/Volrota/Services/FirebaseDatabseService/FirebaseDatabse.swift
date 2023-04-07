@@ -7,11 +7,23 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
+import FirebaseFirestoreSwift
 
 protocol FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel
     func getEvents() async throws -> [GlobalModel.EventModel]
     func getActuals(_ dictionary: [String: Any]?) async throws -> [GlobalModel.ActualModel]
+    func createNewUser(
+        userId: String,
+        name: String,
+        secondName: String,
+        organization: String
+    ) async throws
+    func getUserInfo(by id: String) async throws -> UserData
+    func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws
+    func getOrganizationBy(_ id: String) async throws -> Organization
+    func getAllOrganizations() async throws -> [Organization]
 }
 
 final class DefaultFirebaseDatabse: FirebaseDatabse {
@@ -34,16 +46,16 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
     }
     
     func getEvents() async throws -> [GlobalModel.EventModel] {
-        let documentRef = database.collection("volrota/global/events")
+        let ref = database.collection("volrota/global/events")
         
         do {
             
-            let documents = try await documentRef.getDocuments().documents
-            
-            let events = Converter.convertToEvents(documents: documents)
+            let documentsRef = try await ref.getDocuments().documents
+            let events = try documentsRef.compactMap {
+                try $0.data(as: GlobalModel.EventModel.self)
+            }
             
             return events
-            
         } catch {
             throw error
         }
@@ -65,10 +77,89 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
                 documents = try await documentRef.getDocuments().documents
             }
             
-            let actuals = Converter.convertToActuals(documents: documents)
+            let actuals = try documents.compactMap {
+                try $0.data(as: GlobalModel.ActualModel.self)
+            }
             
             return actuals
             
+        } catch {
+            throw error
+        }
+    }
+    
+    func createNewUser(
+        userId: String,
+        name: String,
+        secondName: String,
+        organization: String
+    ) async throws {
+        
+        let collectionRef = database.collection("volrota/private/users")
+        
+        do {
+            let document = collectionRef.document(userId)
+            
+            var data = [String: Any]()
+            data["name"] = name
+            data["second_name"] = secondName
+            data["organization_id"] = organization
+            data["image_url"] = ""
+            try await document.setData(data)
+        } catch {
+            throw error
+        }
+        
+    }
+    
+    func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws {
+        
+        let collectionRef = database.collection("volrota/private/users")
+        
+        do {
+            let documentRef = collectionRef.document(id)
+            try await documentRef.updateData(["image_url" : imageUrl])
+        } catch {
+            throw error
+        }
+        
+    }
+    
+    func getUserInfo(by id: String) async throws -> UserData {
+        let collectionRef = database.collection("volrota/private/users")
+        
+        do {
+            let document = try await collectionRef.document(id).getDocument()
+            let user = try document.data(as: UserData.self)
+            return user
+        } catch {
+            throw error
+        }
+    }
+    
+    func getOrganizationBy(_ id: String) async throws -> Organization {
+        
+        let collection = database.collection("volrota/global/organizations")
+        
+        do {
+            let document = try await collection.document(id).getDocument()
+            let organization = try document.data(as: Organization.self)
+            return organization
+        } catch {
+            throw error
+        }
+    }
+    
+    func getAllOrganizations() async throws -> [Organization] {
+        
+        let collection = database.collection("volrota/global/organizations")
+        
+        do {
+            let documents = try await collection.getDocuments().documents
+            let organizations = try documents.compactMap {
+                try $0.data(as: Organization.self)
+            }
+            return organizations
         } catch {
             throw error
         }
@@ -80,7 +171,9 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         do {
             let documents = try await documentRef.getDocuments().documents
             
-            let ads = Converter.convertToAds(documents: documents)
+            let ads = try documents.compactMap {
+                try $0.data(as: GlobalModel.AdsModel.self)
+            }
             
             return ads
             
@@ -92,40 +185,4 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
 
 enum FirebaseError: Error {
     case fail
-}
-
-class Converter {
-    
-    static func convertToAds(documents: [QueryDocumentSnapshot]) -> [GlobalModel.AdsModel] {
-        var ads = [GlobalModel.AdsModel]()
-        
-        for document in documents {
-            let ad = GlobalModel.AdsModel(document.data())
-            ads.append(ad)
-        }
-        
-        return ads
-    }
-    
-    static func convertToEvents(documents: [QueryDocumentSnapshot]) -> [GlobalModel.EventModel] {
-        var events = [GlobalModel.EventModel]()
-        
-        for document in documents {
-            let event = GlobalModel.EventModel(document.data())
-            events.append(event)
-        }
-        
-        return events
-    }
-    
-    static func convertToActuals(documents: [QueryDocumentSnapshot]) -> [GlobalModel.ActualModel] {
-        var actuals = [GlobalModel.ActualModel]()
-        
-        for document in documents {
-            let actual = GlobalModel.ActualModel(document.data())
-            actuals.append(actual)
-        }
-        
-        return actuals
-    }
 }

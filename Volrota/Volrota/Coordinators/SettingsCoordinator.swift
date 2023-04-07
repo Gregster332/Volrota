@@ -11,6 +11,7 @@ enum SettingsRoute: Route {
     case settings
     case appSettings
     case profile
+    
 }
 
 final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
@@ -31,17 +32,21 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             return .appSettings()
         case .profile:
             let profile = profile()
-            return .presentFullScreen(profile)
+            addChild(profile)
+            return .none()
         }
     }
     
     private func settings() -> SettingsViewController {
-        let settingsViewController = SettingsBuilder.build(router: weakRouter, permissionService: dependencies.permissionService)
+        let settingsViewController = SettingsBuilder.build(router: weakRouter, permissionService: dependencies.permissionService, database: dependencies.firebaseDatabse, authenticationService: dependencies.authenticationService)
         return settingsViewController
     }
     
     private func profile() -> ProfileCoordinator {
-        let profile = ProfileCoordinator(dependencies: dependencies)
+        let profile = ProfileCoordinator(
+            dependencies: dependencies,
+            rootViewController: rootViewController
+        )
         return profile
     }
 }

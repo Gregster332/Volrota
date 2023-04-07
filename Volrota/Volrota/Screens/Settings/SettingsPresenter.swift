@@ -18,12 +18,16 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     private weak var view: SettingsViewControllerProtocol?
     private let router: WeakRouter<SettingsRoute>
     private let permissionService: PermissionService
+    private let database: FirebaseDatabse
+    private let authenticationService: AuthService
 
     // MARK: - Initialize
-    init(view: SettingsViewControllerProtocol, router: WeakRouter<SettingsRoute>, permissionService: PermissionService) {
+    init(view: SettingsViewControllerProtocol, router: WeakRouter<SettingsRoute>, permissionService: PermissionService, database: FirebaseDatabse, authenticationService: AuthService) {
         self.view = view
         self.router = router
         self.permissionService = permissionService
+        self.database = database
+        self.authenticationService = authenticationService
         addObserver()
         initialize()
     }
@@ -35,68 +39,52 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     func initialize() {
         Task {
             let isAccessGranted = await permissionService.isGrantedAccess()
-            let props: SettingsViewController.SettingsProps = SettingsViewController.SettingsProps(
-                cells: [
-                    .profileCell(
-                        SettingsViewController.SettingsProps.ProfileCellProps(
-                            avatarImage: Images.profileMockLogo.image,
-                            userName: "Ded",
-                            action: openProfile)
-                    ),
-                    .defaultCell(
-                        SettingsViewController.SettingsProps.SettingsCellProps(
-                            title: "Уведомления",
-                            isToggled: true,
-                            initialValue: isAccessGranted,
-                            toggleAction: openAppSettings)
-                    ),
-                    .defaultCell(
-                        SettingsViewController.SettingsProps.SettingsCellProps(
-                            title: "Безопасность",
-                            isToggled: false,
-                            initialValue: false,
-                            toggleAction: nil)
-                    ),
-                    .defaultCell(
-                        SettingsViewController.SettingsProps.SettingsCellProps(
-                            title: "Внешний вид",
-                            isToggled: false,
-                            initialValue: false,
-                            toggleAction: nil)
-                    ),
-                    .defaultCell(
-                        SettingsViewController.SettingsProps.SettingsCellProps(
-                            title: "О нас",
-                            isToggled: false,
-                            initialValue: false,
-                            toggleAction: nil)
-                    )
-//                    [
-//                        SettingsViewController.SettingsProps.SettingsCellProps(
-//                            title: "Уведомления",
-//                            isToggled: true,
-//                            initialValue: isAccessGranted,
-//                            toggleAction: openAppSettings),
-//                        SettingsViewController.SettingsProps.SettingsCellProps(
-//                            title: "Безопасность",
-//                            isToggled: false,
-//                            initialValue: false,
-//                            toggleAction: nil),
-//                        SettingsViewController.SettingsProps.SettingsCellProps(
-//                            title: "Внешний вид",
-//                            isToggled: false,
-//                            initialValue: false,
-//                            toggleAction: nil),
-//                        SettingsViewController.SettingsProps.SettingsCellProps(
-//                            title: "О нас",
-//                            isToggled: false,
-//                            initialValue: false,
-//                            toggleAction: nil),
-//                    ]
-                ]
-            )
-            DispatchQueue.main.async { [weak self] in
-                self?.view?.render(with: props)
+            do {
+                let user = try await database.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
+                
+                let props: SettingsViewController.SettingsProps = SettingsViewController.SettingsProps(
+                    cells: [
+                        .profileCell(
+                            SettingsViewController.SettingsProps.ProfileCellProps(
+                                avatarImageUrl: user.profileImageUrl,
+                                userFullName: user.name + " " + user.secondName,
+                                action: openProfile)
+                        ),
+                        .defaultCell(
+                            SettingsViewController.SettingsProps.SettingsCellProps(
+                                title: "Уведомления",
+                                isToggled: true,
+                                initialValue: isAccessGranted,
+                                toggleAction: openAppSettings)
+                        ),
+                        .defaultCell(
+                            SettingsViewController.SettingsProps.SettingsCellProps(
+                                title: "Безопасность",
+                                isToggled: false,
+                                initialValue: false,
+                                toggleAction: nil)
+                        ),
+                        .defaultCell(
+                            SettingsViewController.SettingsProps.SettingsCellProps(
+                                title: "Внешний вид",
+                                isToggled: false,
+                                initialValue: false,
+                                toggleAction: nil)
+                        ),
+                        .defaultCell(
+                            SettingsViewController.SettingsProps.SettingsCellProps(
+                                title: "О нас",
+                                isToggled: false,
+                                initialValue: false,
+                                toggleAction: nil)
+                        )
+                    ]
+                )
+                DispatchQueue.main.async { [weak self] in
+                    self?.view?.render(with: props)
+                }
+            } catch {
+                print(error)
             }
         }
     }

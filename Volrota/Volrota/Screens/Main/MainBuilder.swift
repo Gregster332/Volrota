@@ -13,17 +13,20 @@ final class MainBuilder {
     static func build(
         router: WeakRouter<MainRoute>,
         database: FirebaseDatabse,
-        locationService: LocationService
+        locationService: LocationService,
+        authenticationService: AuthService
     ) -> MainViewController {
         let view = MainViewController()
         let presenter = MainPresenter(
             view: view,
             router: router,
             database: database,
-            locationService: locationService
+            locationService: locationService,
+            authenticationService: authenticationService
         )
         
         view.initialCompletion = presenter.fetchGlobalItems
+        view.logOutAction = presenter.logOut
         return view
     }
 }

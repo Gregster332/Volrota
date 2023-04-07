@@ -20,12 +20,21 @@ extension SceneDelegate {
         
         let locationService = DefaultLocationService()
         
+        let authenticationService = DefaultAuthService()
+        
+        let keyChainService = DefaultKeychainService()
+        
+        let firebaseStorageService = DefaultFirebaseStorage()
+        
         return Dependencies(
             permissionService: permissionService,
             locationPermissionService: locationPermissionService,
             firebaseDatabse: firebaseDatabase,
             applicationState: applicationState,
-            locationService: locationService
+            locationService: locationService,
+            authenticationService: authenticationService,
+            keyChainService: keyChainService,
+            firebaseStorageService: firebaseStorageService
         )
     }
     
@@ -37,4 +46,7 @@ struct Dependencies {
     let firebaseDatabse: FirebaseDatabse
     let applicationState: ApplicationState
     let locationService: LocationService
+    let authenticationService: AuthService
+    let keyChainService: KeychainService
+    let firebaseStorageService: FirebaseStorage
 }

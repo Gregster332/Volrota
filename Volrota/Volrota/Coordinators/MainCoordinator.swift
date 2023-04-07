@@ -12,6 +12,7 @@ enum MainRoute: Route {
     case profile
     case actualDetail(MainViewController.MainViewControllerProps.ActualProps)
     case appSettings
+    case dismiss
 }
 
 final class MainCoordinator: NavigationCoordinator<MainRoute> {
@@ -30,12 +31,15 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
             return .set([mainViewController])
         case .profile:
             let profile = profile()
-            return .presentFullScreen(profile)
+            addChild(profile)
+            return .none()
         case .actualDetail(let actualProps):
             let actualDetail = actualDetail(actualProps: actualProps)
             return .present(actualDetail)
         case .appSettings:
             return .appSettings()
+        case .dismiss:
+            return .dismissAndReload()
         }
     }
     
@@ -43,13 +47,14 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
         let mainViewController = MainBuilder.build(
             router: weakRouter,
             database: dependencies.firebaseDatabse,
-            locationService: dependencies.locationService
+            locationService: dependencies.locationService,
+            authenticationService: dependencies.authenticationService
         )
         return mainViewController
     }
     
     private func profile() -> ProfileCoordinator {
-        let profile = ProfileCoordinator(dependencies: dependencies)
+        let profile = ProfileCoordinator(dependencies: dependencies, rootViewController: rootViewController)
         return profile
     }
     

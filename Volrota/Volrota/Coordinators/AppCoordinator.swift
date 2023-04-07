@@ -10,7 +10,7 @@ import XCoordinator
 enum RootRoute: Route {
     case splash
     case onboarding
-    case tabbar
+    case auth
 }
 
 final class AppCoordinator: NavigationCoordinator<RootRoute> {
@@ -30,9 +30,9 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
         case .onboarding:
             let onboarding = onboarding()
             return .push(onboarding)
-        case .tabbar:
-            let tabBarCoordinator = tabbar()
-            return .presentFullScreen(tabBarCoordinator)
+        case .auth:
+            let auth = auth()
+            return .presentFullScreen(auth)
         }
     }
     
@@ -53,8 +53,8 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
         return onboarding
     }
     
-    private func tabbar() -> TabCoordinator {
-        let tabBar = TabCoordinator(dependencies: dependencies)
-        return tabBar
+    private func auth() -> AuthCoordinator {
+        let auth = AuthCoordinator(dependencies: dependencies)
+        return auth
     }
 }

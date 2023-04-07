@@ -30,8 +30,8 @@ final class SettingsViewController: UIViewController, SettingsViewControllerProt
         }
         
         struct ProfileCellProps {
-            let avatarImage: UIImage
-            let userName: String
+            let avatarImageUrl: String
+            let userFullName: String
             let action: (() -> Void)?
         }
     }
@@ -54,10 +54,9 @@ final class SettingsViewController: UIViewController, SettingsViewControllerProt
     }
     
     // MARK: - Methods
-    
     func render(with props: SettingsViewController.SettingsProps) {
         cells = props.cells
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        tableView.reloadData()
     }
 }
 
@@ -73,7 +72,7 @@ private extension SettingsViewController {
             $0.delegate = self
             $0.dataSource = self
             $0.backgroundColor = .clear
-            $0.separatorStyle = .singleLine
+            $0.separatorStyle = .none
             $0.showsVerticalScrollIndicator = false
             $0.register(cellWithClass: SettingsTableViewCell.self)
             $0.register(cellWithClass: ProfileSettingsCell.self)
@@ -97,16 +96,24 @@ private extension SettingsViewController {
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cells.count
+        if section == 0 {
+            return cells.count - (cells.count - 1)
+        } else {
+            return cells.count - 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let props = cells[indexPath.row]
-        if case .profileCell(let profileCellProps) = props {
+        if case .profileCell(let profileCellProps) = cells[indexPath.row], indexPath.section == 0 {
             let cell = tableView.dequeueCell(withClass: ProfileSettingsCell.self, for: indexPath) as ProfileSettingsCell
             cell.render(with: profileCellProps)
-        } else if case .defaultCell(let settingsCellProps) = props {
+        } else if case .defaultCell(let settingsCellProps) = cells[indexPath.row + 1] {
             let cell = tableView.dequeueCell(withClass: SettingsTableViewCell.self, for: indexPath) as SettingsTableViewCell
             cell.render(with: settingsCellProps)
             return cell
@@ -115,21 +122,29 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let props = cells[indexPath.row]
-        switch props {
-        case .profileCell:
-            return 80
-        case .defaultCell:
+        if indexPath.section == 0 {
+            return 75
+        } else {
             return 50
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Профиль"
+        } else {
+            return "Настройки приложения"
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let props = cells[indexPath.row]
-        switch props {
-        case .profileCell(let profileCellProps):
+        if case .profileCell(let profileCellProps) = cells[indexPath.row], indexPath.section == 0 {
             profileCellProps.action?()
-        case .defaultCell:
+        } else if case .defaultCell = cells[indexPath.row + 1] {
             return
         }
     }

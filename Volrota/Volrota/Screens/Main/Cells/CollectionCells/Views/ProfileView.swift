@@ -5,12 +5,19 @@
 //  Created by Greg Zenkov on 3/16/23.
 //
 
-import SnapKit
+import Kingfisher
+
+struct ProfileViewProps {
+    let navTitle: String
+    let profileImageUrl: String
+    let profileTapCompletion: (() -> Void)?
+}
 
 class ProfileView: UIButton {
     
+    private var profileTapCompletion: (() -> Void)?
+    
     private let avatarView = UIImageView()
-    private let plusImage = UIImageView()
     private let navTitleLabel = UILabel()
     
     init() {
@@ -18,7 +25,6 @@ class ProfileView: UIButton {
         setupView()
         addViews()
         setupConstraints()
-        avatarView.bringSubviewToFront(plusImage)
     }
     
     required init?(coder: NSCoder) {
@@ -26,11 +32,12 @@ class ProfileView: UIButton {
         setupView()
         addViews()
         setupConstraints()
-        avatarView.bringSubviewToFront(plusImage)
     }
     
-    func setNavTitle(_ title: String) {
-        navTitleLabel.text = title
+    func render(with props: ProfileViewProps?) {
+        navTitleLabel.text = props?.navTitle
+        avatarView.kf.setImage(with: URL(string: props?.profileImageUrl ?? ""))
+        profileTapCompletion = props?.profileTapCompletion
     }
 }
 
@@ -38,20 +45,19 @@ private extension ProfileView {
     
     func setupView() {
         
+        self.do {
+            $0.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        }
+        
         avatarView.do {
             $0.image = Images.profileMockLogo.image
             $0.contentMode = .scaleAspectFill
             $0.layer.cornerRadius = 35 / 2
             $0.layer.masksToBounds = true
-        }
-        
-        plusImage.do {
-            $0.image = Images.plusAvatarImage.image
-            $0.contentMode = .scaleAspectFill
+            $0.kf.indicatorType = .activity
         }
         
         navTitleLabel.do {
-            $0.text = "Иван"
             $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
             $0.textColor = .black
             $0.textAlignment = .left
@@ -63,10 +69,6 @@ private extension ProfileView {
         view.addSubviews(
             [avatarView, navTitleLabel]
         )
-        
-        avatarView.addSubviews(
-            [plusImage]
-        )
     }
     
     func setupConstraints() {
@@ -77,15 +79,14 @@ private extension ProfileView {
             $0.centerY.equalToSuperview()
         }
         
-        plusImage.snp.makeConstraints {
-            $0.size.equalTo(12)
-            $0.trailing.bottom.equalToSuperview()
-        }
-        
         navTitleLabel.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
             $0.leading.equalTo(avatarView.snp.trailing).offset(5)
         }
+    }
+    
+    @objc func handleTap() {
+        profileTapCompletion?()
     }
 }
 

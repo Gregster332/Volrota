@@ -16,7 +16,7 @@ protocol OnboardingViewControllerProtocol: AnyObject {
 final class OnboardingViewController: UIViewController, OnboardingViewControllerProtocol {
     
     struct OnboardingProps {
-        let continueButtonAction: (() -> Void)?
+        let borderedButtonProps: BorderedButtonProps?
     }
     
     // MARK: - Properties
@@ -24,13 +24,13 @@ final class OnboardingViewController: UIViewController, OnboardingViewController
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: OnboardingPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
-    private var continueButtonAction: (() -> Void)?
+    private var borderedButtonAction: (() -> Void)?
     
     // MARK: - Views
     
     private let titleLabel = UILabel()
     private let animationView = LottieAnimationView(name: "envelope")
-    private let continueButton = BorderedButton(text: "Продолжить", background: Colors.accentColor.color, titleColor: .black, fontSize: 16, fontWeight: .regular, cornerRadius: 16)
+    private let continueButton = BorderedButton()
 
     // MARK: - Lifecycle
 
@@ -44,7 +44,8 @@ final class OnboardingViewController: UIViewController, OnboardingViewController
     // MARK: - Methods
     
     func render(with props: OnboardingViewController.OnboardingProps) {
-        continueButtonAction = props.continueButtonAction
+        borderedButtonAction = props.borderedButtonProps?.actionCompletion
+        continueButton.render(with: props.borderedButtonProps)
     }
 }
 
@@ -73,7 +74,8 @@ private extension OnboardingViewController {
             $0.play()
         }
         
-        continueButton.addTarget(self, action: #selector(handleContinueButton), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleContinueButton))
+        continueButton.addGestureRecognizer(tap)
     }
     
     func addViews() {
@@ -104,6 +106,6 @@ private extension OnboardingViewController {
     // MARK: - UI Actions
     
     @objc func handleContinueButton() {
-        continueButtonAction?()
+        borderedButtonAction?()
     }
 }

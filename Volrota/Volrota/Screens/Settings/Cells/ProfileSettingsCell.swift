@@ -5,10 +5,11 @@
 //  Created by Greg Zenkov on 3/18/23.
 //
 
-import UIKit
+import Kingfisher
 
 class ProfileSettingsCell: UITableViewCell {
     
+    private let backgroundProfileView = UIView()
     private let avatarImage = UIImageView()
     private let userNameLabel = UILabel()
     
@@ -27,8 +28,8 @@ class ProfileSettingsCell: UITableViewCell {
     }
     
     func render(with props: SettingsViewController.SettingsProps.ProfileCellProps) {
-        avatarImage.image = props.avatarImage
-        userNameLabel.text = props.userName
+        avatarImage.kf.setImage(with: URL(string: props.avatarImageUrl))
+        userNameLabel.text = props.userFullName
     }
 }
 
@@ -41,6 +42,10 @@ private extension ProfileSettingsCell {
         }
         
         contentView.do {
+            $0.backgroundColor = .clear
+        }
+        
+        backgroundProfileView.do {
             $0.backgroundColor = .systemGray6
         }
         
@@ -48,6 +53,7 @@ private extension ProfileSettingsCell {
             $0.layer.cornerRadius = 20
             $0.contentMode = .scaleAspectFill
             $0.layer.masksToBounds = true
+            $0.kf.indicatorType = .activity
         }
         
         userNameLabel.do {
@@ -59,10 +65,15 @@ private extension ProfileSettingsCell {
     
     func addViews() {
         
-        contentView.addSubviews([avatarImage, userNameLabel])
+        contentView.addSubview(backgroundProfileView)
+        backgroundProfileView.addSubviews([avatarImage, userNameLabel])
     }
     
     func setupConstraints() {
+        
+        backgroundProfileView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         avatarImage.snp.makeConstraints {
             $0.size.equalTo(40)
@@ -71,7 +82,7 @@ private extension ProfileSettingsCell {
         }
         
         userNameLabel.snp.makeConstraints {
-            $0.top.equalTo(avatarImage.snp.bottom).offset(8)
+            $0.bottom.equalToSuperview().offset(-8)
             $0.trailing.leading.equalToSuperview().inset(16)
         }
     }

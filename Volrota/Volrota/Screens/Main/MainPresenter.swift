@@ -9,12 +9,6 @@ import XCoordinator
 import FirebaseFirestore
 import CoreLocation
 
-typealias SomeReturningType = (
-    ads: [GlobalModel.AdsModel]?,
-    events: [GlobalModel.EventModel]?,
-    actulas: [GlobalModel.ActualModel]?,
-    currentLocation: CLLocation?)
-
 final class MainPresenter {
     
     // MARK: - Properties
@@ -22,6 +16,7 @@ final class MainPresenter {
     private let router: WeakRouter<MainRoute>
     private let database: FirebaseDatabse
     private let locationService: LocationService
+    private let authenticationService: AuthService
     
     private var loadingTask: Task<Void, Never>?
 
@@ -30,12 +25,14 @@ final class MainPresenter {
         view: MainViewControllerProtocol,
         router: WeakRouter<MainRoute>,
         database: FirebaseDatabse,
-        locationService: LocationService
+        locationService: LocationService,
+        authenticationService: AuthService
     ) {
         self.view = view
         self.router = router
         self.database = database
         self.locationService = locationService
+        self.authenticationService = authenticationService
     }
     
     func loading() {
@@ -43,7 +40,7 @@ final class MainPresenter {
             sections: [],
             locationViewProps: nil,
             mainViewControllerState: .loading,
-            profileTapCompletion: nil,
+            profileViewProps: nil,
             actualTapCompletion: nil,
             refreshCompletion: nil
         )
@@ -55,7 +52,7 @@ final class MainPresenter {
             sections: [],
             locationViewProps: nil,
             mainViewControllerState: .error,
-            profileTapCompletion: nil,
+            profileViewProps: nil,
             actualTapCompletion: nil,
             refreshCompletion: fetchGlobalItems
         )
@@ -68,9 +65,15 @@ final class MainPresenter {
             do {
                 let globalModel = try await database.getGlobalData()
                 let curentLocation = await locationService.getUserLocation()
-                let formattedEvents = try await formattedEvents(globalModel.events)
+                
+                let profileImageUrl = try await database.getUserInfo(
+                    by: authenticationService.currentUser?.uid ?? ""
+                ).profileImageUrl
+                
+                let formattedEvents = format(globalModel.events)
                 let convertedAds = formattedAds(globalModel.ads)
                 let convertedActuals = formattedActuals(globalModel.actuals)
+                
                
                 
                 let props = MainViewController.MainViewControllerProps(
@@ -96,7 +99,11 @@ final class MainPresenter {
                         locationViewTapCompletion: openLocationSettings
                     ),
                     mainViewControllerState: .success,
-                    profileTapCompletion: self.openProfile,
+                    profileViewProps: ProfileViewProps(
+                        navTitle: Strings.Main.mainTitle,
+                        profileImageUrl: profileImageUrl,
+                        profileTapCompletion: openProfile
+                    ),
                     actualTapCompletion: self.openActual,
                     refreshCompletion: self.fetchGlobalItems
                 )
@@ -105,11 +112,16 @@ final class MainPresenter {
                     self.view?.render(with: props)
                 }
             } catch {
+                print(error)
                 DispatchQueue.main.async {
                     self.renderError()
                 }
             }
         }
+    }
+    
+    func logOut() {
+        router.trigger(.dismiss)
     }
 }
 
@@ -123,10 +135,10 @@ private extension MainPresenter {
             let formattedAd = MainViewController.MainViewControllerProps.NewsViewProps(
                 title: ad.title,
                 bannerTitle: ad.bannerTitle,
-                viewBackgroundColor: ad.viewBackgroundColor,
-                bannerBackgroundColor: ad.bannerBackgroundColor,
-                titleColor: ad.titleColor,
-                bannerTitleColor: ad.bannerTitleColor)
+                viewBackgroundColor: UIColor(ad.viewBackgroundColor),
+                bannerBackgroundColor: UIColor(ad.bannerBackgroundColor),
+                titleColor: UIColor(ad.titleColor),
+                bannerTitleColor: UIColor(ad.bannerTitleColor))
             formattedAds.append(formattedAd)
         }
         
@@ -147,33 +159,21 @@ private extension MainPresenter {
         return formattedActuals
     }
     
-    func formattedEvents(
-        _ events: [GlobalModel.EventModel]
-    ) async throws -> [MainViewController.MainViewControllerProps.EventViewProps] {
-        let locations = events.map { CLLocation(latitude: $0.lat, longitude: $0.long) }
-        var places = [String]()
-        var formattedEvents = [MainViewController.MainViewControllerProps.EventViewProps]()
-        
-        for location in locations {
-            let placeData = try await CLLocation(
-                latitude: location.coordinate.latitude,
-                longitude: location.coordinate.longitude
-            ).placeData()
-            
-            let placeFullName = "\(placeData?.locality ?? ""), \(placeData?.name ?? "")"
-            places.append(placeFullName)
+    func format(_ events: [GlobalModel.EventModel]) -> [MainViewController.MainViewControllerProps.EventViewProps] {
+        return events.map {
+            let location = CLLocation(
+                latitude: $0.lat,
+                longitude: $0.long
+            ).fetchPlaceFullName()
+            let props = MainViewController.MainViewControllerProps.EventViewProps(
+                eventTitle: $0.eventTitle,
+                eventImageURL: $0.eventImageURL,
+                datePeriod: Date.datePeriod(
+                    from: $0.startDate.dateValue(),
+                    endDate: $0.endDate.dateValue()),
+                placeFullName: "\(location?.locality ?? ""), \(location?.name ?? "")")
+            return props
         }
-        
-        for (index, event) in events.enumerated() {
-            let formattedEvent = MainViewController.MainViewControllerProps.EventViewProps(
-                eventTitle: event.eventTitle,
-                eventImageURL: event.eventImageURL,
-                datePeriod: Date.datePeriod(from: event.startDate.dateValue(), endDate: event.endDate.dateValue()),
-                placeFullName: places[index])
-            formattedEvents.append(formattedEvent)
-        }
-        
-        return formattedEvents
     }
     
     func openProfile() {

@@ -24,4 +24,28 @@ extension Transition {
         return .none()
     }
     
+    static func dismissAndReload(animation: Animation? = nil) -> Transition {
+        Transition(presentables: [],
+                   animationInUse: animation?.dismissalAnimation) { rootViewController, _, _ in
+            rootViewController.presentingViewController?.viewWillAppear(true)
+            rootViewController.dismiss(animated: true)
+        }
+    }
+    
+    static func presentAlert(_ alert: Alert) -> Transition {
+        let actions = alert.actions.map { alert in
+            UIAlertAction(
+                title: alert.title,
+                style: alert.style
+            ) { _ in alert.action?() }
+        }
+        let alert = UIAlertController(
+            title: alert.title,
+            message: alert.message,
+            preferredStyle: alert.style
+        )
+        actions.forEach { alert.addAction($0) }
+        return .present(alert)
+    }
+    
 }

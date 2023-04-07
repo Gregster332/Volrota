@@ -48,7 +48,10 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
             DispatchQueue.main.async {
                 self.view?.render(
                     with: OnboardingViewController.OnboardingProps(
-                        continueButtonAction: self.accessNotifications
+                        borderedButtonProps: BorderedButtonProps(
+                            text: "Sign In",
+                            actionCompletion: self.accessNotifications
+                        )
                     )
                 )
             }
@@ -61,7 +64,7 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
             
             DispatchQueue.main.async { [weak self] in
                 self?.applicationState.isOnboardingCompleted = true
-                self?.router.trigger(.tabbar)
+                self?.router.trigger(.auth)
             }
         }
     }

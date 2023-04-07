@@ -8,36 +8,32 @@
 import UIKit
 import FirebaseFirestore
 
-struct GlobalModel {
+struct GlobalModel: Codable {
     
     let ads: [AdsModel]
     let events: [EventModel]
     let actuals: [ActualModel]
     
-    struct AdsModel: CustomStringConvertible {
+    struct AdsModel: Codable {
     
         let title: String
         let bannerTitle: String
-        let viewBackgroundColor: UIColor
-        let bannerBackgroundColor: UIColor
-        let titleColor: UIColor
-        let bannerTitleColor: UIColor
+        let viewBackgroundColor: String
+        let bannerBackgroundColor: String
+        let titleColor: String
+        let bannerTitleColor: String
         
-        var description: String {
-            return title
-        }
-        
-        init(_ dictionary: [String: Any]) {
-            title = dictionary["title"] as? String ?? ""
-            bannerTitle = dictionary["banner_title"] as? String ?? ""
-            viewBackgroundColor = UIColor(dictionary["bg_color"] as? String ?? "")
-            bannerBackgroundColor = UIColor(dictionary["banner_bg_color"] as? String ?? "")
-            titleColor = UIColor(dictionary["title_color"] as? String ?? "")
-            bannerTitleColor = UIColor(dictionary["banner_title_color"] as? String ?? "")
+        enum CodingKeys: String, CodingKey {
+            case title
+            case bannerTitle = "banner_title"
+            case viewBackgroundColor = "bg_color"
+            case bannerBackgroundColor = "banner_bg_color"
+            case titleColor = "title_color"
+            case bannerTitleColor = "banner_title_color"
         }
     }
     
-    struct EventModel: CustomStringConvertible {
+    struct EventModel: Codable {
         
         let eventTitle: String
         let eventImageURL: String
@@ -46,36 +42,28 @@ struct GlobalModel {
         let lat: Double
         let long: Double
         
-        var description: String {
-            return eventTitle
-        }
-        
-        init(_ dictionary: [String: Any]) {
-            eventTitle = dictionary["title"] as? String ?? ""
-            eventImageURL = dictionary["image"] as? String ?? ""
-            startDate = dictionary["start_date"] as? Timestamp ?? Timestamp()
-            endDate = dictionary["end_date"] as? Timestamp ?? Timestamp()
-            lat = dictionary["lat"] as? Double ?? 0.0
-            long = dictionary["long"] as? Double ?? 0.0
+        enum CodingKeys: String, CodingKey {
+            case eventTitle = "title"
+            case eventImageURL = "image"
+            case startDate = "start_date"
+            case endDate = "end_date"
+            case lat
+            case long
         }
     }
     
-    struct ActualModel: CustomStringConvertible {
+    struct ActualModel: Codable {
         
         let title: String
         let imageUrl: String
         let descriptionText: String
         let cityName: String
         
-        var description: String {
-            return title
-        }
-        
-        init(_ dictionary: [String: Any]) {
-            title = dictionary["title"] as? String ?? ""
-            imageUrl = dictionary["image_url"] as? String ?? ""
-            descriptionText = dictionary["description"] as? String ?? ""
-            cityName = dictionary["city_name"] as? String ?? ""
+        enum CodingKeys: String, CodingKey {
+            case title
+            case imageUrl = "image_url"
+            case descriptionText = "description"
+            case cityName = "city_name"
         }
     }
 }

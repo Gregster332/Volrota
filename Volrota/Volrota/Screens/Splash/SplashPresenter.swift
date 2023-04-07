@@ -34,7 +34,7 @@ final class SplashPresenter: SplashPresenterProtocol {
         let isOnboardingCompleted = applicationState.isOnboardingCompleted
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) { [weak self] in
             if isOnboardingCompleted {
-                self?.router.trigger(.tabbar)
+                self?.router.trigger(.auth)
             } else {
                 self?.router.trigger(.onboarding)
             }
