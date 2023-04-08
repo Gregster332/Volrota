@@ -32,8 +32,6 @@ final class SplashViewController: UIViewController, SplashViewControllerProtocol
         super.viewDidAppear(animated)
         startAnimate()
     }
-    
-    // MARK: - Methods
 }
 
 // MARK: - Private Methods

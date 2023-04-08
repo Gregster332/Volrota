@@ -19,6 +19,7 @@ struct SignUpViewControllerProps {
     
     struct TypingSection {
         let title: String
+        let cellProps: TypingCellProps?
     }
     
     struct OrganizationSection {
@@ -34,7 +35,6 @@ protocol SignUpViewControllerProtocol: AnyObject {
 final class SignUpViewController: UIViewController, SignUpViewControllerProtocol {
     
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: SignUpPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -66,13 +66,12 @@ final class SignUpViewController: UIViewController, SignUpViewControllerProtocol
 }
 
 // MARK: - Private Methods
-
 private extension SignUpViewController {
     
     func setupView() {
         
         self.do {
-            $0.title = "Регистрация"
+            $0.title = Strings.SignUp.navTitle
         }
         
         view.do {
@@ -85,7 +84,11 @@ private extension SignUpViewController {
             $0.imageView?.contentMode = .scaleAspectFill
             $0.imageView?.layer.cornerRadius = 60
             // TODO: Переделать
-            $0.addTarget(self, action: #selector(handleImageViewTap), for: .touchUpInside)
+            $0.addTarget(
+                self,
+                action: #selector(handleImageViewTap),
+                for: .touchUpInside
+            )
         }
         
         tableView.do {
@@ -103,14 +106,12 @@ private extension SignUpViewController {
     }
     
     func addViews() {
-        
         view.addSubview(changeProfileButtonView)
         view.addSubview(tableView)
         view.addSubview(signUpButton)
     }
     
     func setupConstraints() {
-        
         changeProfileButtonView.snp.makeConstraints {
             $0.size.equalTo(120)
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
@@ -135,7 +136,6 @@ private extension SignUpViewController {
         presenter.signUp(
             tableView.getStringFromTextField(with: 0),
             tableView.getStringFromTextField(with: 1),
-            tableView.getStringFromTextField(with: 2),
             tableView.getStringFromTextField(with: 3),
             tableView.getStringFromTextField(with: 4),
             changeProfileButtonView.imageView?.image ?? UIImage()
@@ -143,13 +143,10 @@ private extension SignUpViewController {
     }
     
     @objc func handleImageViewTap() {
-        //if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-            
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = false
-            
-            present(imagePicker, animated: true, completion: nil)
-        //}
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -168,7 +165,7 @@ extension SignUpViewController: UITableViewDelegate, UITableViewDataSource {
         switch sections[indexPath.section] {
         case .typing(let typingSection):
             let cell = tableView.dequeueCell(withClass: TypingCell.self, for: indexPath) as TypingCell
-            cell.render(tag: indexPath.section)
+            cell.render(with: typingSection.cellProps)
             return cell
         case .dropDown(let dropDownSection):
             let cell = tableView.dequeueCell(withClass: OrganizationsCell.self, for: indexPath) as OrganizationsCell

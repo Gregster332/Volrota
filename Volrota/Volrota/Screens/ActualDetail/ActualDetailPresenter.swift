@@ -14,16 +14,14 @@ protocol ActualDetailPresenterProtocol: AnyObject {
 final class ActualDetailPresenter: ActualDetailPresenterProtocol {
     
     // MARK: - Properties
-
     private weak var view: ActualDetailViewControllerProtocol?
     private let router: WeakRouter<MainRoute>
 
     // MARK: - Initialize
-
     init(
         view: ActualDetailViewControllerProtocol,
         router: WeakRouter<MainRoute>,
-        props: MainViewController.MainViewControllerProps.ActualProps
+        props: MainViewControllerProps.ActualProps
     ) {
         self.view = view
         self.router = router
@@ -33,13 +31,12 @@ final class ActualDetailPresenter: ActualDetailPresenterProtocol {
 }
 
 // MARK: - Private Methods
-
 private extension ActualDetailPresenter {
     
     func convertProps(
-        props: MainViewController.MainViewControllerProps.ActualProps
+        props: MainViewControllerProps.ActualProps
     ) {
-        let actualProps = ActualDetailViewController.ActualDetailViewControllerProps(
+        let actualProps = ActualDetailViewControllerProps(
             imageUrl: props.imageUrl,
             actualTitle: props.actualTitle,
             descriptionText: props.actualDescription

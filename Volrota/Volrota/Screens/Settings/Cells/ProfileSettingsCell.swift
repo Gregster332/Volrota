@@ -9,10 +9,12 @@ import Kingfisher
 
 class ProfileSettingsCell: UITableViewCell {
     
+    // MARK: - Views
     private let backgroundProfileView = UIView()
     private let avatarImage = UIImageView()
     private let userNameLabel = UILabel()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -27,12 +29,14 @@ class ProfileSettingsCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: SettingsViewController.SettingsProps.ProfileCellProps) {
+    // MARK: - Methods
+    func render(with props: SettingsProps.ProfileCellProps) {
         avatarImage.kf.setImage(with: URL(string: props.avatarImageUrl))
         userNameLabel.text = props.userFullName
     }
 }
 
+// MARK: - Private Methods
 private extension ProfileSettingsCell {
     
     func setupView() {

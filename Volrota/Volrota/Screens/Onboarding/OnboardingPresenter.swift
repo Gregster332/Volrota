@@ -10,13 +10,12 @@ import XCoordinator
 
 protocol OnboardingPresenterProtocol: AnyObject {
     func initialize()
-    func accessNotifications()
+    //func accessNotifications()
 }
 
 final class OnboardingPresenter: OnboardingPresenterProtocol {
     
     // MARK: - Properties
-
     private weak var view: OnboardingViewControllerProtocol?
     private let router: WeakRouter<RootRoute>
     private let permissionService: PermissionService
@@ -24,7 +23,6 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
     private var applicationState: ApplicationState
 
     // MARK: - Initialize
-
     init(
         view: OnboardingViewControllerProtocol,
         router: WeakRouter<RootRoute>,
@@ -43,13 +41,13 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
     func initialize() {
         Task(priority: .high) {
             
-            let status = await locationService.request()
+            let _ = await locationService.request()
             
             DispatchQueue.main.async {
                 self.view?.render(
-                    with: OnboardingViewController.OnboardingProps(
+                    with: OnboardingProps(
                         borderedButtonProps: BorderedButtonProps(
-                            text: "Sign In",
+                            text: Strings.Onboarding.continue,
                             actionCompletion: self.accessNotifications
                         )
                     )
@@ -57,6 +55,10 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
             }
         }
     }
+}
+
+// MARK: - Private Methods
+private extension OnboardingPresenter {
     
     func accessNotifications() {
         Task {
@@ -68,9 +70,4 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
             }
         }
     }
-}
-
-// MARK: - Private Methods
-
-private extension OnboardingPresenter {
 }

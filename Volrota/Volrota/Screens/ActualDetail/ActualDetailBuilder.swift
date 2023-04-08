@@ -12,8 +12,9 @@ final class ActualDetailBuilder {
     
     static func build(
         router: WeakRouter<MainRoute>,
-        props: MainViewController.MainViewControllerProps.ActualProps
+        props: MainViewControllerProps.ActualProps
     ) -> ActualDetailViewController {
+        
         let view = ActualDetailViewController()
         let presenter = ActualDetailPresenter(
             view: view,

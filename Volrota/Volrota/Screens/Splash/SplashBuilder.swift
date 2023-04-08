@@ -14,6 +14,7 @@ final class SplashBuilder {
         router: WeakRouter<RootRoute>,
         applicationState: ApplicationState
     ) -> SplashViewController {
+        
         let view = SplashViewController()
         let presenter = SplashPresenter(
             view: view,

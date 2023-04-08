@@ -9,8 +9,10 @@ import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
     
+    // MARK: - Views
     private let titleLabel = UILabel()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -25,12 +27,14 @@ class ProfileTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: ProfileViewController.ProfileProps.ProfileSettingsCell) {
+    // MARK: - Methods
+    func render(with props: ProfileProps.ProfileSettingsCell) {
         titleLabel.text = props.title
         titleLabel.textColor = props.textColor
     }
 }
 
+// MARK: - Private Methods
 private extension ProfileTableViewCell {
     
     func setupView() {

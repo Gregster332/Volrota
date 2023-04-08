@@ -9,11 +9,14 @@ import UIKit
 
 class LocationTrackingView: UIView {
     
+    // MARK: - Properties
     private var tapCompletion: (() -> Void)?
     
+    // MARK: - Views
     private let locationNameLabel = UILabel()
     private let goToSettingsButton = UIButton()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -28,12 +31,14 @@ class LocationTrackingView: UIView {
         addConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.LocationViewProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.LocationViewProps) {
         locationNameLabel.text = props.locationName
         tapCompletion = props.locationViewTapCompletion
     }
 }
 
+// MARK: - Private Methods
 private extension LocationTrackingView {
     
     func setupView() {
@@ -69,6 +74,7 @@ private extension LocationTrackingView {
         }
     }
     
+    // MARK: - UI Actions
     @objc func handleGoToSettingButton() {
         tapCompletion?()
     }

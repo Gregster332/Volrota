@@ -9,18 +9,20 @@ import DropDown
 
 struct OrganizationsCellProps {
     let items: [String]
-    let tag: Int
     let chooseOrganizationCompletion: ((Int) -> Void)?
 }
 
 class OrganizationsCell: UITableViewCell {
     
+    // MARK: - Properties
     private var chooseOrganizationCompletion: ((Int) -> Void)?
     
+    // MARK: - Views
     private let textField = UITextField()
     private let dropDown = DropDown()
     private let dropDownMenuButton = UIButton()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -33,13 +35,14 @@ class OrganizationsCell: UITableViewCell {
         setupConstraints()
     }
     
+    // MARK: - Methods
     func render(with props: OrganizationsCellProps) {
         dropDown.dataSource = props.items
-        textField.tag = props.tag
         chooseOrganizationCompletion = props.chooseOrganizationCompletion
     }
 }
 
+// MARK: - Private Methods
 private extension OrganizationsCell {
     
     func setupView() {
@@ -54,7 +57,11 @@ private extension OrganizationsCell {
         
         dropDownMenuButton.do {
             $0.setImage(UIImage(systemName: "chevron.down.circle.fill")!, for: .normal)
-            $0.addTarget(self, action: #selector(handleOpenDropDown), for: .touchUpInside)
+            $0.addTarget(
+                self,
+                action: #selector(handleOpenDropDown),
+                for: .touchUpInside
+            )
         }
         
         textField.do {
@@ -100,6 +107,7 @@ private extension OrganizationsCell {
         }
     }
     
+    // MARK: - UI Actions
     @objc func handleOpenDropDown() {
         dropDown.show()
     }

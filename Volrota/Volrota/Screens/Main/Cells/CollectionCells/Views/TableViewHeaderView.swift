@@ -9,11 +9,14 @@ import UIKit
 
 class TableViewHeaderView: UIView {
     
+    // MARK: - Properties
     private var watchingAllCompletion: (() -> Void)?
     
+    // MARK: - Views
     private let headerLabel = UILabel()
     private let watchingAllButton = UIButton()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -28,12 +31,14 @@ class TableViewHeaderView: UIView {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.HeaderProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.HeaderProps) {
         watchingAllCompletion = props.watchingAllCompletion
         headerLabel.text = props.headerTitle
     }
 }
 
+// MARK: - Private Methods
 private extension TableViewHeaderView {
     
     func setupView() {
@@ -50,7 +55,7 @@ private extension TableViewHeaderView {
         }
         
         watchingAllButton.do {
-            $0.setTitle("См. все", for: .normal)
+            $0.setTitle(Strings.Main.seeAll, for: .normal)
             $0.setTitleColor(Colors.purpleColor.color, for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
             $0.addTarget(self, action: #selector(handleTapOnWatchingAll), for: .touchUpInside)
@@ -75,6 +80,7 @@ private extension TableViewHeaderView {
         }
     }
     
+    // MARK: - UI Actions
     @objc func handleTapOnWatchingAll() {
         watchingAllCompletion?()
     }

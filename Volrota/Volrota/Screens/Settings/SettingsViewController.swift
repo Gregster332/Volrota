@@ -7,38 +7,38 @@
 
 import UIKit
 
+struct SettingsProps {
+    let cells: [SettingsCells]
+    
+    enum SettingsCells {
+        case profileCell(ProfileCellProps)
+        case defaultCell(SettingsCellProps)
+    }
+    
+    struct SettingsCellProps {
+        let title: String
+        let isToggled: Bool
+        let initialValue: Bool
+        let toggleAction: (() -> Void)?
+    }
+    
+    struct ProfileCellProps {
+        let avatarImageUrl: String
+        let userFullName: String
+        let action: (() -> Void)?
+    }
+}
+
 protocol SettingsViewControllerProtocol: AnyObject {
-    func render(with props: SettingsViewController.SettingsProps)
+    func render(with props: SettingsProps)
 }
 
 final class SettingsViewController: UIViewController, SettingsViewControllerProtocol {
     
-    struct SettingsProps {
-        
-        let cells: [SettingsCells]
-        
-        enum SettingsCells {
-            case profileCell(ProfileCellProps)
-            case defaultCell(SettingsCellProps)
-        }
-        
-        struct SettingsCellProps {
-            let title: String
-            let isToggled: Bool
-            let initialValue: Bool
-            let toggleAction: (() -> Void)?
-        }
-        
-        struct ProfileCellProps {
-            let avatarImageUrl: String
-            let userFullName: String
-            let action: (() -> Void)?
-        }
-    }
-    
     // MARK: - Properties
-    var presenter: SettingsPresenterProtocol!
-    private var cells: [SettingsViewController.SettingsProps.SettingsCells] = []
+    var initialCompletion: (() -> Void)?
+    var viewWillDisappearCompletion: (() -> Void)?
+    private var cells: [SettingsProps.SettingsCells] = []
     
     // MARK: - Views
     private let avatarImageButton = UIButton()
@@ -53,8 +53,18 @@ final class SettingsViewController: UIViewController, SettingsViewControllerProt
         setupConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initialCompletion?()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewWillDisappearCompletion?()
+    }
+    
     // MARK: - Methods
-    func render(with props: SettingsViewController.SettingsProps) {
+    func render(with props: SettingsProps) {
         cells = props.cells
         tableView.reloadData()
     }
@@ -91,8 +101,6 @@ private extension SettingsViewController {
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
-    
-    // MARK: - UI Actions
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -131,9 +139,9 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Профиль"
+            return Strings.Settings.profile
         } else {
-            return "Настройки приложения"
+            return Strings.Settings.appSettings
         }
     }
     

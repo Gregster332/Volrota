@@ -9,8 +9,10 @@ import SnapKit
 
 class NewsCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Views
     private let newsView = NewsView()
     
+    // MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
@@ -23,11 +25,13 @@ class NewsCollectionViewCell: UICollectionViewCell {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.NewsViewProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.NewsViewProps) {
         newsView.render(props: props)
     }
 }
 
+// MARK: - Private Methods
 private extension NewsCollectionViewCell {
     
     func addViews() {
@@ -35,7 +39,6 @@ private extension NewsCollectionViewCell {
     }
     
     func setupConstraints() {
-        
         newsView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

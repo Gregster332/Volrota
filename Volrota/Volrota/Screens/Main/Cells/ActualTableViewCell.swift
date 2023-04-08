@@ -9,8 +9,10 @@ import UIKit
 
 class ActualTableViewCell: UITableViewCell {
     
+    // MARK: - Views
     private let actualView = ActualView()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -25,11 +27,13 @@ class ActualTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.ActualProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.ActualProps) {
         actualView.render(with: props)
     }
 }
 
+// MARK: - Private Methods
 private extension ActualTableViewCell {
     
     func setupViews() {

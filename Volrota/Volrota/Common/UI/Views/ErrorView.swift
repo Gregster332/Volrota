@@ -9,9 +9,11 @@ import UIKit
 
 class ErrorView: UIView {
     
+    // MARK: - Views
     private let errorImage = UIImageView()
     private let errorLabel = UILabel()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -27,6 +29,7 @@ class ErrorView: UIView {
     }
 }
 
+// MARK: - Private Methods
 private extension ErrorView {
     
     func setupView() {

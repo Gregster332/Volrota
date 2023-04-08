@@ -33,7 +33,13 @@ final class ProfileCoordinator: NavigationCoordinator<ProfileRoute> {
     }
     
     private func profile() -> UIViewController {
-        let profile = ProfileBuilder.build(router: weakRouter, authenticationService: dependencies.authenticationService, keyChainService: dependencies.keyChainService, databse: dependencies.firebaseDatabse, firebaseStorageService: dependencies.firebaseStorageService)
+        let profile = ProfileBuilder.build(
+            router: weakRouter,
+            authenticationService: dependencies.authenticationService,
+            keyChainService: dependencies.keyChainService,
+            databse: dependencies.firebaseDatabse,
+            firebaseStorageService: dependencies.firebaseStorageService
+        )
         return profile
     }
 }

@@ -41,4 +41,8 @@ extension UIView {
             self.isHidden = hide
         })
     }
+    
+    func getViewsByTag(tag:Int) -> Array<UIView?>{
+        return subviews.filter { ($0 as UIView).tag == tag } as [UIView]
+    }
 }

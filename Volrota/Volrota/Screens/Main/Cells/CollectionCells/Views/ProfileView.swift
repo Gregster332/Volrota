@@ -15,11 +15,14 @@ struct ProfileViewProps {
 
 class ProfileView: UIButton {
     
+    // MARK: - Properties
     private var profileTapCompletion: (() -> Void)?
     
+    // MARK: - Views
     private let avatarView = UIImageView()
     private let navTitleLabel = UILabel()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -34,6 +37,7 @@ class ProfileView: UIButton {
         setupConstraints()
     }
     
+    // MARK: - Methods
     func render(with props: ProfileViewProps?) {
         navTitleLabel.text = props?.navTitle
         avatarView.kf.setImage(with: URL(string: props?.profileImageUrl ?? ""))
@@ -41,6 +45,7 @@ class ProfileView: UIButton {
     }
 }
 
+// MARK: - Private Methods
 private extension ProfileView {
     
     func setupView() {
@@ -85,6 +90,7 @@ private extension ProfileView {
         }
     }
     
+    // MARK: - UI Actions
     @objc func handleTap() {
         profileTapCompletion?()
     }

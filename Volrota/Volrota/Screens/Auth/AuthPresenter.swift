@@ -22,8 +22,6 @@ final class AuthPresenter: AuthPresenterProtocol {
     private let authenticationService: AuthService
     private var keyChainService: KeychainService
     
-    private let organizations: [String] = ["ДоброРФ", "Милосердие", "Хохлы"]
-    
     // MARK: - Initialize
     init(
         view: AuthViewControllerProtocol,
@@ -100,16 +98,24 @@ private extension AuthPresenter {
         let props = AuthViewControllerProps(
             sections: [
                 AuthViewControllerProps.TypingSection(
-                    title: "Почтовый адрес"
+                    title: Strings.Auth.emailAddress,
+                    cellProps: TypingCellProps(
+                        tag: 0,
+                        placeholder: Strings.Auth.emailAddressPlaceholder
+                    )
                 ),
                 AuthViewControllerProps.TypingSection(
-                    title: "Пароль"
+                    title: Strings.Auth.password,
+                    cellProps: TypingCellProps(
+                        tag: 1,
+                        placeholder: Strings.Auth.passwordPlaceholder
+                    )
                 )
             ],
-            titleText: isLoading ?  "Еще пару секунд..." : "Войдите или зарегистрируйтесь через почту и пароль",
+            titleText: isLoading ? Strings.Auth.fewSeconds : Strings.Auth.prompt,
             signUpButtonAction: openSignUpScreen,
             borderedButtonProps: BorderedButtonProps(
-                text: "Sign In",
+                text: Strings.Auth.signIn,
                 isLoading: isLoading
             )
         )
@@ -122,20 +128,20 @@ private extension AuthPresenter {
     
     func showFailureAlert() {
         let createAction = Alert.Action(
-            title: "Создать",
+            title: Strings.Auth.create,
             style: .destructive,
             action: createAccount
         )
         
         let cancelAction = Alert.Action(
-            title: "Отмена",
+            title: Strings.Auth.cancel,
             style: .cancel,
             action: nil
         )
         
         let alert = Alert(
-            title: "Похоже, что такого пользователя не существует",
-            message: "Создать аккаунт?",
+            title: Strings.Auth.noSuchUser,
+            message: Strings.Auth.createAccount,
             style: .alert,
             actions: [createAction, cancelAction]
         )

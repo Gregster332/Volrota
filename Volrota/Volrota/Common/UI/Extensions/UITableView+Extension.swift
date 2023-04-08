@@ -19,4 +19,16 @@ extension UITableView {
     func register<T: UITableViewCell>(cellWithClass name: T.Type) {
         register(T.self, forCellReuseIdentifier: String(describing: name))
     }
+    
+    func getStringFromTextField(with number: Int) -> String {
+        let view = self.cellForRow(
+            at: IndexPath(row: 0, section: number)
+        )?.contentView.getViewsByTag(tag: number)[0]
+        
+        if let tf = view as? UITextField, let text = tf.text {
+            tf.text = ""
+            return text
+        }
+        return ""
+    }
 }

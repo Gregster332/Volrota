@@ -9,6 +9,7 @@ import Kingfisher
 
 class EventView: UIView {
     
+    // MARK: - Views
     private let eventImageView = UIImageView()
     private let eventTitleLabel = UILabel()
     private let dateLabel = UILabel()
@@ -16,6 +17,7 @@ class EventView: UIView {
     private let locationLabel = UILabel()
     private let locationStackView = UIStackView()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -30,7 +32,8 @@ class EventView: UIView {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.EventViewProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.EventViewProps) {
         eventImageView.kf.setImage(with: URL(string: props.eventImageURL))
         eventTitleLabel.text = props.eventTitle
         dateLabel.text = props.datePeriod
@@ -38,6 +41,7 @@ class EventView: UIView {
     }
 }
 
+// MARK: - Private Methods
 private extension EventView {
     
     func setupView() {

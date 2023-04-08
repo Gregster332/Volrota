@@ -10,7 +10,7 @@ import XCoordinator
 enum MainRoute: Route {
     case main
     case profile
-    case actualDetail(MainViewController.MainViewControllerProps.ActualProps)
+    case actualDetail(MainViewControllerProps.ActualProps)
     case appSettings
     case dismiss
 }
@@ -54,12 +54,15 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
     }
     
     private func profile() -> ProfileCoordinator {
-        let profile = ProfileCoordinator(dependencies: dependencies, rootViewController: rootViewController)
+        let profile = ProfileCoordinator(
+            dependencies: dependencies,
+            rootViewController: rootViewController
+        )
         return profile
     }
     
     private func actualDetail(
-        actualProps: MainViewController.MainViewControllerProps.ActualProps
+        actualProps: MainViewControllerProps.ActualProps
     ) -> UIViewController {
         let actualDetail = ActualDetailBuilder.build(
             router: weakRouter,

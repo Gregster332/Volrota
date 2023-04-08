@@ -8,71 +8,70 @@
 import UIKit
 import FirebaseFirestore
 
+struct MainViewControllerProps {
+    let sections: [Section]
+    let locationViewProps: LocationViewProps?
+    let mainViewControllerState: MainViewControllerState
+    let profileViewProps: ProfileViewProps?
+    let actualTapCompletion: ((ActualProps) -> Void)?
+    let refreshCompletion: (() -> Void)?
+    
+    enum Section {
+        case news([NewsViewProps]?)
+        case events([EventViewProps]?)
+        case actual([ActualProps]?)
+        case header([HeaderProps]?)
+    }
+    
+    enum MainViewControllerState {
+        
+        case loading
+        case error
+        case success
+    }
+    
+    struct NewsViewProps {
+    
+        let title: String
+        let bannerTitle: String
+        let viewBackgroundColor: UIColor
+        let bannerBackgroundColor: UIColor
+        let titleColor: UIColor
+        let bannerTitleColor: UIColor
+    }
+    
+    struct EventViewProps {
+        
+        let eventTitle: String
+        let eventImageURL: String
+        let datePeriod: String
+        let placeFullName: String
+    }
+    
+    struct ActualProps {
+        let imageUrl: String
+        let actualTitle: String
+        let actualDescription: String
+    }
+    
+    struct HeaderProps {
+        let headerTitle: String
+        let watchingAllCompletion: (() -> Void)?
+    }
+    
+    struct LocationViewProps {
+        let locationName: String
+        let locationViewTapCompletion: (() -> Void)
+    }
+}
+
 protocol MainViewControllerProtocol: AnyObject {
-    func render(with props: MainViewController.MainViewControllerProps)
+    func render(with props: MainViewControllerProps)
 }
 
 final class MainViewController: UIViewController, MainViewControllerProtocol {
     
-    struct MainViewControllerProps {
-        let sections: [Section]
-        let locationViewProps: LocationViewProps?
-        let mainViewControllerState: MainViewControllerState
-        let profileViewProps: ProfileViewProps?
-        let actualTapCompletion: ((ActualProps) -> Void)?
-        let refreshCompletion: (() -> Void)?
-        
-        enum Section {
-            case news([NewsViewProps]?)
-            case events([EventViewProps]?)
-            case actual([ActualProps]?)
-            case header([HeaderProps]?)
-        }
-        
-        enum MainViewControllerState {
-            
-            case loading
-            case error
-            case success
-        }
-        
-        struct NewsViewProps {
-        
-            let title: String
-            let bannerTitle: String
-            let viewBackgroundColor: UIColor
-            let bannerBackgroundColor: UIColor
-            let titleColor: UIColor
-            let bannerTitleColor: UIColor
-        }
-        
-        struct EventViewProps {
-            
-            let eventTitle: String
-            let eventImageURL: String
-            let datePeriod: String
-            let placeFullName: String
-        }
-        
-        struct ActualProps {
-            let imageUrl: String
-            let actualTitle: String
-            let actualDescription: String
-        }
-        
-        struct HeaderProps {
-            let headerTitle: String
-            let watchingAllCompletion: (() -> Void)?
-        }
-        
-        struct LocationViewProps {
-            let locationName: String
-            let locationViewTapCompletion: (() -> Void)
-        }
-    }
-    
     // MARK: - Properties
-    
     var initialCompletion: (() -> Void)?
     var logOutAction: (() -> Void)?
     private var sections: [MainViewControllerProps.Section] = []
@@ -80,7 +79,6 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     private var refreshCompletion: (() -> Void)?
     
     // MARK: - Views
-    
     private let profileView = ProfileView()
     private let locationView = LocationTrackingView()
     private let tableView = UITableView()

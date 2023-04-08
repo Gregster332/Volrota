@@ -126,7 +126,3 @@ final class DefaultLocationService: NSObject, LocationService, CLLocationManager
         }
     }
 }
-
-enum LocationError: Error {
-    case someError
-}

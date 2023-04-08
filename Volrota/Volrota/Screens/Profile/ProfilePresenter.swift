@@ -51,27 +51,27 @@ final class ProfilePresenter: ProfilePresenterProtocol {
                 let user = try await databse.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
                 let organization = try await databse.getOrganizationBy(user.organizationId)
                 
-                let props = ProfileViewController.ProfileProps(
+                let props = ProfileProps(
                     isLoading: false,
                     profileSettingsCells: [
-                        ProfileViewController.ProfileProps.ProfileSettingsCell(
-                            title: "Редактировать профиль",
+                        ProfileProps.ProfileSettingsCell(
+                            title: Strings.Profile.editProfile,
                             textColor: .black,
                             action: someAction
                         ),
-                        ProfileViewController.ProfileProps.ProfileSettingsCell(
-                            title: "События",
+                        ProfileProps.ProfileSettingsCell(
+                            title: Strings.Profile.events,
                             textColor: .black,
                             action: someAction
                         ),
-                        ProfileViewController.ProfileProps.ProfileSettingsCell(
-                            title: "Выйти",
+                        ProfileProps.ProfileSettingsCell(
+                            title: Strings.Profile.signOut,
                             textColor: .systemRed,
                             action: logOut
                         )
                     ],
                     aboutHeaderViewProps:
-                        ProfileViewController.ProfileProps.AboutHeaderViewProps(
+                        ProfileProps.AboutHeaderViewProps(
                             profileImageUrl: user.profileImageUrl,
                             fullName: user.name + " " + user.secondName,
                             organizationName: organization.name,
@@ -100,15 +100,15 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         router.trigger(.pop)
     }
     
-    private func getDefaultProps(_ isLoading: Bool) -> ProfileViewController.ProfileProps {
-        let props = ProfileViewController.ProfileProps(
+    private func getDefaultProps(_ isLoading: Bool) -> ProfileProps {
+        let props = ProfileProps(
             isLoading: isLoading
         )
         return props
     }
     
     @MainActor
-    func render(with props: ProfileViewController.ProfileProps) {
+    func render(with props: ProfileProps) {
         view?.render(with: props)
     }
 }

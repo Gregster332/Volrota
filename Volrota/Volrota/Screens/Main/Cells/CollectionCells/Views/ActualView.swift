@@ -9,10 +9,12 @@ import Kingfisher
 
 class ActualView: UIView {
     
+    // MARK: - Views
     private let imageView = UIImageView()
     private let labelBackground = UIView()
     private let actualLabel = UILabel()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -27,16 +29,17 @@ class ActualView: UIView {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.ActualProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.ActualProps) {
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(
             with: URL(string: props.imageUrl),
             options: [.cacheOriginalImage])
         actualLabel.text = props.actualTitle
     }
-    
 }
 
+// MARK: - Private Methods
 private extension ActualView {
     
     func setupView() {
