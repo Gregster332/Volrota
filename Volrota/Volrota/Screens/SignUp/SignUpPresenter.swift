@@ -12,7 +12,6 @@ protocol SignUpPresenterProtocol: AnyObject {
     func initialAction()
     func signUp(_ name: String,
                 _ secondName: String,
-                _ organization: String,
                 _ email: String,
                 _ password: String,
                 _ image: UIImage)
@@ -30,6 +29,7 @@ final class SignUpPresenter: SignUpPresenterProtocol {
     
     private var profileImageUrl: String = ""
     private var organizationsIds: [String: String] = [:]
+    private var selectedOrganizationId: String = ""
     
     // MARK: - Initialize
     init(view: SignUpViewControllerProtocol, router: WeakRouter<AuthRoute>, authenticationService: AuthService, database: FirebaseDatabse, keyChainAccess: KeychainService, firebaseStorageSrevice: FirebaseStorage) {
@@ -61,12 +61,11 @@ final class SignUpPresenter: SignUpPresenterProtocol {
     func signUp(
         _ name: String,
         _ secondName: String,
-        _ organization: String,
         _ email: String,
         _ password: String,
         _ image: UIImage
     ) {
-        let props = getDefaultProps(false, items: organizationsIds.values.sorted())
+        let props = getDefaultProps(true, items: organizationsIds.values.sorted())
         render(with: props)
         Task {
             do {
@@ -76,7 +75,7 @@ final class SignUpPresenter: SignUpPresenterProtocol {
                 keyChainAccess.userPassword = password
                 
                 if !createdUser.uid.isEmpty {
-                    try await database.createNewUser(userId: createdUser.uid, name: name, secondName: secondName, organization: organization)
+                    try await database.createNewUser(userId: createdUser.uid, name: name, secondName: secondName, organization: selectedOrganizationId)
                     
                     try await uploadImage(image)
                     
@@ -107,23 +106,54 @@ private extension SignUpPresenter {
     func getDefaultProps(_ isLoading: Bool, items: [String]) -> SignUpViewControllerProps {
         let props = SignUpViewControllerProps(
             sections: [
-                .typing(SignUpViewControllerProps.TypingSection(title: "Имя")),
-                .typing(SignUpViewControllerProps.TypingSection(title: "Фамилия")),
+                .typing(
+                    SignUpViewControllerProps.TypingSection(
+                        title: Strings.SignUp.name,
+                        cellProps: TypingCellProps(
+                            tag: 0,
+                            placeholder: Strings.SignUp.namePlaceholder
+                        )
+                    )
+                ),
+                .typing(
+                    SignUpViewControllerProps.TypingSection(
+                        title: Strings.SignUp.secondName,
+                        cellProps: TypingCellProps(
+                            tag: 1,
+                            placeholder: Strings.SignUp.secondNamePlaceholder
+                        )
+                    )
+                ),
                 .dropDown(
                     SignUpViewControllerProps.OrganizationSection(
-                        title: "Организация",
+                        title: Strings.SignUp.organization,
                         cellProps: OrganizationsCellProps(
                             items: items,
-                            tag: 2,
                             chooseOrganizationCompletion: selectOrganization
                         )
                     )
                 ),
-                .typing(SignUpViewControllerProps.TypingSection(title: "Почта")),
-                .typing(SignUpViewControllerProps.TypingSection(title: "Пароль"))
+                .typing(
+                    SignUpViewControllerProps.TypingSection(
+                        title: Strings.SignUp.email,
+                        cellProps: TypingCellProps(
+                            tag: 3,
+                            placeholder: Strings.SignUp.emailPlaceholder
+                        )
+                    )
+                ),
+                .typing(
+                    SignUpViewControllerProps.TypingSection(
+                        title: Strings.SignUp.password,
+                        cellProps: TypingCellProps(
+                            tag: 4,
+                            placeholder: Strings.SignUp.passwordPlaceholder
+                        )
+                    )
+                )
             ],
             borderedButtonProps: BorderedButtonProps(
-                text: "Sign Up",
+                text: Strings.SignUp.signUp,
                 actionCompletion: nil,
                 isLoading: isLoading
             ),
@@ -147,7 +177,7 @@ private extension SignUpPresenter {
     }
     
     private func selectOrganization(with index: Int) {
-        print(Array(organizationsIds.keys)[index])
+        selectedOrganizationId = Array(organizationsIds.keys)[index]
     }
     
     func render(with props: SignUpViewControllerProps) {

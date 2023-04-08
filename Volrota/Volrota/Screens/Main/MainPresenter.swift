@@ -36,7 +36,7 @@ final class MainPresenter {
     }
     
     func loading() {
-        let props = MainViewController.MainViewControllerProps(
+        let props = MainViewControllerProps(
             sections: [],
             locationViewProps: nil,
             mainViewControllerState: .loading,
@@ -48,7 +48,7 @@ final class MainPresenter {
     }
     
     func renderError() {
-        let props = MainViewController.MainViewControllerProps(
+        let props = MainViewControllerProps(
             sections: [],
             locationViewProps: nil,
             mainViewControllerState: .error,
@@ -76,26 +76,26 @@ final class MainPresenter {
                 
                
                 
-                let props = MainViewController.MainViewControllerProps(
+                let props = MainViewControllerProps(
                     sections: [
                         .news(convertedAds),
                         .events(formattedEvents),
                         .actual(convertedActuals),
                         .header([
-                            MainViewController.MainViewControllerProps.HeaderProps(
+                            MainViewControllerProps.HeaderProps(
                                 headerTitle: Strings.Main.eventsSectionTitle,
                                 watchingAllCompletion: self.openProfile
                             ),
-                            MainViewController.MainViewControllerProps.HeaderProps(
+                            MainViewControllerProps.HeaderProps(
                                 headerTitle: Strings.Main.actualsSectionTitle,
                                 watchingAllCompletion: self.openProfile
                             )
                         ])
                     ],
-                    locationViewProps: MainViewController.MainViewControllerProps.LocationViewProps(
+                    locationViewProps: MainViewControllerProps.LocationViewProps(
                         locationName: try await locationService.fetchCityName(
                             location: curentLocation
-                        ) ?? "Локация выключена",
+                        ) ?? Strings.Main.locationUnavailable,
                         locationViewTapCompletion: openLocationSettings
                     ),
                     mainViewControllerState: .success,
@@ -112,7 +112,6 @@ final class MainPresenter {
                     self.view?.render(with: props)
                 }
             } catch {
-                print(error)
                 DispatchQueue.main.async {
                     self.renderError()
                 }
@@ -128,11 +127,11 @@ final class MainPresenter {
 // MARK: - Private Methods
 private extension MainPresenter {
     
-    func formattedAds(_ ads: [GlobalModel.AdsModel]) -> [MainViewController.MainViewControllerProps.NewsViewProps] {
-        var formattedAds = [MainViewController.MainViewControllerProps.NewsViewProps]()
+    func formattedAds(_ ads: [GlobalModel.AdsModel]) -> [MainViewControllerProps.NewsViewProps] {
+        var formattedAds = [MainViewControllerProps.NewsViewProps]()
         
         for ad in ads {
-            let formattedAd = MainViewController.MainViewControllerProps.NewsViewProps(
+            let formattedAd = MainViewControllerProps.NewsViewProps(
                 title: ad.title,
                 bannerTitle: ad.bannerTitle,
                 viewBackgroundColor: UIColor(ad.viewBackgroundColor),
@@ -145,11 +144,11 @@ private extension MainPresenter {
         return formattedAds
     }
     
-    func formattedActuals(_ actuals: [GlobalModel.ActualModel]) -> [MainViewController.MainViewControllerProps.ActualProps] {
-        var formattedActuals = [MainViewController.MainViewControllerProps.ActualProps]()
+    func formattedActuals(_ actuals: [GlobalModel.ActualModel]) -> [MainViewControllerProps.ActualProps] {
+        var formattedActuals = [MainViewControllerProps.ActualProps]()
         
         for actual in actuals {
-            let formattedActual = MainViewController.MainViewControllerProps.ActualProps(
+            let formattedActual = MainViewControllerProps.ActualProps(
                 imageUrl: actual.imageUrl,
                 actualTitle: actual.title,
                 actualDescription: actual.descriptionText)
@@ -159,13 +158,13 @@ private extension MainPresenter {
         return formattedActuals
     }
     
-    func format(_ events: [GlobalModel.EventModel]) -> [MainViewController.MainViewControllerProps.EventViewProps] {
+    func format(_ events: [GlobalModel.EventModel]) -> [MainViewControllerProps.EventViewProps] {
         return events.map {
             let location = CLLocation(
                 latitude: $0.lat,
                 longitude: $0.long
             ).fetchPlaceFullName()
-            let props = MainViewController.MainViewControllerProps.EventViewProps(
+            let props = MainViewControllerProps.EventViewProps(
                 eventTitle: $0.eventTitle,
                 eventImageURL: $0.eventImageURL,
                 datePeriod: Date.datePeriod(
@@ -184,7 +183,7 @@ private extension MainPresenter {
         router.trigger(.appSettings)
     }
     
-    func openActual(props: MainViewController.MainViewControllerProps.ActualProps) {
+    func openActual(props: MainViewControllerProps.ActualProps) {
         router.trigger(.actualDetail(props))
     }
 }

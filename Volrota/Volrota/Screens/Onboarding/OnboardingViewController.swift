@@ -5,35 +5,30 @@
 //  Created by Greg Zenkov on 3/18/23.
 //
 
-import UIKit
 import Lottie
 
+struct OnboardingProps {
+    let borderedButtonProps: BorderedButtonProps?
+}
+
 protocol OnboardingViewControllerProtocol: AnyObject {
-    
-    func render(with props: OnboardingViewController.OnboardingProps)
+    func render(with props: OnboardingProps)
 }
 
 final class OnboardingViewController: UIViewController, OnboardingViewControllerProtocol {
     
-    struct OnboardingProps {
-        let borderedButtonProps: BorderedButtonProps?
-    }
-    
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: OnboardingPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
     private var borderedButtonAction: (() -> Void)?
     
     // MARK: - Views
-    
     private let titleLabel = UILabel()
     private let animationView = LottieAnimationView(name: "envelope")
     private let continueButton = BorderedButton()
 
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -42,15 +37,13 @@ final class OnboardingViewController: UIViewController, OnboardingViewController
     }
     
     // MARK: - Methods
-    
-    func render(with props: OnboardingViewController.OnboardingProps) {
+    func render(with props: OnboardingProps) {
         borderedButtonAction = props.borderedButtonProps?.actionCompletion
         continueButton.render(with: props.borderedButtonProps)
     }
 }
 
 // MARK: - Private Methods
-
 private extension OnboardingViewController {
     
     func setupView() {
@@ -64,7 +57,7 @@ private extension OnboardingViewController {
             $0.textAlignment = .left
             $0.numberOfLines = 0
             $0.textColor = .black
-            $0.text = "Включите уведомления, чтобы быть вкурсе последних новостей. Так же можно изменить в настройках"
+            $0.text = Strings.Onboarding.title
         }
         
         animationView.do {
@@ -74,7 +67,10 @@ private extension OnboardingViewController {
             $0.play()
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleContinueButton))
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleContinueButton)
+        )
         continueButton.addGestureRecognizer(tap)
     }
     
@@ -104,7 +100,6 @@ private extension OnboardingViewController {
     }
     
     // MARK: - UI Actions
-    
     @objc func handleContinueButton() {
         borderedButtonAction?()
     }

@@ -41,7 +41,3 @@ final class SplashPresenter: SplashPresenterProtocol {
         }
     }
 }
-
-// MARK: - Private Methods
-private extension SplashPresenter {
-}

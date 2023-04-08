@@ -14,12 +14,7 @@ protocol FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel
     func getEvents() async throws -> [GlobalModel.EventModel]
     func getActuals(_ dictionary: [String: Any]?) async throws -> [GlobalModel.ActualModel]
-    func createNewUser(
-        userId: String,
-        name: String,
-        secondName: String,
-        organization: String
-    ) async throws
+    func createNewUser(userId: String, name: String, secondName: String, organization: String) async throws
     func getUserInfo(by id: String) async throws -> UserData
     func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws
     func getOrganizationBy(_ id: String) async throws -> Organization

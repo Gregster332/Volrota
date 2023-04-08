@@ -9,12 +9,14 @@ import Kingfisher
 
 class AboutHeaderView: UIView {
     
+    // MARK: - Views
     private let profileImageView = UIImageView()
     private let profileUserNameLabel = UILabel()
     private let organizationBackgroundView = UIView()
     private let organizationNameLabel = UILabel()
     private let organizationImageView = UIImageView()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -29,7 +31,8 @@ class AboutHeaderView: UIView {
         setupConstraints()
     }
     
-    func render(with props: ProfileViewController.ProfileProps.AboutHeaderViewProps) {
+    // MARK: - Methods
+    func render(with props: ProfileProps.AboutHeaderViewProps) {
         profileImageView.kf.setImage(with: URL(string: props.profileImageUrl))
         organizationImageView.kf.setImage(with: URL(string: props.organizationImageUrl))
         profileUserNameLabel.text = props.fullName
@@ -37,6 +40,7 @@ class AboutHeaderView: UIView {
     }
 }
 
+// MARK: - Private Methods
 private extension AboutHeaderView {
     
     func setupView() {

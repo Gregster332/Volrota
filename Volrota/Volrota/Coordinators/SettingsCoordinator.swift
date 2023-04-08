@@ -38,7 +38,12 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
     }
     
     private func settings() -> SettingsViewController {
-        let settingsViewController = SettingsBuilder.build(router: weakRouter, permissionService: dependencies.permissionService, database: dependencies.firebaseDatabse, authenticationService: dependencies.authenticationService)
+        let settingsViewController = SettingsBuilder.build(
+            router: weakRouter,
+            permissionService: dependencies.permissionService,
+            database: dependencies.firebaseDatabse,
+            authenticationService: dependencies.authenticationService
+        )
         return settingsViewController
     }
     

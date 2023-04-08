@@ -8,12 +8,14 @@
 import UIKit
 import FirebaseFirestore
 
+// MARK: - GlobalModel
 struct GlobalModel: Codable {
     
     let ads: [AdsModel]
     let events: [EventModel]
     let actuals: [ActualModel]
     
+    // MARK: - AdsModel
     struct AdsModel: Codable {
     
         let title: String
@@ -33,6 +35,7 @@ struct GlobalModel: Codable {
         }
     }
     
+    // MARK: - EventModel
     struct EventModel: Codable {
         
         let eventTitle: String
@@ -52,6 +55,7 @@ struct GlobalModel: Codable {
         }
     }
     
+    // MARK: - ActualModel
     struct ActualModel: Codable {
         
         let title: String

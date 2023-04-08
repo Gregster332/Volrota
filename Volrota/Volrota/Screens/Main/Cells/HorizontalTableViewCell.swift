@@ -9,11 +9,14 @@ import UIKit
 
 class HorizontalTableViewCell: UITableViewCell {
     
-    private var section: MainViewController.MainViewControllerProps.Section = .news(nil)
+    // MARK: - Properties
+    private var section: MainViewControllerProps.Section = .news(nil)
     
+    // MARK: - Views
     private let collectionViewFlowLayout = UICollectionViewFlowLayout()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -28,12 +31,14 @@ class HorizontalTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.Section) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.Section) {
         section = props
         collectionView.reloadData()
     }
 }
 
+// MARK: - Private Methods
 private extension HorizontalTableViewCell {
     
     func setupView(){
@@ -69,6 +74,7 @@ private extension HorizontalTableViewCell {
     }
 }
 
+// MARK: - UICollectionViewDelegate & UICollectionViewDataSource
 extension HorizontalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch self.section {

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - UserData
 struct UserData: Codable {
     
     let name: String
@@ -22,6 +23,7 @@ struct UserData: Codable {
     }
 }
 
+// MARK: - Organization
 struct Organization: Codable {
     
     let name: String

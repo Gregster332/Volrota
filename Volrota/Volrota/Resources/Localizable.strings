@@ -10,3 +10,49 @@
 "main.mainTitle" = "Главная";
 "main.eventsSectionTitle" = "Мероприятия";
 "main.actualsSectionTitle" = "Актуальное";
+"main.seeAll" = "См. все";
+"main.locationUnavailable" = "Локация выключена";
+
+// MARK: - Auth
+"auth.emailAddress" = "Почтовый адрес";
+"auth.emailAddressPlaceholder" = "Почтовый адрес...";
+"auth.password" = "Пароль";
+"auth.passwordPlaceholder" = "Пароль...";
+"auth.fewSeconds" = "Еще пару секунд...";
+"auth.prompt" = "Войдите или зарегистрируйтесь через почту и пароль";
+"auth.signIn" = "Войти";
+"auth.create" = "Создать";
+"auth.cancel" = "Отмена";
+"auth.noSuchUser" = "Похоже, что такого пользователя не существует";
+"auth.createAccount" = "Создать аккаунт?";
+
+// MARK: - SignUp
+"signUp.navTitle" = "Регистрация";
+"signUp.name" = "Имя";
+"signUp.secondName" = "Фамилия";
+"signUp.organization" = "Организация";
+"signUp.email" = "Почта";
+"signUp.password" = "Пароль";
+"signUp.signUp" = "Зарегистрироваться";
+"signUp.namePlaceholder" = "Имя...";
+"signUp.secondNamePlaceholder" = "Фамилия...";
+"signUp.emailPlaceholder" = "Почта...";
+"signUp.passwordPlaceholder" = "Пароль...";
+
+// MARK: - Onboarding
+"onboarding.continue" = "Продолжить";
+"onboarding.title" = "Включите уведомления, чтобы быть вкурсе последних новостей. Так же можно изменить в настройках";
+
+// MARK: - Profile
+"profile.editProfile" = "Редактировать профиль";
+"profile.events" = "События";
+"profile.signOut" = "Выйти";
+
+// MARK: - Settings
+"settings.notifications" = "Уведомления";
+"settings.security" = "Безопасность";
+"settings.appearance" = "Внешний вид";
+"settings.about" = "О нас";
+"settings.profile" = "Профиль";
+"settings.appSettings" = "Настройки приложения";
+

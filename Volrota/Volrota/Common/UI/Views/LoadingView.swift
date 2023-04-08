@@ -9,9 +9,11 @@ import UIKit
 
 class LoadingView: UIView {
     
+    // MARK: - Views
     private let spinner = UIActivityIndicatorView()
     private let loadingLabel = UILabel()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -27,6 +29,7 @@ class LoadingView: UIView {
     }
 }
 
+// MARK: - Private Methods
 private extension LoadingView {
     
     func setupView() {

@@ -7,10 +7,17 @@
 
 import UIKit
 
+struct TypingCellProps {
+    let tag: Int
+    let placeholder: String
+}
+
 class TypingCell: UITableViewCell {
     
+    // MARK: - Views
     private let textFieid = UITextField()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -25,11 +32,14 @@ class TypingCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(tag: Int) {
-        textFieid.tag = tag
+    // MARK: - Methods
+    func render(with props: TypingCellProps?) {
+        textFieid.tag = props?.tag ?? 0
+        textFieid.placeholder = props?.placeholder
     }
 }
 
+// MARK: - Private Methods
 private extension TypingCell {
     
     func setupView() {
@@ -43,13 +53,11 @@ private extension TypingCell {
         }
         
         textFieid.do {
-           // $0.delegate = self
             $0.textColor = .black
             $0.backgroundColor = .white
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.systemBlue.cgColor
             $0.layer.cornerRadius = 10
-            $0.placeholder = "type..."
             $0.setLeftPaddingPoints(12)
             $0.setRightPaddingPoints(12)
         }
@@ -68,18 +76,3 @@ private extension TypingCell {
         }
     }
 }
-
-//extension TypingCell: UITextFieldDelegate {
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        let nextTag = textField.tag + 1
-//
-//        if let nextResponder = textField.superview?.superview?.superview?.viewWithTag(nextTag) {
-//            nextResponder.becomeFirstResponder()
-//        } else {
-//            textField.resignFirstResponder()
-//        }
-//
-//        return true
-//    }
-//}

@@ -9,11 +9,14 @@ import UIKit
 
 class SettingsTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
     private var toggleCompletion: (() -> Void)?
     
+    // MARK: - Views
     private let titleLabel = UILabel()
     private let toggle = UISwitch()
     
+    // MARK: - Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -28,7 +31,8 @@ class SettingsTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func render(with props: SettingsViewController.SettingsProps.SettingsCellProps) {
+    // MARK: - Methods
+    func render(with props: SettingsProps.SettingsCellProps) {
         titleLabel.text = props.title
         toggle.isHidden = !props.isToggled
         toggle.isOn = props.initialValue
@@ -36,6 +40,7 @@ class SettingsTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - Private Methods
 private extension SettingsTableViewCell {
     
     func setupView() {

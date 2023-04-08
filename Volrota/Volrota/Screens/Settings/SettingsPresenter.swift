@@ -32,48 +32,44 @@ final class SettingsPresenter: SettingsPresenterProtocol {
         initialize()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     func initialize() {
         Task {
             let isAccessGranted = await permissionService.isGrantedAccess()
             do {
                 let user = try await database.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
                 
-                let props: SettingsViewController.SettingsProps = SettingsViewController.SettingsProps(
+                let props: SettingsProps = SettingsProps(
                     cells: [
                         .profileCell(
-                            SettingsViewController.SettingsProps.ProfileCellProps(
+                            SettingsProps.ProfileCellProps(
                                 avatarImageUrl: user.profileImageUrl,
                                 userFullName: user.name + " " + user.secondName,
                                 action: openProfile)
                         ),
                         .defaultCell(
-                            SettingsViewController.SettingsProps.SettingsCellProps(
-                                title: "Уведомления",
+                            SettingsProps.SettingsCellProps(
+                                title: Strings.Settings.notifications,
                                 isToggled: true,
                                 initialValue: isAccessGranted,
                                 toggleAction: openAppSettings)
                         ),
                         .defaultCell(
-                            SettingsViewController.SettingsProps.SettingsCellProps(
-                                title: "Безопасность",
+                            SettingsProps.SettingsCellProps(
+                                title: Strings.Settings.security,
                                 isToggled: false,
                                 initialValue: false,
                                 toggleAction: nil)
                         ),
                         .defaultCell(
-                            SettingsViewController.SettingsProps.SettingsCellProps(
-                                title: "Внешний вид",
+                            SettingsProps.SettingsCellProps(
+                                title: Strings.Settings.appearance,
                                 isToggled: false,
                                 initialValue: false,
                                 toggleAction: nil)
                         ),
                         .defaultCell(
-                            SettingsViewController.SettingsProps.SettingsCellProps(
-                                title: "О нас",
+                            SettingsProps.SettingsCellProps(
+                                title: Strings.Settings.about,
                                 isToggled: false,
                                 initialValue: false,
                                 toggleAction: nil)
@@ -87,6 +83,10 @@ final class SettingsPresenter: SettingsPresenterProtocol {
                 print(error)
             }
         }
+    }
+    
+    func viewWillDisappaer() {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -102,7 +102,12 @@ private extension SettingsPresenter {
     }
     
     func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(chechNotificationAccess), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(chechNotificationAccess),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
     
     @objc func chechNotificationAccess() {

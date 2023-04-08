@@ -7,32 +7,29 @@
 
 import Kingfisher
 
+struct ActualDetailViewControllerProps {
+    let imageUrl: String
+    let actualTitle: String
+    let descriptionText: String
+}
+
 protocol ActualDetailViewControllerProtocol: AnyObject {
-    func render(with props: ActualDetailViewController.ActualDetailViewControllerProps)
+    func render(with props: ActualDetailViewControllerProps)
 }
 
 final class ActualDetailViewController: UIViewController, ActualDetailViewControllerProtocol {
     
-    struct ActualDetailViewControllerProps {
-        let imageUrl: String
-        let actualTitle: String
-        let descriptionText: String
-    }
-    
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: ActualDetailPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
     
     // MARK: - Views
-    
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
     private let descriptionTextView = UITextView()
 
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -41,7 +38,6 @@ final class ActualDetailViewController: UIViewController, ActualDetailViewContro
     }
     
     // MARK: - Methods
-    
     func render(with props: ActualDetailViewControllerProps) {
         imageView.kf.setImage(with: URL(string: props.imageUrl))
         titleLabel.text = props.actualTitle
@@ -50,7 +46,6 @@ final class ActualDetailViewController: UIViewController, ActualDetailViewContro
 }
 
 // MARK: - Private Methods
-
 private extension ActualDetailViewController {
     
     func setupView() {

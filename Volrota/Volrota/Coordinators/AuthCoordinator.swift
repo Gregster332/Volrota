@@ -54,7 +54,13 @@ final class AuthCoordinator: NavigationCoordinator<AuthRoute> {
     }
     
     private func signUp() -> UIViewController {
-        let signUp = SignUpBuilder.build(router: weakRouter, authenticationService: dependencies.authenticationService, database: dependencies.firebaseDatabse, keyChainAccess: dependencies.keyChainService, firebaseStorageSrevice: dependencies.firebaseStorageService)
+        let signUp = SignUpBuilder.build(
+            router: weakRouter,
+            authenticationService: dependencies.authenticationService,
+            database: dependencies.firebaseDatabse,
+            keyChainAccess: dependencies.keyChainService,
+            firebaseStorageSrevice: dependencies.firebaseStorageService
+        )
         return signUp
     }
 }

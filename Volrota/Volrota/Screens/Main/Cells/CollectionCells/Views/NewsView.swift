@@ -9,10 +9,12 @@ import SnapKit
 
 class NewsView: UIView {
     
+    // MARK: - Views
     private let titleLabel = UILabel()
     private let banner = UIView()
     private let bannerTitle = UILabel()
     
+    // MARK: - Initialize
     init() {
         super.init(frame: .zero)
         setupView()
@@ -27,11 +29,13 @@ class NewsView: UIView {
         setupConstraints()
     }
     
-    func render(props: MainViewController.MainViewControllerProps.NewsViewProps) {
+    // MARK: - Methods
+    func render(props: MainViewControllerProps.NewsViewProps) {
         applyProps(props: props)
     }
 }
 
+// MARK: - Private Methods
 private extension NewsView {
     
     func setupView() {
@@ -78,7 +82,7 @@ private extension NewsView {
         }
     }
     
-    func applyProps(props: MainViewController.MainViewControllerProps.NewsViewProps) {
+    func applyProps(props: MainViewControllerProps.NewsViewProps) {
         titleLabel.text = props.title
         titleLabel.textColor = props.titleColor
         backgroundColor = props.viewBackgroundColor

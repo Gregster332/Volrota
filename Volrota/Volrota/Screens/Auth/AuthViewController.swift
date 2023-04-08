@@ -16,6 +16,7 @@ struct AuthViewControllerProps {
     
     struct TypingSection {
         let title: String
+        let cellProps: TypingCellProps?
     }
 }
 
@@ -95,7 +96,7 @@ private extension AuthViewController {
         signInButton.addTarget(target: self, action: #selector(handleSignInButton), for: .touchUpInside)
         
         signUpButton.do {
-            $0.setTitle("Создать аккаунт?", for: .normal)
+            $0.setTitle(Strings.Auth.createAccount, for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.addTarget(self, action: #selector(handleSignUpButton), for: .touchUpInside)
         }
@@ -160,9 +161,9 @@ extension AuthViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = sections[indexPath.row]
+        let item = sections[indexPath.section]
         let cell = tableView.dequeueCell(withClass: TypingCell.self, for: indexPath) as TypingCell
-        cell.render(tag: indexPath.section)
+        cell.render(with: item.cellProps)
         return cell
     }
     
@@ -176,39 +177,5 @@ extension AuthViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         24
-    }
-}
-
-extension UITextField {
-    func setLeftPaddingPoints(_ amount:CGFloat){
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-        self.leftView = paddingView
-        self.leftViewMode = .always
-    }
-    func setRightPaddingPoints(_ amount:CGFloat) {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
-        self.rightView = paddingView
-        self.rightViewMode = .always
-    }
-}
-
-extension UIView {
-    func getViewsByTag(tag:Int) -> Array<UIView?>{
-        return subviews.filter { ($0 as UIView).tag == tag } as [UIView]
-    }
-}
-
-extension UITableView {
-    
-    func getStringFromTextField(with number: Int) -> String {
-        let view = self.cellForRow(
-            at: IndexPath(row: 0, section: number)
-        )?.contentView.getViewsByTag(tag: number)[0]
-        
-        if let tf = view as? UITextField, let text = tf.text {
-            tf.text = ""
-            return text
-        }
-        return ""
     }
 }

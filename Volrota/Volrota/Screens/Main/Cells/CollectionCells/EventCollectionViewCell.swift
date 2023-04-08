@@ -9,8 +9,10 @@ import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Views
     private let eventView = EventView()
     
+    // MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
@@ -23,11 +25,13 @@ class EventCollectionViewCell: UICollectionViewCell {
         setupConstraints()
     }
     
-    func render(with props: MainViewController.MainViewControllerProps.EventViewProps) {
+    // MARK: - Methods
+    func render(with props: MainViewControllerProps.EventViewProps) {
         eventView.render(with: props)
     }
 }
 
+// MARK: - Private Methods
 private extension EventCollectionViewCell {
     
     func addViews() {

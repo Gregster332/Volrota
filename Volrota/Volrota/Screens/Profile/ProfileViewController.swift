@@ -8,35 +8,32 @@
 import Kingfisher
 import Lottie
 
-protocol ProfileViewControllerProtocol: AnyObject {
+struct ProfileProps {
+    let isLoading: Bool
+    var profileSettingsCells: [ProfileSettingsCell]?
+    var aboutHeaderViewProps: AboutHeaderViewProps?
     
-    func render(with props: ProfileViewController.ProfileProps)
+    struct ProfileSettingsCell {
+        let title: String
+        let textColor: UIColor
+        let action: (() -> Void)?
+    }
+    
+    struct AboutHeaderViewProps {
+        let profileImageUrl: String
+        let fullName: String
+        let organizationName: String
+        let organizationImageUrl: String
+    }
+}
+
+protocol ProfileViewControllerProtocol: AnyObject {
+    func render(with props: ProfileProps)
 }
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
-    struct ProfileProps {
-        
-        let isLoading: Bool
-        var profileSettingsCells: [ProfileSettingsCell]?
-        var aboutHeaderViewProps: AboutHeaderViewProps?
-        
-        struct ProfileSettingsCell {
-            let title: String
-            let textColor: UIColor
-            let action: (() -> Void)?
-        }
-        
-        struct AboutHeaderViewProps {
-            let profileImageUrl: String
-            let fullName: String
-            let organizationName: String
-            let organizationImageUrl: String
-        }
-    }
-    
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: ProfilePresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -61,7 +58,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     }
     
     // MARK: - Methods
-    func render(with props: ProfileViewController.ProfileProps) {
+    func render(with props: ProfileProps) {
         
         if props.isLoading {
             loadingView.layer.opacity = 1
@@ -79,7 +76,6 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
 }
 
 // MARK: - Private Methods
-
 private extension ProfileViewController {
     
     func setupView() {
@@ -110,8 +106,6 @@ private extension ProfileViewController {
             $0.edges.equalToSuperview()
         }
     }
-    
-    // MARK: - UI Actions
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
