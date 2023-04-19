@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ActualTableViewCell: UITableViewCell {
+class ActualCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Views
     private let actualView = ActualView()
     
     // MARK: - Initialize
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
         addViews()
         setupConstraints()
@@ -34,11 +34,9 @@ class ActualTableViewCell: UITableViewCell {
 }
 
 // MARK: - Private Methods
-private extension ActualTableViewCell {
+private extension ActualCollectionViewCell {
     
     func setupViews() {
-        
-        selectionStyle = .none
         
         contentView.do {
             $0.backgroundColor = .clear

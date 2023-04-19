@@ -32,9 +32,10 @@ class ActualView: UIView {
     // MARK: - Methods
     func render(with props: MainViewControllerProps.ActualProps) {
         imageView.kf.indicatorType = .activity
+        let processor = DownsamplingImageProcessor(size: imageView.bounds.size)
         imageView.kf.setImage(
-            with: URL(string: props.imageUrl),
-            options: [.cacheOriginalImage])
+            with: URL(string: props.imageUrl)
+        )
         actualLabel.text = props.actualTitle
     }
 }

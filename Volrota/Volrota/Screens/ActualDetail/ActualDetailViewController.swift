@@ -8,9 +8,26 @@
 import Kingfisher
 
 struct ActualDetailViewControllerProps {
-    let imageUrl: String
-    let actualTitle: String
-    let descriptionText: String
+    
+    let sections: [Section]
+    
+    enum Section {
+        case descriptionSection(DescriptionSectionProps)
+        case imageSection(ImageSectionProps)
+    }
+    
+    struct DescriptionSectionProps {
+        let sectionTitle: String
+        let descriptionText: String
+    }
+    
+    struct ImageSectionProps {
+        let imageUrl: String
+    }
+    
+//    let imageUrl: String
+//    let actualTitle: String
+//    let descriptionText: String
 }
 
 protocol ActualDetailViewControllerProtocol: AnyObject {
@@ -23,11 +40,12 @@ final class ActualDetailViewController: UIViewController, ActualDetailViewContro
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: ActualDetailPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
+    private var sections: [ActualDetailViewControllerProps.Section] = []
     
     // MARK: - Views
-    private let imageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let descriptionTextView = UITextView()
+    
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let headerView = ActualTitleHeader()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -39,9 +57,10 @@ final class ActualDetailViewController: UIViewController, ActualDetailViewContro
     
     // MARK: - Methods
     func render(with props: ActualDetailViewControllerProps) {
-        imageView.kf.setImage(with: URL(string: props.imageUrl))
-        titleLabel.text = props.actualTitle
-        descriptionTextView.text = props.descriptionText
+        sections = props.sections
+//        imageView.kf.setImage(with: URL(string: props.imageUrl))
+//        titleLabel.text = props.actualTitle
+//        descriptionTextView.text = props.descriptionText
     }
 }
 
@@ -54,45 +73,80 @@ private extension ActualDetailViewController {
             $0.backgroundColor = .white
         }
         
-        imageView.do {
-            $0.contentMode = .scaleAspectFill
-            $0.roundCorners([.bottomLeft, .bottomRight], radius: 16)
-        }
-        
-        titleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
-            $0.numberOfLines = 0
-            $0.textAlignment = .left
-            $0.textColor = .black
-        }
-        
-        descriptionTextView.do {
-            $0.textColor = .black
-            $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-            $0.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        tableView.do {
+            $0.backgroundColor = .clear
+            $0.separatorStyle = .none
             $0.showsVerticalScrollIndicator = false
-            $0.textAlignment = .left
+            $0.register(cellWithClass: ActualDescriptionCell.self)
+            $0.register(cellWithClass: ActualImageCell.self)
+            $0.delegate = self
+            $0.dataSource = self
+            $0.sectionHeaderHeight = UITableView.automaticDimension
+            $0.estimatedSectionHeaderHeight = 70
         }
     }
     
     func addViews() {
-        view.addSubviews([imageView, titleLabel, descriptionTextView])
+        view.addSubview(tableView)
     }
     
     func setupConstraints() {
-        imageView.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(view.frame.size.height * 0.3)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-            
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview().inset(8)
-        }
+    }
+}
+
+extension ActualDetailViewController: UITableViewDelegate {
+    
+}
+
+extension ActualDetailViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = sections[indexPath.section]
         
-        descriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.horizontalEdges.bottom.equalToSuperview()
+        switch item {
+        case .descriptionSection(let descriptionProps):
+            let cell = tableView.dequeueCell(withClass: ActualDescriptionCell.self, for: indexPath) as ActualDescriptionCell
+            cell.render(with: descriptionProps.descriptionText)
+            return cell
+        case .imageSection(let imageProps):
+            let cell = tableView.dequeueCell(withClass: ActualImageCell.self, for: indexPath) as ActualImageCell
+            cell.render(with: imageProps.imageUrl)
+            return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let item = sections[section]
+        
+        switch item {
+        case .imageSection:
+            return nil
+        case .descriptionSection(let descriptionProps):
+            headerView.render(with: descriptionProps.sectionTitle)
+            return headerView
+        }
+    }
+}
+
+extension String {
+    func height(withConstrainedWidth width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: 15, weight: .regular)], context: nil)
+    
+        return ceil(boundingBox.height)
     }
 }

@@ -35,52 +35,49 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     func initialize() {
         Task {
             let isAccessGranted = await permissionService.isGrantedAccess()
-            do {
-                let user = try await database.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
-                
-                let props: SettingsProps = SettingsProps(
-                    cells: [
-                        .profileCell(
-                            SettingsProps.ProfileCellProps(
-                                avatarImageUrl: user.profileImageUrl,
-                                userFullName: user.name + " " + user.secondName,
-                                action: openProfile)
-                        ),
-                        .defaultCell(
-                            SettingsProps.SettingsCellProps(
-                                title: Strings.Settings.notifications,
-                                isToggled: true,
-                                initialValue: isAccessGranted,
-                                toggleAction: openAppSettings)
-                        ),
-                        .defaultCell(
-                            SettingsProps.SettingsCellProps(
-                                title: Strings.Settings.security,
-                                isToggled: false,
-                                initialValue: false,
-                                toggleAction: nil)
-                        ),
-                        .defaultCell(
-                            SettingsProps.SettingsCellProps(
-                                title: Strings.Settings.appearance,
-                                isToggled: false,
-                                initialValue: false,
-                                toggleAction: nil)
-                        ),
-                        .defaultCell(
-                            SettingsProps.SettingsCellProps(
-                                title: Strings.Settings.about,
-                                isToggled: false,
-                                initialValue: false,
-                                toggleAction: nil)
+            let user = await database.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
+            
+            let props: SettingsProps = SettingsProps(
+                cells: [
+                    .profileCell(
+                        SettingsProps.ProfileCellProps(
+                            avatarImageUrl: user?.profileImageUrl ?? "",
+                            userFullName: (user?.name ?? "") + " " + (user?.secondName ?? ""),
+                            action: openProfile)
+                    ),
+                    .defaultCell(
+                        SettingsProps.SettingsCellProps(
+                            title: Strings.Settings.notifications,
+                            isToggled: true,
+                            initialValue: isAccessGranted,
+                            toggleAction: openAppSettings
                         )
-                    ]
-                )
-                DispatchQueue.main.async { [weak self] in
-                    self?.view?.render(with: props)
-                }
-            } catch {
-                print(error)
+                    ),
+                    .defaultCell(
+                        SettingsProps.SettingsCellProps(
+                            title: Strings.Settings.security,
+                            isToggled: false,
+                            initialValue: false,
+                            toggleAction: nil)
+                    ),
+                    .defaultCell(
+                        SettingsProps.SettingsCellProps(
+                            title: Strings.Settings.appearance,
+                            isToggled: false,
+                            initialValue: false,
+                            toggleAction: nil)
+                    ),
+                    .defaultCell(
+                        SettingsProps.SettingsCellProps(
+                            title: Strings.Settings.about,
+                            isToggled: false,
+                            initialValue: false,
+                            toggleAction: nil)
+                    )
+                ]
+            )
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.render(with: props)
             }
         }
     }

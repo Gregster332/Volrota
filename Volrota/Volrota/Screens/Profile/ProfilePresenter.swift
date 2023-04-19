@@ -48,8 +48,8 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         view?.render(with: props)
         loadUserInfoTask = Task {
             do {
-                let user = try await databse.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
-                let organization = try await databse.getOrganizationBy(user.organizationId)
+                let user = await databse.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
+                let organization = try await databse.getOrganizationBy(user?.organizationId ?? "")
                 
                 let props = ProfileProps(
                     isLoading: false,
@@ -72,8 +72,8 @@ final class ProfilePresenter: ProfilePresenterProtocol {
                     ],
                     aboutHeaderViewProps:
                         ProfileProps.AboutHeaderViewProps(
-                            profileImageUrl: user.profileImageUrl,
-                            fullName: user.name + " " + user.secondName,
+                            profileImageUrl: user?.profileImageUrl ?? "",
+                            fullName: (user?.name ?? "") + " " + (user?.secondName ?? ""),
                             organizationName: organization.name,
                             organizationImageUrl: organization.imageUrl
                         )

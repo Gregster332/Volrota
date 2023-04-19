@@ -25,8 +25,6 @@ final class DefaultFirebaseStorage: FirebaseStorage {
         do {
             if let uploadData = image.pngData() {
                 let metadata = try await ref.putDataAsync(uploadData)
-                print(metadata)
-                
                 let url = try await ref.downloadURL()
                 return url.absoluteString
             }

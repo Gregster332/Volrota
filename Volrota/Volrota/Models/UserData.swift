@@ -14,12 +14,14 @@ struct UserData: Codable {
     let secondName: String
     let organizationId: String
     let profileImageUrl: String
+    let eventsIds: [String]
     
     enum CodingKeys: String, CodingKey {
         case name
         case secondName = "second_name"
         case organizationId = "organization_id"
         case profileImageUrl = "image_url"
+        case eventsIds = "events_ids"
     }
 }
 

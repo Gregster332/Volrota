@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewHeaderView: UIView {
+class CollectionViewHeaderView: UICollectionReusableView {
     
     // MARK: - Properties
     private var watchingAllCompletion: (() -> Void)?
@@ -17,8 +17,8 @@ class TableViewHeaderView: UIView {
     private let watchingAllButton = UIButton()
     
     // MARK: - Initialize
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
         addViews()
         setupConstraints()
@@ -39,7 +39,7 @@ class TableViewHeaderView: UIView {
 }
 
 // MARK: - Private Methods
-private extension TableViewHeaderView {
+private extension CollectionViewHeaderView {
     
     func setupView() {
         
