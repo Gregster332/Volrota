@@ -21,7 +21,7 @@ final class ActualDetailPresenter: ActualDetailPresenterProtocol {
     init(
         view: ActualDetailViewControllerProtocol,
         router: WeakRouter<MainRoute>,
-        props: MainViewControllerProps.ActualProps
+        props: GlobalModel.ActualModel
     ) {
         self.view = view
         self.router = router
@@ -34,12 +34,22 @@ final class ActualDetailPresenter: ActualDetailPresenterProtocol {
 private extension ActualDetailPresenter {
     
     func convertProps(
-        props: MainViewControllerProps.ActualProps
+        props: GlobalModel.ActualModel
     ) {
         let actualProps = ActualDetailViewControllerProps(
-            imageUrl: props.imageUrl,
-            actualTitle: props.actualTitle,
-            descriptionText: props.actualDescription
+            sections: [
+                .imageSection(
+                    ActualDetailViewControllerProps.ImageSectionProps(
+                        imageUrl: props.imageUrl
+                    )
+                ),
+                .descriptionSection(
+                    ActualDetailViewControllerProps.DescriptionSectionProps(
+                        sectionTitle: props.title,
+                        descriptionText: props.descriptionText
+                    )
+                )
+            ]
         )
         view?.render(with: actualProps)
     }

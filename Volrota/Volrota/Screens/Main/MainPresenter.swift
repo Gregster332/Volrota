@@ -17,6 +17,7 @@ final class MainPresenter {
     private let database: FirebaseDatabse
     private let locationService: LocationService
     private let authenticationService: AuthService
+    private var globalModel: GlobalModel?
     
     private var loadingTask: Task<Void, Never>?
 
@@ -48,15 +49,27 @@ final class MainPresenter {
     }
     
     func renderError() {
-        let props = MainViewControllerProps(
-            sections: [],
-            locationViewProps: nil,
-            mainViewControllerState: .error,
-            profileViewProps: nil,
-            actualTapCompletion: nil,
-            refreshCompletion: fetchGlobalItems
-        )
-        view?.render(with: props)
+        Task {
+            let profileImageUrl = await database.getUserInfo(
+                by: authenticationService.currentUser?.uid ?? ""
+            )?.profileImageUrl
+            
+            let props = MainViewControllerProps(
+                sections: [],
+                locationViewProps: nil,
+                mainViewControllerState: .error,
+                profileViewProps: ProfileViewProps(
+                    navTitle: Strings.Main.mainTitle,
+                    profileImageUrl: profileImageUrl ?? "",
+                    profileTapCompletion: openProfile
+                ),
+                actualTapCompletion: nil,
+                refreshCompletion: fetchGlobalItems
+            )
+            DispatchQueue.main.async {
+                self.view?.render(with: props)
+            }
+        }
     }
     
     func fetchGlobalItems() {
@@ -64,31 +77,24 @@ final class MainPresenter {
         loadingTask = Task(priority: .userInitiated) {
             do {
                 let globalModel = try await database.getGlobalData()
+                self.globalModel = globalModel
                 let curentLocation = await locationService.getUserLocation()
-                
-                let profileImageUrl = try await database.getUserInfo(
+                let profileImageUrl = await database.getUserInfo(
                     by: authenticationService.currentUser?.uid ?? ""
-                ).profileImageUrl
+                )?.profileImageUrl
                 
-                let formattedEvents = format(globalModel.events)
+                //let formattedEvents = format(globalModel.events)
                 let convertedAds = formattedAds(globalModel.ads)
                 let convertedActuals = formattedActuals(globalModel.actuals)
-                
-               
                 
                 let props = MainViewControllerProps(
                     sections: [
                         .news(convertedAds),
-                        .events(formattedEvents),
                         .actual(convertedActuals),
                         .header([
                             MainViewControllerProps.HeaderProps(
-                                headerTitle: Strings.Main.eventsSectionTitle,
-                                watchingAllCompletion: self.openProfile
-                            ),
-                            MainViewControllerProps.HeaderProps(
                                 headerTitle: Strings.Main.actualsSectionTitle,
-                                watchingAllCompletion: self.openProfile
+                                watchingAllCompletion: self.openActuals
                             )
                         ])
                     ],
@@ -101,7 +107,7 @@ final class MainPresenter {
                     mainViewControllerState: .success,
                     profileViewProps: ProfileViewProps(
                         navTitle: Strings.Main.mainTitle,
-                        profileImageUrl: profileImageUrl,
+                        profileImageUrl: profileImageUrl ?? "",
                         profileTapCompletion: openProfile
                     ),
                     actualTapCompletion: self.openActual,
@@ -158,32 +164,39 @@ private extension MainPresenter {
         return formattedActuals
     }
     
-    func format(_ events: [GlobalModel.EventModel]) -> [MainViewControllerProps.EventViewProps] {
-        return events.map {
-            let location = CLLocation(
-                latitude: $0.lat,
-                longitude: $0.long
-            ).fetchPlaceFullName()
-            let props = MainViewControllerProps.EventViewProps(
-                eventTitle: $0.eventTitle,
-                eventImageURL: $0.eventImageURL,
-                datePeriod: Date.datePeriod(
-                    from: $0.startDate.dateValue(),
-                    endDate: $0.endDate.dateValue()),
-                placeFullName: "\(location?.locality ?? ""), \(location?.name ?? "")")
-            return props
-        }
-    }
+//    func format(_ events: [GlobalModel.EventModel]) -> [MainViewControllerProps.EventViewProps] {
+//        return events.map {
+//            let location = CLLocation(
+//                latitude: $0.lat,
+//                longitude: $0.long
+//            ).fetchPlaceFullName()
+//            let props = MainViewControllerProps.EventViewProps(
+//                eventTitle: $0.eventTitle,
+//                eventImageURL: $0.eventImageURL,
+//                datePeriod: Date.datePeriod(
+//                    from: $0.startDate.dateValue(),
+//                    endDate: $0.endDate.dateValue()),
+//                placeFullName: "\(location?.locality ?? ""), \(location?.name ?? "")")
+//            return props
+//        }
+//    }
     
     func openProfile() {
         router.trigger(.profile)
+    }
+    
+    func openActuals() {
+        router.trigger(.actuals)
     }
     
     func openLocationSettings() {
         router.trigger(.appSettings)
     }
     
-    func openActual(props: MainViewControllerProps.ActualProps) {
-        router.trigger(.actualDetail(props))
+    func openActual(with indexPath: IndexPath) {
+        if let globalModel = globalModel {
+            let item = globalModel.actuals[indexPath.row]
+            router.trigger(.actualDetail(item))
+        }
     }
 }

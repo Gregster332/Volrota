@@ -47,5 +47,4 @@ extension Transition {
         actions.forEach { alert.addAction($0) }
         return .present(alert)
     }
-    
 }

@@ -1,63 +1,62 @@
 //
-//  EventView.swift
+//  EventCell.swift
 //  Volrota
 //
-//  Created by Greg Zenkov on 3/16/23.
+//  Created by Greg Zenkov on 4/8/23.
 //
 
 import Kingfisher
 
-class EventView: UIView {
+class EventCell: UICollectionViewCell {
     
-    // MARK: - Views
-    private let eventImageView = UIImageView()
-    private let eventTitleLabel = UILabel()
+    private let image = UIImageView()
+    private let titleLabel = UILabel()
     private let dateLabel = UILabel()
     private let dateStackView = UIStackView()
-    private let locationLabel = UILabel()
-    private let locationStackView = UIStackView()
+    private let placeLabel = UILabel()
+    private let placeStackView = UIStackView()
     
-    // MARK: - Initialize
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
-        addViews()
         setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
-        addViews()
         setupConstraints()
     }
     
-    // MARK: - Methods
-    func render(with props: MainViewControllerProps.EventViewProps) {
-        eventImageView.kf.setImage(with: URL(string: props.eventImageURL))
-        eventTitleLabel.text = props.eventTitle
-        dateLabel.text = props.datePeriod
-        locationLabel.text = props.placeFullName
+    func render(with props: EventsViewControllerProps.EventItem) {
+        let processor = DownsamplingImageProcessor(size: image.bounds.size)
+        image.kf.setImage(
+            with: URL(string: props.imageUrl)
+        )
+        titleLabel.text = props.name
+        dateLabel.text = props.date
+        placeLabel.text = props.place
     }
 }
 
-// MARK: - Private Methods
-private extension EventView {
+private extension EventCell {
     
     func setupView() {
         
-        self.do {
+        contentView.do {
             $0.layer.cornerRadius = 16
             $0.backgroundColor = .systemGray6
         }
         
-        eventImageView.do {
+        image.do {
             $0.contentMode = .scaleAspectFill
+            $0.kf.indicatorType = .activity
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 16
+            $0.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
         
-        eventTitleLabel.do {
+        titleLabel.do {
             $0.font = UIFont.systemFont(ofSize: 18, weight: .medium)
             $0.numberOfLines = 0
             $0.textAlignment = .left
@@ -69,15 +68,16 @@ private extension EventView {
             $0.textAlignment = .left
             $0.textColor = .black
         }
-
+        
         let dateImage = UIImageView()
         dateImage.image = Images.dateImage.image
         dateImage.contentMode = .scaleAspectFill
+        //dateImage.frame.size = CGSize(width: 14, height: 14)
         
         dateImage.snp.makeConstraints {
             $0.size.equalTo(14)
         }
-
+        
         dateStackView.do {
             $0.addArrangedSubview(dateImage)
             $0.addArrangedSubview(dateLabel)
@@ -85,59 +85,53 @@ private extension EventView {
             $0.distribution = .fillProportionally
             $0.spacing = 8
         }
-
-        locationLabel.do {
+        
+        placeLabel.do {
             $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
             $0.textAlignment = .left
-            $0.textColor = .systemGray2
+            $0.textColor = .black
         }
-
+        
         let locationImage = UIImageView()
         locationImage.image = Images.locationImage.image
         locationImage.contentMode = .scaleAspectFill
+        locationImage.frame.size = CGSize(width: 14, height: 14)
         
         locationImage.snp.makeConstraints {
             $0.size.equalTo(14)
         }
-
-        locationStackView.do {
+        
+        placeStackView.do {
             $0.addArrangedSubview(locationImage)
-            $0.addArrangedSubview(locationLabel)
+            $0.addArrangedSubview(placeLabel)
             $0.axis = .horizontal
             $0.distribution = .fillProportionally
             $0.spacing = 8
         }
     }
     
-    func addViews() {
-        addSubviews(
-            [
-                eventImageView,
-                eventTitleLabel,
-                dateStackView,
-                locationStackView
-            ]
-        )
-    }
-    
     func setupConstraints() {
+        contentView.addSubview(image)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(dateStackView)
+        contentView.addSubview(placeStackView)
         
-        eventImageView.snp.makeConstraints {
+        image.snp.makeConstraints {
             $0.height.equalTo(240)
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.horizontalEdges.equalToSuperview()
         }
         
-        eventTitleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(8)
-            $0.top.equalTo(eventImageView.snp.bottom).offset(8)
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(image.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(8)
         }
         
         dateStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
-            $0.top.equalTo(eventTitleLabel.snp.bottom).offset(10)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
         }
 
-        locationStackView.snp.makeConstraints {
+        placeStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(8)
             $0.top.equalTo(dateStackView.snp.bottom).offset(10)
         }

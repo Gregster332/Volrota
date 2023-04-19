@@ -5,7 +5,6 @@
 //  Created by Greg Zenkov on 3/20/23.
 //
 
-import Foundation
 import CoreLocation
 
 protocol LocationService: AnyObject {
@@ -15,6 +14,7 @@ protocol LocationService: AnyObject {
     func getUserLocation(completion: @escaping (CLLocation?) -> Void)
     func fetchCityAndCountry(location: CLLocation) async throws -> (String, String)
     func fetchCityName(location: CLLocation?) async throws -> String?
+    func getFullPlacemark(location: CLLocation) async -> CLPlacemark?
 }
 
 final class DefaultLocationService: NSObject, LocationService, CLLocationManagerDelegate {
@@ -124,5 +124,10 @@ final class DefaultLocationService: NSObject, LocationService, CLLocationManager
                 $1
             )
         }
+    }
+    
+    func getFullPlacemark(location: CLLocation) async -> CLPlacemark? {
+        let loc = try? await CLGeocoder().reverseGeocodeLocation(location)
+        return loc?.first
     }
 }

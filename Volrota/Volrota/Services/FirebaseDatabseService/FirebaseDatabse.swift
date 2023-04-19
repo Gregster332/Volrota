@@ -12,13 +12,15 @@ import FirebaseFirestoreSwift
 
 protocol FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel
-    func getEvents() async throws -> [GlobalModel.EventModel]
+    func getEvents(_ dictionary: [String: Any]?) async throws -> [EventsModel.EventModel]
     func getActuals(_ dictionary: [String: Any]?) async throws -> [GlobalModel.ActualModel]
+    //func getEventBy(_ id: String) async -> GlobalModel.EventModel?
     func createNewUser(userId: String, name: String, secondName: String, organization: String) async throws
-    func getUserInfo(by id: String) async throws -> UserData
+    func getUserInfo(by id: String) async -> UserData?
     func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws
     func getOrganizationBy(_ id: String) async throws -> Organization
     func getAllOrganizations() async throws -> [Organization]
+    func updateUserEvents(with eventId: String, userId: String) async
 }
 
 final class DefaultFirebaseDatabse: FirebaseDatabse {
@@ -32,22 +34,43 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel {
         do {
             let ads = try await detAdvertisments()
-            let events = try await getEvents()
             let actuals = try await getActuals(nil)
-            return GlobalModel(ads: ads, events: events, actuals: actuals)
+            
+            //throw FirebaseError.fail
+            
+            return GlobalModel(ads: ads, actuals: actuals)
         } catch {
             throw error
         }
     }
     
-    func getEvents() async throws -> [GlobalModel.EventModel] {
+//    func getEventBy(_ id: String) async -> EventModel? {
+//        let ref = database.collection("volrota/global/events")
+//
+//        let documents = try? await ref.whereField("event_id", isEqualTo: id).getDocuments().documents
+//        let event = try? documents?.compactMap {
+//            try $0.data(as: EventModel.self)
+//        }.first
+//        return event
+//    }
+    
+    func getEvents(_ dictionary: [String: Any]?) async throws -> [EventsModel.EventModel] {
         let ref = database.collection("volrota/global/events")
         
         do {
             
-            let documentsRef = try await ref.getDocuments().documents
-            let events = try documentsRef.compactMap {
-                try $0.data(as: GlobalModel.EventModel.self)
+            var documents = [QueryDocumentSnapshot]()
+            
+            if let dictionary = dictionary {
+                for (key, value) in dictionary {
+                    documents = try await ref.whereField(key, isEqualTo: value).getDocuments().documents
+                }
+            } else {
+                documents = try await ref.getDocuments().documents
+            }
+            
+            let events = try documents.compactMap {
+                try $0.data(as: EventsModel.EventModel.self)
             }
             
             return events
@@ -63,6 +86,9 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         do {
             
             var documents = [QueryDocumentSnapshot]()
+            //cef82c5e-da84-11ed-afa1-0242ac120002
+            //df9c83fc-da84-11ed-afa1-0242ac120002
+            //eaca3a80-da84-11ed-afa1-0242ac120002
             
             if let dictionary = dictionary {
                 for (key, value) in dictionary {
@@ -120,16 +146,11 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         
     }
     
-    func getUserInfo(by id: String) async throws -> UserData {
+    func getUserInfo(by id: String) async -> UserData? {
         let collectionRef = database.collection("volrota/private/users")
-        
-        do {
-            let document = try await collectionRef.document(id).getDocument()
-            let user = try document.data(as: UserData.self)
-            return user
-        } catch {
-            throw error
-        }
+        let document = try? await collectionRef.document(id).getDocument()
+        let user = try? document?.data(as: UserData.self)
+        return user
     }
     
     func getOrganizationBy(_ id: String) async throws -> Organization {
@@ -175,6 +196,16 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         } catch {
             throw error
         }
+    }
+    
+    func updateUserEvents(with eventId: String, userId: String) async {
+        let collectionRef = database.collection("volrota/private/users")
+        let document = try? await collectionRef.document(userId).getDocument()
+        
+        var eventsIds = try? document?.data(as: UserData.self).eventsIds
+        eventsIds?.append(eventId)
+        
+        try? await document?.reference.updateData(["events_ids": eventsIds])
     }
 }
 

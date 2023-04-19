@@ -13,18 +13,16 @@ struct MainViewControllerProps {
     let locationViewProps: LocationViewProps?
     let mainViewControllerState: MainViewControllerState
     let profileViewProps: ProfileViewProps?
-    let actualTapCompletion: ((ActualProps) -> Void)?
+    let actualTapCompletion: ((IndexPath) -> Void)?
     let refreshCompletion: (() -> Void)?
     
     enum Section {
-        case news([NewsViewProps]?)
-        case events([EventViewProps]?)
-        case actual([ActualProps]?)
-        case header([HeaderProps]?)
+        case news([NewsViewProps])
+        case actual([ActualProps])
+        case header([HeaderProps])
     }
     
     enum MainViewControllerState {
-        
         case loading
         case error
         case success
@@ -38,14 +36,6 @@ struct MainViewControllerProps {
         let bannerBackgroundColor: UIColor
         let titleColor: UIColor
         let bannerTitleColor: UIColor
-    }
-    
-    struct EventViewProps {
-        
-        let eventTitle: String
-        let eventImageURL: String
-        let datePeriod: String
-        let placeFullName: String
     }
     
     struct ActualProps {
@@ -75,17 +65,32 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     var initialCompletion: (() -> Void)?
     var logOutAction: (() -> Void)?
     private var sections: [MainViewControllerProps.Section] = []
-    private var actualTapCompletion: ((MainViewControllerProps.ActualProps) -> Void)?
+    private var actualTapCompletion: ((IndexPath) -> Void)?
     private var refreshCompletion: (() -> Void)?
+    private var layoutSections: [MainSection] = [
+        NewsSection(),
+        ActualsSection()
+    ]
     
     // MARK: - Views
     private let profileView = ProfileView()
     private let locationView = LocationTrackingView()
-    private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
     private let errorView = ErrorView()
     private let loadingView = LoadingView()
-
+    
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: collectionViewLayout
+    )
+    
+    private lazy var collectionViewLayout: UICollectionViewLayout = {
+        let layout = UICollectionViewCompositionalLayout { (index, _) -> NSCollectionLayoutSection? in
+            return self.layoutSections[index].layoutSection()
+        }
+        return layout
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,19 +117,20 @@ private extension MainViewController {
             $0.view.backgroundColor = .white
         }
         
-        tableView.do {
+        collectionView.do {
             $0.delegate = self
             $0.dataSource = self
             $0.backgroundColor = .clear
-            $0.separatorStyle = .none
-            $0.register(cellWithClass: HorizontalTableViewCell.self)
-            $0.register(cellWithClass: ActualTableViewCell.self)
+            $0.register(cellWithClass: NewsCollectionViewCell.self)
+            $0.register(cellWithClass: ActualCollectionViewCell.self)
+            $0.register(supplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                        withClass: CollectionViewHeaderView.self
+            )
             $0.showsVerticalScrollIndicator = false
             $0.alwaysBounceVertical = true
         }
         
         refreshControl.do {
-            
             $0.tintColor = Colors.accentColor.color
             $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         }
@@ -139,8 +145,8 @@ private extension MainViewController {
     }
     
     func addViews() {
-        view.addSubviews([locationView, tableView, errorView, loadingView])
-        tableView.addSubviews([refreshControl])
+        view.addSubviews([locationView, collectionView, errorView, loadingView])
+        collectionView.addSubviews([refreshControl])
     }
     
     func setupConstraints() {
@@ -155,7 +161,7 @@ private extension MainViewController {
             $0.height.equalTo(50)
         }
         
-        tableView.snp.makeConstraints {
+        collectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.top.equalTo(locationView.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -195,12 +201,12 @@ private extension MainViewController {
         }
         
         let state = props.mainViewControllerState
-        tableView.animated(hide: state != .success)
+        collectionView.animated(hide: state != .success)
         errorView.animated(hide: state != .error)
         loadingView.animated(hide: state != .loading)
-        if !tableView.isHidden {
+        if !collectionView.isHidden {
             refreshControl.endRefreshing()
-            tableView.reloadData()
+            collectionView.reloadData()
         }
     }
     
@@ -214,101 +220,77 @@ private extension MainViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count - 1
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        sections.count - 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let item = sections[section]
         
-        if case .actual(let actuals) = item, let actuals = actuals {
-            return actuals.count
-        } else {
-            return 1
+        switch item {
+        case .news(let newsProps):
+            return newsProps.count
+        case .actual(let actualsProps):
+            return actualsProps.count
+        default:
+            return 0
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = sections[indexPath.section]
-        
-        if case .actual(let actuals) = item, let actuals = actuals {
-            let cell = tableView.dequeueCell(withClass: ActualTableViewCell.self, for: indexPath) as ActualTableViewCell
-            cell.render(with: actuals[indexPath.row])
-            return cell
-        } else {
-            let cell = tableView.dequeueCell(withClass: HorizontalTableViewCell.self, for: indexPath) as HorizontalTableViewCell
-            cell.render(with: item)
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = sections[indexPath.section]
-        
-        if case .news = item {
-            return 145
-        } else if case .events = item {
-            return 355
-        } else {
-            return 347
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let item = sections.filter {
-            if case .header = $0 {
-                return true
-            } else {
-                return false
-            }
-        }.first!
         
         switch item {
-        case .header(let headers):
-            let headerView = TableViewHeaderView()
-            if let current = headers?[section - 1] {
-                headerView.render(with: current)
-            }
-            return headerView
+        case .news(let newsProps):
+            let cell = collectionView.dequeueCell(with: indexPath) as NewsCollectionViewCell
+            cell.render(with: newsProps[indexPath.item])
+            return cell
+        case .actual(let actualsProps):
+            let cell = collectionView.dequeueCell(with: indexPath) as ActualCollectionViewCell
+            cell.render(with: actualsProps[indexPath.item])
+            return cell
         default:
-            return UIView()
+            return UICollectionViewCell()
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            return 0
-        default:
-            return 45
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.section == 2 {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //collectionView.deselectRow(at: indexPath, animated: false)
+        if indexPath.section == 1 {
             let section = sections[indexPath.section]
             
-            if case .actual(let actual) = section, let actual = actual {
-                DispatchQueue.main.async { [weak self] in
-                    self?.actualTapCompletion?(actual[indexPath.row])
-                }
+            if case .actual = section {
+                //DispatchQueue.main.async { [weak self] in
+                    self.actualTapCompletion?(indexPath)
+               // }
             }
         }
     }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 2 {
-            return 25
+}
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let item = sections.last
+        switch item {
+        case .header(let headerProps):
+            //if indexPath.section == 1 {
+                let headerView = collectionView.dequeueSupplementaryView(
+                    ofKind: kind,
+                    for: indexPath) as CollectionViewHeaderView
+                headerView.render(with: headerProps[indexPath.section - 1])
+                return headerView
+//            } else {
+//                let headerView = collectionView.dequeueSupplementaryView(
+//                    ofKind: kind,
+//                    for: indexPath) as CollectionViewHeaderView
+//                headerView.render(with: headerProps[indexPath.section])
+//                return headerView
+//            }
+        default:
+            return UICollectionReusableView()
         }
-        return 0
+        
     }
 }
 

@@ -12,7 +12,6 @@ import FirebaseFirestore
 struct GlobalModel: Codable {
     
     let ads: [AdsModel]
-    let events: [EventModel]
     let actuals: [ActualModel]
     
     // MARK: - AdsModel
@@ -35,26 +34,6 @@ struct GlobalModel: Codable {
         }
     }
     
-    // MARK: - EventModel
-    struct EventModel: Codable {
-        
-        let eventTitle: String
-        let eventImageURL: String
-        let startDate: Timestamp
-        let endDate: Timestamp
-        let lat: Double
-        let long: Double
-        
-        enum CodingKeys: String, CodingKey {
-            case eventTitle = "title"
-            case eventImageURL = "image"
-            case startDate = "start_date"
-            case endDate = "end_date"
-            case lat
-            case long
-        }
-    }
-    
     // MARK: - ActualModel
     struct ActualModel: Codable {
         
@@ -68,6 +47,32 @@ struct GlobalModel: Codable {
             case imageUrl = "image_url"
             case descriptionText = "description"
             case cityName = "city_name"
+        }
+    }
+}
+
+struct EventsModel: Codable {
+    let events: [EventModel]
+    
+    // MARK: - EventModel
+    struct EventModel: Codable {
+        
+        let eventTitle: String
+        let eventImageURL: String
+        let startDate: Timestamp
+        let endDate: Timestamp
+        let lat: Double
+        let long: Double
+        let eventId: String
+        
+        enum CodingKeys: String, CodingKey {
+            case eventTitle = "title"
+            case eventImageURL = "image"
+            case startDate = "start_date"
+            case endDate = "end_date"
+            case eventId = "event_id"
+            case lat
+            case long
         }
     }
 }
