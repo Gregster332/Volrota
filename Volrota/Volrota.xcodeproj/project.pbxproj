@@ -48,6 +48,9 @@
 		ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292829C605F10066EA22 /* ProfileCoordinator.swift */; };
 		ED10292B29C79FC10066EA22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */; };
 		ED10292E29C7B5A70066EA22 /* FirebaseDatabse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */; };
+		ED152BD329F7DB1A00513CD3 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD229F7DB1A00513CD3 /* ProgressView.swift */; };
+		ED152BD829F9001400513CD3 /* DropDownTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD729F9001400513CD3 /* DropDownTextField.swift */; };
+		ED152BDA29F9072D00513CD3 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD929F9072D00513CD3 /* AppConstants.swift */; };
 		ED1740F629E08B5A00077430 /* OrganizationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740F529E08B5A00077430 /* OrganizationsCell.swift */; };
 		ED1740F829E14F9600077430 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740F729E14F9600077430 /* UITextField+Extension.swift */; };
 		ED1740FE29E1AD9D00077430 /* EventsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740FB29E1AD9D00077430 /* EventsPresenter.swift */; };
@@ -166,6 +169,9 @@
 		ED10292829C605F10066EA22 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabse.swift; sourceTree = "<group>"; };
+		ED152BD229F7DB1A00513CD3 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		ED152BD729F9001400513CD3 /* DropDownTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTextField.swift; sourceTree = "<group>"; };
+		ED152BD929F9072D00513CD3 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		ED1740F529E08B5A00077430 /* OrganizationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationsCell.swift; sourceTree = "<group>"; };
 		ED1740F729E14F9600077430 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		ED1740FB29E1AD9D00077430 /* EventsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsPresenter.swift; sourceTree = "<group>"; };
@@ -349,6 +355,7 @@
 				642F15AA295ED44200E199F9 /* SceneDelegate.swift */,
 				642F15A8295ED44200E199F9 /* AppDelegate.swift */,
 				642F15C9295EFB8E00E199F9 /* Dependencies.swift */,
+				ED152BD929F9072D00513CD3 /* AppConstants.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -490,6 +497,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		ED152BD629F8FFFA00513CD3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ED152BD729F9001400513CD3 /* DropDownTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		ED1740F929E1671700077430 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -525,6 +540,7 @@
 				ED96F5EC29D74CD500C68BDC /* BorderedButton.swift */,
 				ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */,
 				ED08A37529C999F600DC9487 /* LocationTrackingView.swift */,
+				ED152BD229F7DB1A00513CD3 /* ProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -704,6 +720,7 @@
 		ED96F5E529D74BC900C68BDC /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				ED152BD629F8FFFA00513CD3 /* Views */,
 				ED96F5E629D74BD700C68BDC /* AuthPresenter.swift */,
 				ED96F5E729D74BD700C68BDC /* AuthViewController.swift */,
 				ED96F5E829D74BD700C68BDC /* AuthBuilder.swift */,
@@ -886,6 +903,7 @@
 			files = (
 				ED455B1A29C483A0003C0A0E /* HelperViewController.swift in Sources */,
 				ED43B22529E9BF79005A386E /* EventLocationCell.swift in Sources */,
+				ED152BDA29F9072D00513CD3 /* AppConstants.swift in Sources */,
 				ED43B21B29E91D29005A386E /* EventDetailViewController.swift in Sources */,
 				ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */,
 				ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */,
@@ -900,6 +918,7 @@
 				ED1740F629E08B5A00077430 /* OrganizationsCell.swift in Sources */,
 				ED08A37A29C9B39F00DC9487 /* Strings.swift in Sources */,
 				EDD67FCD29C42AEE00529FF3 /* CollectionViewHeaderView.swift in Sources */,
+				ED152BD829F9001400513CD3 /* DropDownTextField.swift in Sources */,
 				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
 				ED43B21C29E91D29005A386E /* EventDetailBuilder.swift in Sources */,
 				ED96F5FB29D80DD500C68BDC /* TypingCell.swift in Sources */,
@@ -916,6 +935,7 @@
 				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
 				ED08A36129C83BDA00DC9487 /* Date+Extension.swift in Sources */,
 				ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */,
+				ED152BD329F7DB1A00513CD3 /* ProgressView.swift in Sources */,
 				ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */,
 				ED08A37029C8984D00DC9487 /* UIColor+Extension.swift in Sources */,
 				ED96F5F129D75BB900C68BDC /* Alert.swift in Sources */,

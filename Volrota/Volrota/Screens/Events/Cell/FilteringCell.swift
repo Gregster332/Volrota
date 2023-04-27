@@ -12,6 +12,7 @@ class FilteringCell: UICollectionViewCell {
     override var isSelected: Bool {
         willSet {
             contentView.backgroundColor = newValue ? Colors.accentColor.color : UIColor.systemGray6
+            titleLabel.textColor = newValue ? .white : .black
         }
     }
     
@@ -44,7 +45,7 @@ private extension FilteringCell {
         }
         
         titleLabel.do {
-            $0.textColor = .white
+            $0.textColor = .black
             $0.font = UIFont.systemFont(ofSize: 15, weight: .medium)
             $0.textAlignment = .center
         }

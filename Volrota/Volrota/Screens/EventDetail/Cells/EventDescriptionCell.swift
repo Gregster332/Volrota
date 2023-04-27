@@ -27,8 +27,8 @@ class EventDescriptionCell: UICollectionViewCell {
     
     func render(with props: EventDetailViewControllerProps.DescriptionSection) {
         descriptionLabel.text = props.descriptionText
-        startDateLabel.text = "Начало: " + props.startDate
-        endDateLabel.text = "Конец: " + props.endDate
+        startDateLabel.text = Strings.EventDescription.startAt + props.startDate
+        endDateLabel.text = Strings.EventDescription.endAt + props.endDate
     }
 }
 

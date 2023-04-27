@@ -10,10 +10,8 @@ import UIKit
 struct EventsViewControllerProps {
     let events: [EventsSection]
     let eventTapCompletion: ((IndexPath) -> Void)?
-    let filterTapCompletiom: ((Int) -> Void)?
     
     enum EventsSection {
-        case filter([String])
         case events([EventItem])
     }
     
@@ -32,23 +30,22 @@ protocol EventsViewControllerProtocol: AnyObject {
 final class EventsViewController: UIViewController, EventsViewControllerProtocol {
     
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: EventsPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
     private var sections: [EventsViewControllerProps.EventsSection] = []
     private var eventTapCompletion: ((IndexPath) -> Void)?
-    private var filterTapCompletiom: ((Int) -> Void)?
     
     // MARK: - Views
     private let layout = UICollectionViewLayout()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let filterButton = UIButton()
 
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        //setNavigationBar()
         setupConstraints()
         presenter.initialize()
     }
@@ -57,23 +54,23 @@ final class EventsViewController: UIViewController, EventsViewControllerProtocol
     func render(with props: EventsViewControllerProps) {
         sections = props.events
         eventTapCompletion = props.eventTapCompletion
-        filterTapCompletiom = props.filterTapCompletiom
-        if collectionView.numberOfSections > 0 {
-            collectionView.reloadSections(IndexSet(integer: 1))
-        } else {
-            collectionView.reloadData()
-        }
+//        if collectionView.numberOfSections > 0 {
+//            collectionView.reloadSections(IndexSet(integer: 1))
+//        } else {
+//            collectionView.reloadData()
+//        }
+        collectionView.reloadData()
+        collectionView.isUserInteractionEnabled = true
     }
 }
 
 // MARK: - Private Methods
-
 private extension EventsViewController {
     
     func setupView() {
         
         self.do {
-            $0.title = "Мероприятия"
+            $0.title = Strings.Events.navTitle
         }
         
         view.do {
@@ -88,7 +85,16 @@ private extension EventsViewController {
             $0.dataSource = self
             $0.delegate = self
             $0.collectionViewLayout = createLayout()
+            $0.allowsMultipleSelection = true
         }
+        
+        filterButton.do {
+            $0.menu = createMenu()
+            $0.showsMenuAsPrimaryAction = true
+            $0.setImage(UIImage(systemName: "slider.vertical.3"), for: .normal)
+        }
+        
+        setNavigationBar()
     }
     
     func setupConstraints() {
@@ -99,13 +105,17 @@ private extension EventsViewController {
         }
     }
     
+    func setNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
+    }
+    
     func createLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
-            if index == 0 {
-                return self?.createFilterSection()
-            } else {
+            //if index == 0 {
                 return self?.createSection()
-            }
+            //} else {
+             //   return self?.createSection()
+            //}
         }
         return layout
     }
@@ -138,53 +148,41 @@ private extension EventsViewController {
         return section
     }
     
-    func createFilterSection() -> NSCollectionLayoutSection {
-        let spacing: CGFloat = 8
+    func createMenu(actionTitle: String? = nil) -> UIMenu {
+        let menu = UIMenu(title: "Фильтры", options: [.displayInline], children: [
+            UIAction(title: "Уже участвую") { [unowned self] action in
+                self.presenter.filterEvents(with: 0)
+                self.filterButton.menu = self.createMenu(actionTitle: action.title)
+            },
+            UIAction(title: "Скоро истечет") { [unowned self] action in
+                self.presenter.filterEvents(with: 1)
+                self.filterButton.menu = self.createMenu(actionTitle: action.title)
+            },
+            UIAction(title: "Только локальные") { [unowned self] action in
+                self.presenter.filterEvents(with: 2)
+                self.filterButton.menu = self.createMenu(actionTitle: action.title)
+            }
+        ])
         
-        let item = NSCollectionLayoutItem(
-            layoutSize: .init(
-                widthDimension: .estimated(100),
-                heightDimension: .absolute(35)
-            )
-        )
+        if let actionTitle = actionTitle {
+            menu.children.forEach { action in
+                guard let action = action as? UIAction else {
+                    return
+                }
+                if action.title == actionTitle {
+                    action.state = .on
+                }
+            }
+        }
         
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(35)
-            ),
-            subitems: [item]
-        )
-        group.interItemSpacing = .fixed(spacing)
-        
-        let section = NSCollectionLayoutSection(
-            group: group
-        )
-        section.contentInsets = .init(top: 8, leading: 16, bottom: 8, trailing: 16)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = spacing
-        
-        return section
+        return menu
     }
-    
-    // MARK: - UI Actions
-
 }
 
 extension EventsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
             eventTapCompletion?(indexPath)
-        } else {
-            let cell = collectionView.cellForItem(at: indexPath)
-            if ((cell?.isSelected) != nil) {
-                filterTapCompletiom?(indexPath.item)
-                //
-            } else {
-                collectionView.deselectItem(at: indexPath, animated: true)
-            }
-            
-        }
+            collectionView.deselectItem(at: indexPath, animated: false)
     }
 }
 
@@ -197,8 +195,6 @@ extension EventsViewController: UICollectionViewDataSource {
         let section = sections[section]
         
         switch section {
-        case .filter(let filters):
-            return filters.count
         case .events(let events):
             return events.count
         }
@@ -208,11 +204,6 @@ extension EventsViewController: UICollectionViewDataSource {
         let section = sections[indexPath.section]
         
         switch section {
-        case .filter(let filters):
-            let item = filters[indexPath.item]
-            let cell = collectionView.dequeueCell(with: indexPath) as FilteringCell
-            cell.render(with: item)
-            return cell
         case .events(let events):
             let item = events[indexPath.item]
             let cell = collectionView.dequeueCell(with: indexPath) as EventCell

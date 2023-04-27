@@ -10,6 +10,7 @@ import MapKit
 struct MapViewControllerProps {
     let annotations: [MKPointAnnotation]
     var route: MKRoute?
+    let handleTapOnCloseCompletion: (() -> Void)?
 }
 
 protocol MapViewControllerProtocol: AnyObject {
@@ -23,10 +24,11 @@ final class MapViewController: UIViewController, MapViewControllerProtocol {
     var presenter: MapPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
     private var annotations: [MKPointAnnotation] = []
+    private var handleTapOnCloseCompletion: (() -> Void)?
     
     // MARK: - Views
     private let mapView = MKMapView()
-    private let closeButton = UIButton()
+    private let closeButton = UIButton(type: .close)
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -37,6 +39,7 @@ final class MapViewController: UIViewController, MapViewControllerProtocol {
     
     // MARK: - Methods
     func render(with props: MapViewControllerProps) {
+        handleTapOnCloseCompletion = props.handleTapOnCloseCompletion
         mapView.showAnnotations(props.annotations, animated: true)
         
         if let route = props.route {
@@ -63,18 +66,35 @@ private extension MapViewController {
             $0.showsScale = true
             $0.showsUserLocation = true
         }
+        
+        closeButton.do {
+            $0.setImage(Images.close.image, for: .normal)
+            $0.addTarget(
+                self,
+                action: #selector(handleTapOnClose),
+                for: .touchUpInside
+            )
+        }
     }
     
     func setupConstraints() {
         view.addSubview(mapView)
+        view.addSubview(closeButton)
         
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        closeButton.snp.makeConstraints {
+            $0.size.equalTo(40)
+            $0.top.trailing.equalToSuperview().inset(12)
+        }
     }
     
     // MARK: - UI Actions
-
+    @objc func handleTapOnClose() {
+        handleTapOnCloseCompletion?()
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {

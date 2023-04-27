@@ -32,7 +32,14 @@ final class SignUpPresenter: SignUpPresenterProtocol {
     private var selectedOrganizationId: String = ""
     
     // MARK: - Initialize
-    init(view: SignUpViewControllerProtocol, router: WeakRouter<AuthRoute>, authenticationService: AuthService, database: FirebaseDatabse, keyChainAccess: KeychainService, firebaseStorageSrevice: FirebaseStorage) {
+    init(
+        view: SignUpViewControllerProtocol,
+        router: WeakRouter<AuthRoute>,
+        authenticationService: AuthService,
+        database: FirebaseDatabse,
+        keyChainAccess: KeychainService,
+        firebaseStorageSrevice: FirebaseStorage
+    ) {
         self.view = view
         self.router = router
         self.authenticationService = authenticationService
@@ -75,7 +82,7 @@ final class SignUpPresenter: SignUpPresenterProtocol {
                 keyChainAccess.userPassword = password
                 
                 if !createdUser.uid.isEmpty {
-                    try await database.createNewUser(userId: createdUser.uid, name: name, secondName: secondName, organization: selectedOrganizationId)
+                    try await database.createNewUser(userId: createdUser.uid, name: name, secondName: secondName, organization: selectedOrganizationId, imageUrl: nil)
                     
                     try await uploadImage(image)
                     

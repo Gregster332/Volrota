@@ -30,20 +30,16 @@ class EventSubscriptionCell: UICollectionViewCell {
         didTapOnSubscribe = props.didTapOnSubscribe
         switch props.state {
         case .available:
-            titleLabel.text = "Событие доступно"
+            titleLabel.text = Strings.EventDetail.eventAvailable
             titleLabel.textColor = .systemGreen
             subscribeButton.backgroundColor = Colors.accentColor.color
-        case .expireSoon:
-            titleLabel.text = "Скоро истечет"
-            titleLabel.textColor = .systemYellow
-            subscribeButton.backgroundColor = Colors.accentColor.color
         case .expired:
-            titleLabel.text = "Не актуально"
+            titleLabel.text = Strings.EventDetail.eventExpired
             titleLabel.textColor = .systemRed
             subscribeButton.backgroundColor = .systemGray5
             subscribeButton.isEnabled = false
         case .subscribed:
-            titleLabel.text = "Вы уже учавствуете"
+            titleLabel.text = Strings.EventDetail.alreadySusbcribed
             titleLabel.textColor = .systemBlue
             subscribeButton.backgroundColor = .systemGray5
             subscribeButton.isEnabled = false
@@ -66,7 +62,7 @@ private extension EventSubscriptionCell {
         }
         
         subscribeButton.do {
-            $0.setTitle("Учавствовать", for: .normal)
+            $0.setTitle(Strings.EventDescription.subscribe, for: .normal)
             $0.setTitleColor(.white, for: .normal)
             $0.layer.cornerRadius = 12
             $0.addTarget(self, action: #selector(handleTapOnSubscribe), for: .touchUpInside)

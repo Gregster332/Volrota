@@ -14,11 +14,10 @@ protocol FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel
     func getEvents(_ dictionary: [String: Any]?) async throws -> [EventsModel.EventModel]
     func getActuals(_ dictionary: [String: Any]?) async throws -> [GlobalModel.ActualModel]
-    //func getEventBy(_ id: String) async -> GlobalModel.EventModel?
-    func createNewUser(userId: String, name: String, secondName: String, organization: String) async throws
+    func createNewUser(userId: String, name: String, secondName: String, organization: String, imageUrl: String?) async throws
     func getUserInfo(by id: String) async -> UserData?
     func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws
-    func getOrganizationBy(_ id: String) async throws -> Organization
+    func getOrganizationBy(_ id: String) async -> Organization?
     func getAllOrganizations() async throws -> [Organization]
     func updateUserEvents(with eventId: String, userId: String) async
 }
@@ -43,16 +42,6 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
             throw error
         }
     }
-    
-//    func getEventBy(_ id: String) async -> EventModel? {
-//        let ref = database.collection("volrota/global/events")
-//
-//        let documents = try? await ref.whereField("event_id", isEqualTo: id).getDocuments().documents
-//        let event = try? documents?.compactMap {
-//            try $0.data(as: EventModel.self)
-//        }.first
-//        return event
-//    }
     
     func getEvents(_ dictionary: [String: Any]?) async throws -> [EventsModel.EventModel] {
         let ref = database.collection("volrota/global/events")
@@ -86,9 +75,6 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         do {
             
             var documents = [QueryDocumentSnapshot]()
-            //cef82c5e-da84-11ed-afa1-0242ac120002
-            //df9c83fc-da84-11ed-afa1-0242ac120002
-            //eaca3a80-da84-11ed-afa1-0242ac120002
             
             if let dictionary = dictionary {
                 for (key, value) in dictionary {
@@ -113,7 +99,8 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         userId: String,
         name: String,
         secondName: String,
-        organization: String
+        organization: String,
+        imageUrl: String?
     ) async throws {
         
         let collectionRef = database.collection("volrota/private/users")
@@ -125,7 +112,8 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
             data["name"] = name
             data["second_name"] = secondName
             data["organization_id"] = organization
-            data["image_url"] = ""
+            data["image_url"] = imageUrl ?? ""
+            data["events_ids"] = [String]()
             try await document.setData(data)
         } catch {
             throw error
@@ -153,17 +141,14 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         return user
     }
     
-    func getOrganizationBy(_ id: String) async throws -> Organization {
-        
-        let collection = database.collection("volrota/global/organizations")
-        
-        do {
-            let document = try await collection.document(id).getDocument()
-            let organization = try document.data(as: Organization.self)
-            return organization
-        } catch {
-            throw error
+    func getOrganizationBy(_ id: String) async -> Organization? {
+        if id.isEmpty {
+            return nil
         }
+        let collection = database.collection("volrota/global/organizations")
+        let document = try? await collection.document(id).getDocument()
+        let organization = try? document?.data(as: Organization.self)
+        return organization
     }
     
     func getAllOrganizations() async throws -> [Organization] {
@@ -204,7 +189,6 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         
         var eventsIds = try? document?.data(as: UserData.self).eventsIds
         eventsIds?.append(eventId)
-        
         try? await document?.reference.updateData(["events_ids": eventsIds])
     }
 }

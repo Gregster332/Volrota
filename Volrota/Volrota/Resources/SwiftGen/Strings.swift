@@ -10,6 +10,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum Strings {
+  public enum Actuals {
+    /// Актуальные
+    public static let navTitle = Strings.tr("Localizable", "actuals.navTitle", fallback: "Актуальные")
+  }
   public enum Auth {
     /// Отмена
     public static let cancel = Strings.tr("Localizable", "auth.cancel", fallback: "Отмена")
@@ -33,6 +37,32 @@ public enum Strings {
     public static let prompt = Strings.tr("Localizable", "auth.prompt", fallback: "Войдите или зарегистрируйтесь через почту и пароль")
     /// Войти
     public static let signIn = Strings.tr("Localizable", "auth.signIn", fallback: "Войти")
+  }
+  public enum EventDescription {
+    /// Конец: 
+    public static let endAt = Strings.tr("Localizable", "eventDescription.endAt", fallback: "Конец: ")
+    /// Начало: 
+    public static let startAt = Strings.tr("Localizable", "eventDescription.startAt", fallback: "Начало: ")
+    /// Участвовать
+    public static let subscribe = Strings.tr("Localizable", "eventDescription.subscribe", fallback: "Участвовать")
+  }
+  public enum EventDetail {
+    /// Вы уже учавствуете
+    public static let alreadySusbcribed = Strings.tr("Localizable", "eventDetail.alreadySusbcribed", fallback: "Вы уже учавствуете")
+    /// Событие доступно
+    public static let eventAvailable = Strings.tr("Localizable", "eventDetail.eventAvailable", fallback: "Событие доступно")
+    /// Не актуально
+    public static let eventExpired = Strings.tr("Localizable", "eventDetail.eventExpired", fallback: "Не актуально")
+  }
+  public enum Events {
+    /// Уже учавствую
+    public static let alreadySubscribed = Strings.tr("Localizable", "events.alreadySubscribed", fallback: "Уже учавствую")
+    /// Скоро истечет
+    public static let expiredSoon = Strings.tr("Localizable", "events.expiredSoon", fallback: "Скоро истечет")
+    /// Мероприятия
+    public static let navTitle = Strings.tr("Localizable", "events.navTitle", fallback: "Мероприятия")
+    /// Только локальные
+    public static let near = Strings.tr("Localizable", "events.near", fallback: "Только локальные")
   }
   public enum Main {
     /// Актуальное

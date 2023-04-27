@@ -49,7 +49,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         loadUserInfoTask = Task {
             do {
                 let user = await databse.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
-                let organization = try await databse.getOrganizationBy(user?.organizationId ?? "")
+                let organization = await databse.getOrganizationBy(user?.organizationId ?? "")
                 
                 let props = ProfileProps(
                     isLoading: false,
@@ -74,8 +74,8 @@ final class ProfilePresenter: ProfilePresenterProtocol {
                         ProfileProps.AboutHeaderViewProps(
                             profileImageUrl: user?.profileImageUrl ?? "",
                             fullName: (user?.name ?? "") + " " + (user?.secondName ?? ""),
-                            organizationName: organization.name,
-                            organizationImageUrl: organization.imageUrl
+                            organizationName: organization?.name ?? "",
+                            organizationImageUrl: organization?.imageUrl ?? ""
                         )
                     
                 )
@@ -93,11 +93,11 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     
     func logOut() {
         loadUserInfoTask?.cancel()
-        keyChainService.userEmail = nil
-        keyChainService.userPassword = nil
         authenticationService.logOut()
-        NotificationCenter.default.post(name: .logOut, object: nil)
-        router.trigger(.pop)
+        keyChainService.clear() {
+            NotificationCenter.default.post(name: .logOut, object: nil)
+            self.router.trigger(.pop)
+        }
     }
     
     private func getDefaultProps(_ isLoading: Bool) -> ProfileProps {

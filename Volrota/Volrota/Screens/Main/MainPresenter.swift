@@ -83,7 +83,6 @@ final class MainPresenter {
                     by: authenticationService.currentUser?.uid ?? ""
                 )?.profileImageUrl
                 
-                //let formattedEvents = format(globalModel.events)
                 let convertedAds = formattedAds(globalModel.ads)
                 let convertedActuals = formattedActuals(globalModel.actuals)
                 
@@ -163,23 +162,6 @@ private extension MainPresenter {
         
         return formattedActuals
     }
-    
-//    func format(_ events: [GlobalModel.EventModel]) -> [MainViewControllerProps.EventViewProps] {
-//        return events.map {
-//            let location = CLLocation(
-//                latitude: $0.lat,
-//                longitude: $0.long
-//            ).fetchPlaceFullName()
-//            let props = MainViewControllerProps.EventViewProps(
-//                eventTitle: $0.eventTitle,
-//                eventImageURL: $0.eventImageURL,
-//                datePeriod: Date.datePeriod(
-//                    from: $0.startDate.dateValue(),
-//                    endDate: $0.endDate.dateValue()),
-//                placeFullName: "\(location?.locality ?? ""), \(location?.name ?? "")")
-//            return props
-//        }
-//    }
     
     func openProfile() {
         router.trigger(.profile)

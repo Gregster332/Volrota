@@ -22,7 +22,6 @@ struct EventDetailViewControllerProps {
     enum State {
         case subscribed
         case expired
-        case expireSoon
         case available
     }
     
@@ -55,7 +54,6 @@ protocol EventDetailViewControllerProtocol: AnyObject {
 final class EventDetailViewController: UIViewController, EventDetailViewControllerProtocol {
     
     // MARK: - Properties
-    
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: EventDetailPresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
@@ -69,7 +67,6 @@ final class EventDetailViewController: UIViewController, EventDetailViewControll
     private var didTapOnLocation: (() -> Void)?
     
     // MARK: - Views
-    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
@@ -83,7 +80,6 @@ final class EventDetailViewController: UIViewController, EventDetailViewControll
     }()
     
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -99,7 +95,6 @@ final class EventDetailViewController: UIViewController, EventDetailViewControll
 }
 
 // MARK: - Private Methods
-
 private extension EventDetailViewController {
     
     func setupView() {
@@ -128,9 +123,6 @@ private extension EventDetailViewController {
             $0.horizontalEdges.bottom.equalToSuperview()
         }
     }
-    
-    // MARK: - UI Actions
-
 }
 
 extension EventDetailViewController: UICollectionViewDelegate {
