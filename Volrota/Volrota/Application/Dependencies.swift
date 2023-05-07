@@ -19,10 +19,9 @@ extension SceneDelegate {
         let applicationState = UserDefaultsApplicationState()
         
         let locationService = DefaultLocationService()
-        
-        let authenticationService = DefaultAuthService()
-        
         let keyChainService = DefaultKeychainService()
+        
+        let authenticationService = DefaultAuthService(keychainService: keyChainService)
         
         let firebaseStorageService = DefaultFirebaseStorage()
         

@@ -9,6 +9,7 @@ import Kingfisher
 
 class EventCell: UICollectionViewCell {
     
+    // MARK: - Views
     private let image = UIImageView()
     private let titleLabel = UILabel()
     private let dateLabel = UILabel()
@@ -16,6 +17,7 @@ class EventCell: UICollectionViewCell {
     private let placeLabel = UILabel()
     private let placeStackView = UIStackView()
     
+    // MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -28,8 +30,8 @@ class EventCell: UICollectionViewCell {
         setupConstraints()
     }
     
+    // MARK: - Methods
     func render(with props: EventsViewControllerProps.EventItem) {
-        let processor = DownsamplingImageProcessor(size: image.bounds.size)
         image.kf.setImage(
             with: URL(string: props.imageUrl)
         )
@@ -39,6 +41,7 @@ class EventCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Private Methods
 private extension EventCell {
     
     func setupView() {
@@ -72,7 +75,6 @@ private extension EventCell {
         let dateImage = UIImageView()
         dateImage.image = Images.dateImage.image
         dateImage.contentMode = .scaleAspectFill
-        //dateImage.frame.size = CGSize(width: 14, height: 14)
         
         dateImage.snp.makeConstraints {
             $0.size.equalTo(14)

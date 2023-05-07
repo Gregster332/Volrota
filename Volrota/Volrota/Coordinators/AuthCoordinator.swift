@@ -43,7 +43,8 @@ final class AuthCoordinator: NavigationCoordinator<AuthRoute> {
         let auth = AuthBuilder.build(
             router: weakRouter,
             authenticationService: dependencies.authenticationService,
-            keyChainService: dependencies.keyChainService
+            keyChainService: dependencies.keyChainService,
+            database: dependencies.firebaseDatabse
         )
         return auth
     }

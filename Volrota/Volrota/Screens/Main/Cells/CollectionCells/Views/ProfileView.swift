@@ -9,7 +9,7 @@ import Kingfisher
 
 struct ProfileViewProps {
     let navTitle: String
-    let profileImageUrl: String
+    var profileImageUrl: String
     let profileTapCompletion: (() -> Void)?
 }
 

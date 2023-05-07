@@ -5,12 +5,13 @@
 //  Created by Greg Zenkov on 3/31/23.
 //
 
-import Foundation
 import XCoordinator
+import FirebaseAuth
 
 protocol AuthPresenterProtocol: AnyObject {
     func initialAction()
-    func signIn(_ email: String, _ password: String)
+    func signIn(_ email: String?, _ password: String?)
+    func signInWithGoggle(view: UIViewController)
 }
 
 final class AuthPresenter: AuthPresenterProtocol {
@@ -21,70 +22,93 @@ final class AuthPresenter: AuthPresenterProtocol {
     private let router: WeakRouter<AuthRoute>
     private let authenticationService: AuthService
     private var keyChainService: KeychainService
+    private let database: FirebaseDatabse
     
-    // MARK: - Initialize
-    init(
-        view: AuthViewControllerProtocol,
-        router: WeakRouter<AuthRoute>,
-        authenticationService: AuthService,
-        keyChainService: KeychainService
-    ) {
-        self.view = view
-        self.router = router
-        self.authenticationService = authenticationService
-        self.keyChainService = keyChainService
-    }
-    
-    func initialAction() {
-        let props = getDefaultProps(true)
-        view?.render(with: props)
-        Task {
-            do {
-                if let _ = authenticationService.currentUser {
-                    let user = try await authenticationService.signIn(
-                        keyChainService.userEmail ?? "",
-                        keyChainService.userPassword ?? ""
-                    )
-                    if !user.isEmpty {
-                        openMainScreen()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        let props = self.getDefaultProps(false)
-                        self.view?.render(with: props)
-                    }
-                }
-            } catch {
+    private var lastUsedProps: AuthViewControllerProps? {
+        didSet {
+            if let props = lastUsedProps {
                 DispatchQueue.main.async {
-                    let props = self.getDefaultProps(false)
                     self.view?.render(with: props)
                 }
             }
         }
     }
     
-    func signIn(_ email: String, _ password: String) {
+    // MARK: - Initialize
+    init(
+        view: AuthViewControllerProtocol,
+        router: WeakRouter<AuthRoute>,
+        authenticationService: AuthService,
+        keyChainService: KeychainService,
+        database: FirebaseDatabse
+    ) {
+        self.view = view
+        self.router = router
+        self.authenticationService = authenticationService
+        self.keyChainService = keyChainService
+        self.database = database
+    }
+    
+    func initialAction() {
         
-        let props = getDefaultProps(true)
+        if let currentUser = authenticationService.currentUser, currentUser.isAnonymous {
+            router.trigger(.signUp)
+        }
+        
+        let props = getDefaultProps(
+            true,
+            state: .success
+        )
+        
+        lastUsedProps = props
+    }
+    
+    func signIn(_ email: String?, _ password: String?) {
+        
+        guard let email = email, let password = password else {
+            return
+        }
+        
+        let props = getDefaultProps(true, state: .success)
         view?.render(with: props)
         
         Task {
-            do {
-                let userId = try await authenticationService.signIn(email, password)
+            let userId = await authenticationService.signIn(email, password)
+            
+            if let userId = userId, !userId.isEmpty {
                 
-                if !userId.isEmpty {
-                    
-                    keyChainService.userEmail = email
-                    keyChainService.userPassword = password
-                    
-                    openMainScreen()
-                }
-            } catch {
-                let props = getDefaultProps(false)
+                keyChainService.userEmail = email
+                keyChainService.userPassword = password
+                
+                openMainScreen()
+            } else {
+                let props = getDefaultProps(false, state: .failure)
                 DispatchQueue.main.async {
                     self.showFailureAlert()
                     self.view?.render(with: props)
                 }
+            }
+        }
+    }
+    
+    @MainActor
+    func signInWithGoggle(view: UIViewController) {
+        Task {
+            do {
+                let googleUser = try await authenticationService.signInWithGoogle(vc: view)
+                if googleUser.email == keyChainService.userEmail {
+                    let id = await authenticationService.signIn(
+                        googleUser.email ?? "",
+                        keyChainService.userPassword ?? ""
+                    )
+                    openMainScreen()
+                } else {
+                    DispatchQueue.main.async {
+                        self.showFailureToSignInWithGoogle()
+                    }
+                }
+            } catch {
+                print(error)
             }
         }
     }
@@ -93,30 +117,16 @@ final class AuthPresenter: AuthPresenterProtocol {
 // MARK: - Private Methods
 private extension AuthPresenter {
     
-    func getDefaultProps(_ isLoading: Bool) -> AuthViewControllerProps {
+    func getDefaultProps(_ isLoading: Bool, state: AuthViewControllerProps.AuthState) -> AuthViewControllerProps {
         
         let props = AuthViewControllerProps(
-            sections: [
-                AuthViewControllerProps.TypingSection(
-                    title: Strings.Auth.emailAddress,
-                    cellProps: TypingCellProps(
-                        tag: 0,
-                        placeholder: Strings.Auth.emailAddressPlaceholder
-                    )
-                ),
-                AuthViewControllerProps.TypingSection(
-                    title: Strings.Auth.password,
-                    cellProps: TypingCellProps(
-                        tag: 1,
-                        placeholder: Strings.Auth.passwordPlaceholder
-                    )
-                )
-            ],
-            titleText: isLoading ? Strings.Auth.fewSeconds : Strings.Auth.prompt,
+            state: state,
             signUpButtonAction: openSignUpScreen,
             borderedButtonProps: BorderedButtonProps(
-                text: Strings.Auth.signIn,
-                isLoading: isLoading
+                text: Strings.Auth.signIn
+            ),
+            signInWithGoogleButtonProps: BorderedButtonProps(
+                text: "Google"
             )
         )
         return props
@@ -149,15 +159,26 @@ private extension AuthPresenter {
         router.trigger(.alert(alert))
     }
     
+    func showFailureToSignInWithGoogle() {
+        let action = Alert.Action(title: "Ok", style: .cancel, action: nil)
+        let alert = Alert(title: "Не удалось войти через гугл", message: "Попробуйте вход по логину/паролю", style: .alert, actions: [action])
+        router.trigger(.alert(alert))
+    }
+    
     func createAccount() {
         router.trigger(.signUp)
     }
     
     func openMainScreen() {
-        let props = getDefaultProps(false)
+        let props = getDefaultProps(false, state: .success)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.view?.render(with: props)
             self?.router.trigger(.tabbar)
         }
+    }
+    
+    @MainActor
+    func render(with props: AuthViewControllerProps) {
+        view?.render(with: props)
     }
 }

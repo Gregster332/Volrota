@@ -10,7 +10,6 @@ import XCoordinator
 enum MainRoute: Route {
     case main
     case profile
-    //case events
     case actuals
     case actualDetail(GlobalModel.ActualModel)
     case appSettings
@@ -33,11 +32,7 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
             return .set([mainViewController])
         case .profile:
             let profile = profile()
-            addChild(profile)
-            return .none()
-//        case .events:
-//            let events = events()
-//            return .push(events)
+            return .presentFullScreen(profile)
         case .actuals:
             let actuals = actuals()
             return .push(actuals)
@@ -80,25 +75,6 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
         return actualDetail
     }
     
-//    private func eventDetail(eventModel: GlobalModel.EventModel) -> UIViewController {
-//        let eventDetail = EventDetailBuilder.build(
-//            router: weakRouter,
-//            model: eventModel,
-//            database: dependencies.firebaseDatabse,
-//            authenticationService: dependencies.authenticationService
-//        )
-//        return eventDetail
-//    }
-    
-//    private func events() -> UIViewController {
-//        let events = EventsBuilder.build(
-//            router: weakRouter,
-//            databaseService: dependencies.firebaseDatabse,
-//            authenticationService: dependencies.authenticationService
-//        )
-//        return events
-//    }
-    
     private func actuals() -> UIViewController {
         let actuals = ActualsBuilder.build(
             router: weakRouter,
@@ -106,14 +82,4 @@ final class MainCoordinator: NavigationCoordinator<MainRoute> {
         )
         return actuals
     }
-    
-//    private func map(lat: Double, long: Double) -> UIViewController {
-//        let map = MapBuilder.build(
-//            router: weakRouter,
-//            locationService: dependencies.locationService,
-//            latitude: lat,
-//            longitude: long
-//        )
-//        return map
-//    }
 }

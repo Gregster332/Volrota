@@ -1,5 +1,5 @@
 //
-//  ProfileTableViewCell.swift
+//  OptionsViewCell.swift
 //  Volrota
 //
 //  Created by Greg Zenkov on 3/18/23.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ProfileTableViewCell: UITableViewCell {
+class OptionsViewCell: UICollectionViewCell {
     
     // MARK: - Views
     private let titleLabel = UILabel()
     
     // MARK: - Initialize
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
         addViews()
         setupConstraints()
@@ -28,42 +28,37 @@ class ProfileTableViewCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    func render(with props: ProfileProps.ProfileSettingsCell) {
+    func render(with props: ProfileViewControllerProps.ProfileSettingsCell) {
         titleLabel.text = props.title
         titleLabel.textColor = props.textColor
     }
 }
 
 // MARK: - Private Methods
-private extension ProfileTableViewCell {
+private extension OptionsViewCell {
     
     func setupView() {
         
-        self.do {
-            $0.selectionStyle = .none
-        }
-        
         contentView.do {
             $0.backgroundColor = .systemGray6
+            $0.layer.cornerRadius = 12
         }
         
         titleLabel.do {
             $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-            $0.textAlignment = .center
+            $0.textAlignment = .left
             $0.textColor = .black
         }
     }
     
     func addViews() {
-        
         contentView.addSubviews([titleLabel])
     }
     
     func setupConstraints() {
-        
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(8)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
     }
 }

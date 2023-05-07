@@ -5,7 +5,6 @@
 //  Created by Григорий on 30.12.2022.
 //
 
-import UIKit
 import XCoordinator
 
 final class MainBuilder {
@@ -28,6 +27,7 @@ final class MainBuilder {
         
         view.initialCompletion = presenter.fetchGlobalItems
         view.logOutAction = presenter.logOut
+        view.viewWillAppear = presenter.viewWillAppear
         return view
     }
 }

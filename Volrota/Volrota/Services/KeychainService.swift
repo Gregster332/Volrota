@@ -10,6 +10,8 @@ import KeychainAccess
 protocol KeychainService {
     var userEmail: String? { get set }
     var userPassword: String? { get set }
+    
+    func clear(completion: @escaping () -> Void)
 }
 
 final class DefaultKeychainService: KeychainService {
@@ -28,6 +30,12 @@ final class DefaultKeychainService: KeychainService {
     var userPassword: String? {
         get { try? keyChain.get(.passwordKeychainKey) }
         set { try? keyChain.set(newValue ?? "", key: .passwordKeychainKey) }
+    }
+    
+    func clear(completion: @escaping () -> Void) {
+        userEmail = nil
+        userPassword = nil
+        completion()
     }
 }
 

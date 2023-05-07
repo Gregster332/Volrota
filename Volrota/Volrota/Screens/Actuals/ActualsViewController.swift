@@ -52,13 +52,12 @@ final class ActualsViewController: UIViewController, ActualsViewControllerProtoc
 }
 
 // MARK: - Private Methods
-
 private extension ActualsViewController {
     
     func setupView() {
         
         self.do {
-            $0.title = "Актуальные"
+            $0.title = Strings.Actuals.navTitle
         }
         
         view.do {
@@ -115,9 +114,6 @@ private extension ActualsViewController {
         section.interGroupSpacing = spacing
         return section
     }
-    
-    // MARK: - UI Actions
-
 }
 
 extension ActualsViewController: UICollectionViewDelegate {

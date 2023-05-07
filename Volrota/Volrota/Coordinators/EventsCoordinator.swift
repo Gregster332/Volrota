@@ -11,6 +11,7 @@ enum EventsRoute: Route {
     case events
     case eventDetail(EventsModel.EventModel)
     case map(Double, Double)
+    case dismiss
 }
 
 final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
@@ -33,6 +34,8 @@ final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
         case .map(let lat, let long):
             let map = map(lat: lat, long: long)
             return .present(map)
+        case .dismiss:
+            return .dismiss()
         }
     }
     
@@ -40,7 +43,8 @@ final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
         let events = EventsBuilder.build(
             router: weakRouter,
             databaseService: dependencies.firebaseDatabse,
-            authenticationService: dependencies.authenticationService
+            authenticationService: dependencies.authenticationService,
+            locationService: dependencies.locationService
         )
         return events
     }

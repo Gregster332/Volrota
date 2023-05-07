@@ -36,11 +36,26 @@ final class EventDetailPresenter: EventDetailPresenterProtocol {
     }
     
     func setup(with model: EventsModel.EventModel) {
-        let props = getDefaultProps(with: .available)
-        
-        lastUsedProps = props
-        
-        view?.render(with: props)
+        Task {
+            let currentUserId = authenticationService.currentUser?.uid ?? ""
+            let events = await database.getUserInfo(by: currentUserId)?.eventsIds
+            if let events = events, events.contains(model.eventId) {
+                DispatchQueue.main.async {
+                    let props = self.getDefaultProps(with: .subscribed)
+                    self.view?.render(with: props)
+                }
+            } else if model.endDate.dateValue() < Date() {
+                DispatchQueue.main.async {
+                    let props = self.getDefaultProps(with: .expired)
+                    self.view?.render(with: props)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    let props = self.getDefaultProps(with: .available)
+                    self.view?.render(with: props)
+                }
+            }
+        }
     }
 }
 

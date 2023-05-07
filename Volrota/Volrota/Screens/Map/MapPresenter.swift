@@ -15,7 +15,6 @@ protocol MapPresenterProtocol: AnyObject {
 final class MapPresenter: MapPresenterProtocol {
     
     // MARK: - Properties
-
     private weak var view: MapViewControllerProtocol?
     private let router: WeakRouter<EventsRoute>
     private let locationService: LocationService
@@ -27,7 +26,6 @@ final class MapPresenter: MapPresenterProtocol {
     private var destinationMapItem: MKMapItem?
 
     // MARK: - Initialize
-
     init(view: MapViewControllerProtocol,
          router: WeakRouter<EventsRoute>,
          locationService: LocationService,
@@ -75,7 +73,8 @@ final class MapPresenter: MapPresenterProtocol {
             
             let props = MapViewControllerProps(
                 annotations: [startAnnotation, destinationAnnotation],
-                route: response?.routes[0]
+                route: response?.routes[0],
+                handleTapOnCloseCompletion: dismiss
             )
             
             DispatchQueue.main.async {
@@ -83,16 +82,9 @@ final class MapPresenter: MapPresenterProtocol {
             }
         }
     }
-    
-    func generateRoute() async {
-        //Task {
-            
-        //}
-    }
 }
 
 // MARK: - Private Methods
-
 private extension MapPresenter {
     
     func generateAnnotation(with coordinates: CLLocationCoordinate2D) async -> MKPointAnnotation {
@@ -102,5 +94,9 @@ private extension MapPresenter {
         startAnnotation.title = startAnnotationName?.name ?? ""
         startAnnotation.coordinate = coordinates
         return startAnnotation
+    }
+    
+    func dismiss() {
+        router.trigger(.dismiss)
     }
 }

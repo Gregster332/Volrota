@@ -14,7 +14,8 @@ final class OnboardingBuilder {
         router: WeakRouter<RootRoute>,
         permissionService: PermissionService,
         locationService: PermissionService,
-        applicationState: ApplicationState
+        applicationState: ApplicationState,
+        authenticationService: AuthService
     ) -> OnboardingViewController {
         let view = OnboardingViewController()
         let presenter = OnboardingPresenter(
@@ -22,7 +23,8 @@ final class OnboardingBuilder {
             router: router,
             permissionService: permissionService,
             locationService: locationService,
-            applicationState: applicationState
+            applicationState: applicationState,
+            authenticationService: authenticationService
         )
         
         view.presenter = presenter

@@ -56,3 +56,22 @@
 "settings.profile" = "Профиль";
 "settings.appSettings" = "Настройки приложения";
 
+// MARK: - Event Description
+"eventDescription.startAt" = "Начало: ";
+"eventDescription.endAt" = "Конец: ";
+"eventDescription.subscribe" = "Участвовать";
+
+// MARK: - Actuals
+"actuals.navTitle" = "Актуальные";
+
+// MARK: - Events
+"events.alreadySubscribed" = "Уже учавствую";
+"events.expiredSoon" = "Скоро истечет";
+"events.near" = "Только локальные";
+"events.navTitle" = "Мероприятия";
+
+// MARK: Event Detail
+"eventDetail.eventAvailable" = "Событие доступно";
+"eventDetail.eventExpired" = "Не актуально";
+"eventDetail.alreadySusbcribed" = "Вы уже учавствуете";
+

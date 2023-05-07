@@ -9,11 +9,13 @@ import Kingfisher
 
 class ActualCell: UICollectionViewCell {
     
+    // MARK: - Views
     private let imageView = UIImageView()
     private let textBackgroundView = UIVisualEffectView()
     private let titleLabel = UILabel()
     private let cityNameLabel = UILabel()
     
+    // MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -26,6 +28,7 @@ class ActualCell: UICollectionViewCell {
         setupConstraints()
     }
     
+    // MARK: - Methods
     func render(with props: ActualsViewControllerProps.ActualProps) {
         imageView.kf.setImage(with: URL(string: props.imageUrl))
         titleLabel.text = props.title
@@ -33,6 +36,7 @@ class ActualCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Private Methods
 private extension ActualCell {
     
     func setupView() {
@@ -47,7 +51,6 @@ private extension ActualCell {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 16
-            //$0.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
         
         textBackgroundView.do {

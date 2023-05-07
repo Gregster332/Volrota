@@ -6,6 +6,7 @@
 //
 
 import XCoordinator
+import PhotosUI
 
 extension Transition {
     
@@ -45,6 +46,10 @@ extension Transition {
             preferredStyle: alert.style
         )
         actions.forEach { alert.addAction($0) }
-        return .present(alert)
+        return .presentOnRoot(alert)
+    }
+    
+    static func activityController(_ picker: PHPickerViewController) -> Transition {
+        return .present(picker)
     }
 }

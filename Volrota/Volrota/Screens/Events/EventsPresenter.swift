@@ -8,52 +8,73 @@
 import XCoordinator
 import CoreLocation
 
+enum FilteringKeys: CaseIterable {
+    case assignedToUser
+    case expiredSoon
+    
+    var cellName: String {
+        switch self {
+        case .assignedToUser:
+            return Strings.Events.alreadySubscribed
+        case .expiredSoon:
+            return Strings.Events.expiredSoon
+        }
+    }
+}
+
 protocol EventsPresenterProtocol: AnyObject {
     func initialize()
+    func filterEvents(with index: Int)
 }
 
 final class EventsPresenter: EventsPresenterProtocol {
     
-    enum FilteringKeys: CaseIterable {
-        case noFilters
-        case assignedToUser
-        case expiredSoon
-        
-        var cellName: String {
-            switch self {
-            case .noFilters:
-                return "Все"
-            case .assignedToUser:
-                return "Уже учавствую"
-            case .expiredSoon:
-                return "Скоро истечет"
-            }
-        }
-    }
-    
     // MARK: - Properties
-
     private weak var view: EventsViewControllerProtocol?
     private let router: WeakRouter<EventsRoute>
     private let databaseService: FirebaseDatabse
     private let authenticationService: AuthService
+    private let locationService: LocationService
     
     private var events: [EventsModel.EventModel] = []
+    private var filteredEvents: [EventsModel.EventModel] = []
     private var usersEventsIds: [String] = []
-    private let filteringKeys = FilteringKeys.allCases
+    private var currentUserLocation: CLLocation?
+    private var filteringKeys: [FilteringKeys?] = Array(repeating: nil, count: 3) {
+        didSet {
+            let key = filteringKeys.compactMap{ $0 }.first
+            if let key = key {
+                switch key {
+                case .assignedToUser:
+                    filteredEvents = filteredEvents.filter { usersEventsIds.contains($0.eventId) }
+                case .expiredSoon:
+                    filteredEvents = filteredEvents.filter { $0.endDate.dateValue().isDateExpiredSoon() }
+//                case .near:
+//                    filteredEvents = filteredEvents.filter {
+//                        abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.04 &&
+//                        abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.04
+//                    }
+                }
+            } else {
+                filteredEvents = events
+            }
+            renderProps(models: filteredEvents)
+        }
+    }
 
     // MARK: - Initialize
-
     init(
         view: EventsViewControllerProtocol,
         router: WeakRouter<EventsRoute>,
         databaseService: FirebaseDatabse,
-        authenticationService: AuthService
+        authenticationService: AuthService,
+        locationService: LocationService
     ) {
         self.view = view
         self.router = router
         self.databaseService = databaseService
         self.authenticationService = authenticationService
+        self.locationService = locationService
     }
     
     func initialize() {
@@ -61,30 +82,30 @@ final class EventsPresenter: EventsPresenterProtocol {
             do {
                 let eventModels = try await databaseService.getEvents(nil)
                 usersEventsIds = await databaseService.getUserInfo(by: authenticationService.currentUser?.uid ?? "")?.eventsIds ?? []
-                events = eventModels
+                currentUserLocation = await locationService.getUserLocation()
                 
-                let cells = eventModels.map {
-                    return EventsViewControllerProps.EventItem(
-                        name: $0.eventTitle,
-                        imageUrl: $0.eventImageURL,
-                        date: Date.datePeriod(
-                            from: $0.startDate.dateValue(),
-                            endDate: $0.endDate.dateValue()),
-                        place: getEventLocation($0.lat, $0.long)
-                    )
+                events = eventModels
+                filteredEvents = eventModels
+                
+                var cells = eventModels.map {
+                    mapCell(with: $0)
                 }
+                
+                let locals = eventModels.filter {
+                    abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.05 &&
+                    abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.05
+                }.map {
+                    mapCell(with: $0)
+                }
+                
+                cells = Array(Set(cells).subtracting(locals))
                 
                 let props = EventsViewControllerProps(
                     events: [
-                        .filter([
-                            FilteringKeys.noFilters.cellName,
-                            FilteringKeys.assignedToUser.cellName,
-                            FilteringKeys.expiredSoon.cellName
-                        ]),
-                        .events(cells)
+                        .locals(locals),
+                        .others(cells)
                     ],
-                    eventTapCompletion: openEvent,
-                    filterTapCompletiom: filterEvents
+                    eventTapCompletion: openEvent
                 )
                 DispatchQueue.main.async {
                     self.view?.render(with: props)
@@ -95,47 +116,32 @@ final class EventsPresenter: EventsPresenterProtocol {
         }
     }
     
+    func filterEvents(with index: Int) {
+        let filter = FilteringKeys.allCases[index]
+        
+        if filteringKeys[index] != nil {
+            filteringKeys[index] = nil
+        } else {
+            filteringKeys[index] = filter
+        }
+    }
+}
+
+// MARK: - Private Methods
+private extension EventsPresenter {
     
     func reload() {
         renderProps(models: events)
     }
     
     func openEvent(with indexPath: IndexPath) {
-        let item = events[indexPath.item]
+        let item = filteredEvents[indexPath.item]
         router.trigger(.eventDetail(item))
     }
-}
-
-// MARK: - Private Methods
-
-private extension EventsPresenter {
     
     func renderProps(models: [EventsModel.EventModel]) {
-        
-    }
-    
-    func getEventLocation(_ lat: Double, _ long: Double) -> String {
-        let location = CLLocation(
-            latitude: lat,
-            longitude: long
-        ).fetchPlaceFullName()
-        return "\(location?.locality ?? ""), \(location?.name ?? "")"
-    }
-    
-    func filterEvents(with index: Int) {
         DispatchQueue.global(qos: .utility).async {
-            var filteredEvents: [EventsModel.EventModel] = []
-            
-            switch self.filteringKeys[index] {
-            case .noFilters:
-                filteredEvents = self.events
-            case .assignedToUser:
-                filteredEvents = self.events.filter { self.usersEventsIds.contains($0.eventId) }
-            case .expiredSoon:
-                filteredEvents = self.events.filter { $0.endDate.dateValue().isDateExpiredSoon() }
-            }
-            
-            let cells = filteredEvents.map {
+            let cells = models.map {
                 return EventsViewControllerProps.EventItem(
                     name: $0.eventTitle,
                     imageUrl: $0.eventImageURL,
@@ -148,15 +154,9 @@ private extension EventsPresenter {
             
             let props = EventsViewControllerProps(
                 events: [
-                    .filter([
-                        FilteringKeys.noFilters.cellName,
-                        FilteringKeys.assignedToUser.cellName,
-                        FilteringKeys.expiredSoon.cellName
-                    ]),
-                    .events(cells)
+                    .others(cells)
                 ],
-                eventTapCompletion: self.openEvent,
-                filterTapCompletiom: self.filterEvents
+                eventTapCompletion: self.openEvent
             )
             DispatchQueue.main.async {
                 self.view?.render(with: props)
@@ -164,30 +164,23 @@ private extension EventsPresenter {
         }
     }
     
-//    func getAllEventsByIds() async -> [EventsModel.EventModel] {
-////        let events = await withTaskGroup(
-////            of: EventsModel.EventModel.self,
-////            returning: [EventsModel.EventModel].self,
-////            body: { taskGroup in
-////
-////                let userId = authenticationService.currentUser?.uid ?? ""
-////                let eventsIds = await databaseService.getUserInfo(by: userId)?.eventsIds ?? []
-////
-////                for id in eventsIds {
-////                    taskGroup.addTask {
-////                        let event = try? await self.databaseService.getEvents(nil)
-////                        return event!
-////                    }
-////                }
-////
-////                var events = [EventsModel.EventModel]()
-////                for await result in taskGroup {
-////                    events.append(result)
-////                }
-////                return events
-////            }
-////        )
-//        let items = try? await databaseService.getEvents(nil)
-//        return items
-//    }
+    func getEventLocation(_ lat: Double, _ long: Double) -> String {
+        let location = CLLocation(
+            latitude: lat,
+            longitude: long
+        ).fetchPlaceFullName()
+        return "\(location?.locality ?? ""), \(location?.name ?? "")"
+    }
+    
+    func mapCell(with event: EventsModel.EventModel) -> EventsViewControllerProps.EventItem {
+        let item = EventsViewControllerProps.EventItem(
+            name: event.eventTitle,
+            imageUrl: event.eventImageURL,
+            date: Date.datePeriod(
+                from: event.startDate.dateValue(),
+                endDate: event.endDate.dateValue()),
+            place: getEventLocation(event.lat, event.long)
+        )
+        return item
+    }
 }

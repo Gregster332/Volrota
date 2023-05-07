@@ -7,8 +7,10 @@
 
 import UIKit
 import FirebaseCore
+import FirebaseAuth
 import IQKeyboardManagerSwift
 import DropDown
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,11 +23,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         DropDown.startListeningToKeyboard()
         
+        let config = GIDConfiguration(clientID: AppConstants.googleClientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
         return true
     }
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return self.orientationLock
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }
 

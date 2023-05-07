@@ -21,6 +21,7 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
     private let permissionService: PermissionService
     private let locationService: PermissionService
     private var applicationState: ApplicationState
+    private let authenticationService: AuthService
 
     // MARK: - Initialize
     init(
@@ -28,13 +29,15 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
         router: WeakRouter<RootRoute>,
         permissionService: PermissionService,
         locationService: PermissionService,
-        applicationState: ApplicationState
+        applicationState: ApplicationState,
+        authenticationService: AuthService
     ) {
         self.view = view
         self.router = router
         self.permissionService = permissionService
         self.locationService = locationService
         self.applicationState = applicationState
+        self.authenticationService = authenticationService
         initialize()
     }
     

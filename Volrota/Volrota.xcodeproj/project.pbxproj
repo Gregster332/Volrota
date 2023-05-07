@@ -43,11 +43,16 @@
 		ED08A37629C999F600DC9487 /* LocationTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A37529C999F600DC9487 /* LocationTrackingView.swift */; };
 		ED08A37829C9B26600DC9487 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED08A37729C9B26600DC9487 /* Localizable.strings */; };
 		ED08A37A29C9B39F00DC9487 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A37929C9B39F00DC9487 /* Strings.swift */; };
-		ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */; };
+		ED10292529C5FE6B0066EA22 /* OptionsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292429C5FE6B0066EA22 /* OptionsViewCell.swift */; };
 		ED10292729C602800066EA22 /* ProfileSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292629C602800066EA22 /* ProfileSettingsCell.swift */; };
 		ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292829C605F10066EA22 /* ProfileCoordinator.swift */; };
 		ED10292B29C79FC10066EA22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */; };
 		ED10292E29C7B5A70066EA22 /* FirebaseDatabse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */; };
+		ED152BD329F7DB1A00513CD3 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD229F7DB1A00513CD3 /* ProgressView.swift */; };
+		ED152BD829F9001400513CD3 /* DropDownTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD729F9001400513CD3 /* DropDownTextField.swift */; };
+		ED152BDA29F9072D00513CD3 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BD929F9072D00513CD3 /* AppConstants.swift */; };
+		ED152BDC29FBEB7D00513CD3 /* OrganizationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BDB29FBEB7D00513CD3 /* OrganizationCell.swift */; };
+		ED152BDE29FBED9C00513CD3 /* ProfileSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED152BDD29FBED9C00513CD3 /* ProfileSections.swift */; };
 		ED1740F629E08B5A00077430 /* OrganizationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740F529E08B5A00077430 /* OrganizationsCell.swift */; };
 		ED1740F829E14F9600077430 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740F729E14F9600077430 /* UITextField+Extension.swift */; };
 		ED1740FE29E1AD9D00077430 /* EventsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1740FB29E1AD9D00077430 /* EventsPresenter.swift */; };
@@ -80,7 +85,7 @@
 		ED43B22C29EA789B005A386E /* MapBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43B22929EA789B005A386E /* MapBuilder.swift */; };
 		ED43B22E29EB2B0A005A386E /* EventSubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43B22D29EB2B0A005A386E /* EventSubscriptionCell.swift */; };
 		ED43B23329EE9F48005A386E /* EventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43B23229EE9F48005A386E /* EventsCoordinator.swift */; };
-		ED43B23529EEAE10005A386E /* FilteringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43B23429EEAE10005A386E /* FilteringCell.swift */; };
+		ED43B23529EEAE10005A386E /* EventsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED43B23429EEAE10005A386E /* EventsSectionHeader.swift */; };
 		ED455B1929C483A0003C0A0E /* HelperPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1629C483A0003C0A0E /* HelperPresenter.swift */; };
 		ED455B1A29C483A0003C0A0E /* HelperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1729C483A0003C0A0E /* HelperViewController.swift */; };
 		ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED455B1829C483A0003C0A0E /* HelperBuilder.swift */; };
@@ -115,7 +120,7 @@
 		ED96F60229D880D400C68BDC /* SignUpBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED96F5FF29D880D400C68BDC /* SignUpBuilder.swift */; };
 		ED96F60729D88F3100C68BDC /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED96F60629D88F3100C68BDC /* UserData.swift */; };
 		ED96F60A29D9687200C68BDC /* FirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED96F60929D9687200C68BDC /* FirebaseStorage.swift */; };
-		ED96F60C29DAC6AD00C68BDC /* AboutHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED96F60B29DAC6AD00C68BDC /* AboutHeaderView.swift */; };
+		ED96F60C29DAC6AD00C68BDC /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED96F60B29DAC6AD00C68BDC /* UserCell.swift */; };
 		EDD67FCD29C42AEE00529FF3 /* CollectionViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD67FCC29C42AEE00529FF3 /* CollectionViewHeaderView.swift */; };
 		EDD67FD029C4520A00529FF3 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD67FCF29C4520A00529FF3 /* SettingsTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -161,11 +166,16 @@
 		ED08A37529C999F600DC9487 /* LocationTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackingView.swift; sourceTree = "<group>"; };
 		ED08A37729C9B26600DC9487 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		ED08A37929C9B39F00DC9487 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		ED10292429C5FE6B0066EA22 /* OptionsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewCell.swift; sourceTree = "<group>"; };
 		ED10292629C602800066EA22 /* ProfileSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsCell.swift; sourceTree = "<group>"; };
 		ED10292829C605F10066EA22 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		ED10292A29C79FC10066EA22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED10292D29C7B5A70066EA22 /* FirebaseDatabse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabse.swift; sourceTree = "<group>"; };
+		ED152BD229F7DB1A00513CD3 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		ED152BD729F9001400513CD3 /* DropDownTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTextField.swift; sourceTree = "<group>"; };
+		ED152BD929F9072D00513CD3 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		ED152BDB29FBEB7D00513CD3 /* OrganizationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationCell.swift; sourceTree = "<group>"; };
+		ED152BDD29FBED9C00513CD3 /* ProfileSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSections.swift; sourceTree = "<group>"; };
 		ED1740F529E08B5A00077430 /* OrganizationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationsCell.swift; sourceTree = "<group>"; };
 		ED1740F729E14F9600077430 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		ED1740FB29E1AD9D00077430 /* EventsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsPresenter.swift; sourceTree = "<group>"; };
@@ -198,7 +208,7 @@
 		ED43B22929EA789B005A386E /* MapBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBuilder.swift; sourceTree = "<group>"; };
 		ED43B22D29EB2B0A005A386E /* EventSubscriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubscriptionCell.swift; sourceTree = "<group>"; };
 		ED43B23229EE9F48005A386E /* EventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCoordinator.swift; sourceTree = "<group>"; };
-		ED43B23429EEAE10005A386E /* FilteringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringCell.swift; sourceTree = "<group>"; };
+		ED43B23429EEAE10005A386E /* EventsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSectionHeader.swift; sourceTree = "<group>"; };
 		ED455B1629C483A0003C0A0E /* HelperPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperPresenter.swift; sourceTree = "<group>"; };
 		ED455B1729C483A0003C0A0E /* HelperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperViewController.swift; sourceTree = "<group>"; };
 		ED455B1829C483A0003C0A0E /* HelperBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperBuilder.swift; sourceTree = "<group>"; };
@@ -233,7 +243,7 @@
 		ED96F5FF29D880D400C68BDC /* SignUpBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpBuilder.swift; sourceTree = "<group>"; };
 		ED96F60629D88F3100C68BDC /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		ED96F60929D9687200C68BDC /* FirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
-		ED96F60B29DAC6AD00C68BDC /* AboutHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutHeaderView.swift; sourceTree = "<group>"; };
+		ED96F60B29DAC6AD00C68BDC /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		EDD67FCC29C42AEE00529FF3 /* CollectionViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewHeaderView.swift; sourceTree = "<group>"; };
 		EDD67FCF29C4520A00529FF3 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -349,6 +359,7 @@
 				642F15AA295ED44200E199F9 /* SceneDelegate.swift */,
 				642F15A8295ED44200E199F9 /* AppDelegate.swift */,
 				642F15C9295EFB8E00E199F9 /* Dependencies.swift */,
+				ED152BD929F9072D00513CD3 /* AppConstants.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -490,6 +501,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		ED152BD629F8FFFA00513CD3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ED152BD729F9001400513CD3 /* DropDownTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		ED1740F929E1671700077430 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,7 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				ED17410229E1AE4600077430 /* EventCell.swift */,
-				ED43B23429EEAE10005A386E /* FilteringCell.swift */,
+				ED43B23429EEAE10005A386E /* EventsSectionHeader.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -525,6 +544,7 @@
 				ED96F5EC29D74CD500C68BDC /* BorderedButton.swift */,
 				ED455B1E29C4A1B6003C0A0E /* LoadingView.swift */,
 				ED08A37529C999F600DC9487 /* LocationTrackingView.swift */,
+				ED152BD229F7DB1A00513CD3 /* ProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -687,8 +707,10 @@
 		ED455B4229C5FD9F003C0A0E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				ED10292429C5FE6B0066EA22 /* ProfileTableViewCell.swift */,
-				ED96F60B29DAC6AD00C68BDC /* AboutHeaderView.swift */,
+				ED96F60B29DAC6AD00C68BDC /* UserCell.swift */,
+				ED152BDB29FBEB7D00513CD3 /* OrganizationCell.swift */,
+				ED10292429C5FE6B0066EA22 /* OptionsViewCell.swift */,
+				ED152BDD29FBED9C00513CD3 /* ProfileSections.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -704,6 +726,7 @@
 		ED96F5E529D74BC900C68BDC /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				ED152BD629F8FFFA00513CD3 /* Views */,
 				ED96F5E629D74BD700C68BDC /* AuthPresenter.swift */,
 				ED96F5E729D74BD700C68BDC /* AuthViewController.swift */,
 				ED96F5E829D74BD700C68BDC /* AuthBuilder.swift */,
@@ -886,6 +909,7 @@
 			files = (
 				ED455B1A29C483A0003C0A0E /* HelperViewController.swift in Sources */,
 				ED43B22529E9BF79005A386E /* EventLocationCell.swift in Sources */,
+				ED152BDA29F9072D00513CD3 /* AppConstants.swift in Sources */,
 				ED43B21B29E91D29005A386E /* EventDetailViewController.swift in Sources */,
 				ED455B1B29C483A0003C0A0E /* HelperBuilder.swift in Sources */,
 				ED28268F29C325FC0026000B /* UIViewController+Extension.swift in Sources */,
@@ -900,6 +924,7 @@
 				ED1740F629E08B5A00077430 /* OrganizationsCell.swift in Sources */,
 				ED08A37A29C9B39F00DC9487 /* Strings.swift in Sources */,
 				EDD67FCD29C42AEE00529FF3 /* CollectionViewHeaderView.swift in Sources */,
+				ED152BD829F9001400513CD3 /* DropDownTextField.swift in Sources */,
 				642F15CA295EFB8F00E199F9 /* Dependencies.swift in Sources */,
 				ED43B21C29E91D29005A386E /* EventDetailBuilder.swift in Sources */,
 				ED96F5FB29D80DD500C68BDC /* TypingCell.swift in Sources */,
@@ -916,6 +941,7 @@
 				642F15DD295EFF1F00E199F9 /* UIView+Extension.swift in Sources */,
 				ED08A36129C83BDA00DC9487 /* Date+Extension.swift in Sources */,
 				ED455B1F29C4A1B6003C0A0E /* LoadingView.swift in Sources */,
+				ED152BD329F7DB1A00513CD3 /* ProgressView.swift in Sources */,
 				ED455B3A29C5EB95003C0A0E /* OnboardingBuilder.swift in Sources */,
 				ED08A37029C8984D00DC9487 /* UIColor+Extension.swift in Sources */,
 				ED96F5F129D75BB900C68BDC /* Alert.swift in Sources */,
@@ -936,7 +962,8 @@
 				642F15C3295EDBA000E199F9 /* Colors.swift in Sources */,
 				ED43B23329EE9F48005A386E /* EventsCoordinator.swift in Sources */,
 				642F15F8295F037C00E199F9 /* SettingsBuilder.swift in Sources */,
-				ED10292529C5FE6B0066EA22 /* ProfileTableViewCell.swift in Sources */,
+				ED152BDE29FBED9C00513CD3 /* ProfileSections.swift in Sources */,
+				ED10292529C5FE6B0066EA22 /* OptionsViewCell.swift in Sources */,
 				ED43B22E29EB2B0A005A386E /* EventSubscriptionCell.swift in Sources */,
 				ED43B22C29EA789B005A386E /* MapBuilder.swift in Sources */,
 				ED43B1E629E2AB7A005A386E /* ActualsViewController.swift in Sources */,
@@ -947,6 +974,7 @@
 				ED10292929C605F10066EA22 /* ProfileCoordinator.swift in Sources */,
 				ED1740FF29E1AD9D00077430 /* EventsViewController.swift in Sources */,
 				ED08A36529C8492E00DC9487 /* ApplicationState.swift in Sources */,
+				ED152BDC29FBEB7D00513CD3 /* OrganizationCell.swift in Sources */,
 				ED455B2C29C4BDB9003C0A0E /* ActualDetailViewController.swift in Sources */,
 				ED28268929C308600026000B /* ProfileView.swift in Sources */,
 				ED43B1F329E6175F005A386E /* ActualTitleHeader.swift in Sources */,
@@ -958,7 +986,7 @@
 				642F15C4295EDBA000E199F9 /* Images.swift in Sources */,
 				ED43B21F29E91EAB005A386E /* EventTitleCell.swift in Sources */,
 				642F15A9295ED44200E199F9 /* AppDelegate.swift in Sources */,
-				ED43B23529EEAE10005A386E /* FilteringCell.swift in Sources */,
+				ED43B23529EEAE10005A386E /* EventsSectionHeader.swift in Sources */,
 				ED28269329C32E040026000B /* UITableView+Extension.swift in Sources */,
 				642F15AB295ED44200E199F9 /* SceneDelegate.swift in Sources */,
 				ED43B20329E816D3005A386E /* MainSections.swift in Sources */,
@@ -969,7 +997,7 @@
 				ED43B21A29E91D29005A386E /* EventDetailPresenter.swift in Sources */,
 				ED96F5EB29D74BD700C68BDC /* AuthBuilder.swift in Sources */,
 				ED4E0FCD29C37D61007B503B /* ActualTableViewCell.swift in Sources */,
-				ED96F60C29DAC6AD00C68BDC /* AboutHeaderView.swift in Sources */,
+				ED96F60C29DAC6AD00C68BDC /* UserCell.swift in Sources */,
 				ED96F60229D880D400C68BDC /* SignUpBuilder.swift in Sources */,
 				ED455B3229C5EB54003C0A0E /* NotificationsPermissionService.swift in Sources */,
 				ED455B2629C4B66E003C0A0E /* ProfileBuilder.swift in Sources */,

@@ -34,6 +34,9 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     
     func initialize() {
         Task {
+            if authenticationService.currentUser == nil {
+                return
+            }
             let isAccessGranted = await permissionService.isGrantedAccess()
             let user = await database.getUserInfo(by: authenticationService.currentUser?.uid ?? "")
             
