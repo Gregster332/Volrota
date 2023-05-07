@@ -32,8 +32,7 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             return .appSettings()
         case .profile:
             let profile = profile()
-            addChild(profile)
-            return .none()
+            return .presentFullScreen(profile)
         }
     }
     

@@ -20,6 +20,7 @@ protocol FirebaseDatabse {
     func getOrganizationBy(_ id: String) async -> Organization?
     func getAllOrganizations() async throws -> [Organization]
     func updateUserEvents(with eventId: String, userId: String) async
+    func updateUserName(with id: String,_ name: String) async throws
 }
 
 final class DefaultFirebaseDatabse: FirebaseDatabse {
@@ -122,7 +123,6 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
     }
     
     func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws {
-        
         let collectionRef = database.collection("volrota/private/users")
         
         do {
@@ -131,7 +131,17 @@ final class DefaultFirebaseDatabse: FirebaseDatabse {
         } catch {
             throw error
         }
+    }
+    
+    func updateUserName(with id: String,_ name: String) async throws {
+        let collectionRef = database.collection("volrota/private/users")
         
+        do {
+            let documentRef = collectionRef.document(id)
+            try await documentRef.updateData(["name" : name])
+        } catch {
+            throw error
+        }
     }
     
     func getUserInfo(by id: String) async -> UserData? {

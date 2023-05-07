@@ -10,8 +10,6 @@ import KeychainAccess
 protocol KeychainService {
     var userEmail: String? { get set }
     var userPassword: String? { get set }
-    var userGoogleIdToken: String? { get set }
-    var userGoogleAccessToken: String? { get set }
     
     func clear(completion: @escaping () -> Void)
 }
@@ -34,21 +32,9 @@ final class DefaultKeychainService: KeychainService {
         set { try? keyChain.set(newValue ?? "", key: .passwordKeychainKey) }
     }
     
-    var userGoogleIdToken: String? {
-        get { try? keyChain.get(.userGoogleIdToken) }
-        set { try? keyChain.set(newValue ?? "", key: .userGoogleIdToken) }
-    }
-    
-    var userGoogleAccessToken: String? {
-        get { try? keyChain.get(.userGoogleAccessToken) }
-        set { try? keyChain.set(newValue ?? "", key: .userGoogleAccessToken) }
-    }
-    
     func clear(completion: @escaping () -> Void) {
         userEmail = nil
         userPassword = nil
-        userGoogleIdToken = nil
-        userGoogleAccessToken = nil
         completion()
     }
 }
@@ -56,6 +42,4 @@ final class DefaultKeychainService: KeychainService {
 extension String {
     static let emailKeychainKey = "emailKeychainKey"
     static let passwordKeychainKey = "passwordKeychainKey"
-    static let userGoogleIdToken = "userGoogleIdToken"
-    static let userGoogleAccessToken = "userGoogleAccessToken"
 }

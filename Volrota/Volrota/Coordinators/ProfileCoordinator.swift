@@ -6,10 +6,14 @@
 //
 
 import XCoordinator
+import PhotosUI
 
 enum ProfileRoute: Route {
     case profile
-    case pop
+    case dismiss
+    case alert(Alert)
+    case photoPicker(PHPickerViewController)
+    case auth
 }
 
 final class ProfileCoordinator: NavigationCoordinator<ProfileRoute> {
@@ -18,17 +22,23 @@ final class ProfileCoordinator: NavigationCoordinator<ProfileRoute> {
     
     init(dependencies: Dependencies, rootViewController: UINavigationController) {
         self.dependencies = dependencies
-        super.init(rootViewController: rootViewController, initialRoute: nil)
-        trigger(.profile)
+        super.init(initialRoute: .profile)
     }
     
     override func prepareTransition(for route: ProfileRoute) -> NavigationTransition {
         switch route {
         case .profile:
             let profile = profile()
-            return .push(profile)
-        case .pop:
-            return .pop()
+            return .set([profile])
+        case .dismiss:
+            return .dismiss()
+        case .alert(let alert):
+            return .presentAlert(alert)
+        case .photoPicker(let photoPicker):
+            return .present(photoPicker)
+        case .auth:
+            let auth = auth()
+            return .presentFullScreen(auth)
         }
     }
     
@@ -41,5 +51,10 @@ final class ProfileCoordinator: NavigationCoordinator<ProfileRoute> {
             firebaseStorageService: dependencies.firebaseStorageService
         )
         return profile
+    }
+    
+    private func auth() -> AuthCoordinator {
+        let auth = AuthCoordinator(dependencies: dependencies)
+        return auth
     }
 }

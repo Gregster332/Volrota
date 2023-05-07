@@ -12,7 +12,7 @@ struct MainViewControllerProps {
     let sections: [Section]
     let locationViewProps: LocationViewProps?
     let mainViewControllerState: MainViewControllerState
-    let profileViewProps: ProfileViewProps?
+    var profileViewProps: ProfileViewProps?
     let actualTapCompletion: ((IndexPath) -> Void)?
     let refreshCompletion: (() -> Void)?
     
@@ -64,6 +64,8 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     // MARK: - Properties
     var initialCompletion: (() -> Void)?
     var logOutAction: (() -> Void)?
+    var viewWillAppear: (() -> Void)?
+    
     private var sections: [MainViewControllerProps.Section] = []
     private var actualTapCompletion: ((IndexPath) -> Void)?
     private var refreshCompletion: (() -> Void)?
@@ -99,6 +101,11 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         setupConstraints()
         addObservers()
         initialCompletion?()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewWillAppear?()
     }
     
     // MARK: - Methods
@@ -216,7 +223,9 @@ private extension MainViewController {
     }
     
     @objc func handleLogOut() {
-        logOutAction?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.logOutAction?()
+        }
     }
 }
 
@@ -256,14 +265,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //collectionView.deselectRow(at: indexPath, animated: false)
         if indexPath.section == 1 {
             let section = sections[indexPath.section]
             
             if case .actual = section {
-                //DispatchQueue.main.async { [weak self] in
                     self.actualTapCompletion?(indexPath)
-               // }
             }
         }
     }
@@ -274,19 +280,11 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         let item = sections.last
         switch item {
         case .header(let headerProps):
-            //if indexPath.section == 1 {
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofKind: kind,
                     for: indexPath) as CollectionViewHeaderView
                 headerView.render(with: headerProps[indexPath.section - 1])
                 return headerView
-//            } else {
-//                let headerView = collectionView.dequeueSupplementaryView(
-//                    ofKind: kind,
-//                    for: indexPath) as CollectionViewHeaderView
-//                headerView.render(with: headerProps[indexPath.section])
-//                return headerView
-//            }
         default:
             return UICollectionReusableView()
         }

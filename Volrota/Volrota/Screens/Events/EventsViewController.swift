@@ -12,10 +12,20 @@ struct EventsViewControllerProps {
     let eventTapCompletion: ((IndexPath) -> Void)?
     
     enum EventsSection {
-        case events([EventItem])
+        case locals([EventItem])
+        case others([EventItem])
+        
+        var headerTitle: String {
+            switch self {
+            case .locals:
+                return "Локальные"
+            case .others:
+                return "Общие"
+            }
+        }
     }
     
-    struct EventItem {
+    struct EventItem: Hashable {
         let name: String
         let imageUrl: String
         let date: String
@@ -81,7 +91,9 @@ private extension EventsViewController {
             $0.backgroundColor = .clear
             $0.showsVerticalScrollIndicator = false
             $0.register(cellWithClass: EventCell.self)
-            $0.register(cellWithClass: FilteringCell.self)
+            $0.register(
+                supplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                withClass: EventsSectionHeader.self)
             $0.dataSource = self
             $0.delegate = self
             $0.collectionViewLayout = createLayout()
@@ -111,11 +123,11 @@ private extension EventsViewController {
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
-            //if index == 0 {
+            if index == 0 {
+                return self?.createLayoutForLocals()
+            } else {
                 return self?.createSection()
-            //} else {
-             //   return self?.createSection()
-            //}
+            }
         }
         return layout
     }
@@ -142,8 +154,54 @@ private extension EventsViewController {
         let section = NSCollectionLayoutSection(
             group: group
         )
+        //section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
         section.interGroupSpacing = spacing
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(45)),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    func createLayoutForLocals() -> NSCollectionLayoutSection {
+        
+        let spacing: CGFloat = 8
+        
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1)
+            )
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.9),
+                heightDimension: .absolute(355)),
+            subitems: [item])
+        
+        group.interItemSpacing = .fixed(spacing)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets = .init(top: 8, leading: 16, bottom: 8, trailing: 16)
+        section.interGroupSpacing = spacing
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(45)),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        
+        section.boundarySupplementaryItems = [header]
         
         return section
     }
@@ -181,8 +239,8 @@ private extension EventsViewController {
 
 extension EventsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            eventTapCompletion?(indexPath)
-            collectionView.deselectItem(at: indexPath, animated: false)
+        eventTapCompletion?(indexPath)
+        collectionView.deselectItem(at: indexPath, animated: false)
     }
 }
 
@@ -195,8 +253,10 @@ extension EventsViewController: UICollectionViewDataSource {
         let section = sections[section]
         
         switch section {
-        case .events(let events):
+        case .others(let events):
             return events.count
+        case .locals(let locals):
+            return locals.count
         }
     }
     
@@ -204,8 +264,13 @@ extension EventsViewController: UICollectionViewDataSource {
         let section = sections[indexPath.section]
         
         switch section {
-        case .events(let events):
+        case .others(let events):
             let item = events[indexPath.item]
+            let cell = collectionView.dequeueCell(with: indexPath) as EventCell
+            cell.render(with: item)
+            return cell
+        case .locals(let locals):
+            let item = locals[indexPath.item]
             let cell = collectionView.dequeueCell(with: indexPath) as EventCell
             cell.render(with: item)
             return cell
@@ -214,5 +279,10 @@ extension EventsViewController: UICollectionViewDataSource {
 }
 
 extension EventsViewController: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, for: indexPath) as EventsSectionHeader
+        let title = sections[indexPath.section].headerTitle
+        headerView.configure(title: title)
+        return headerView
+    }
 }

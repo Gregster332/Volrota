@@ -11,7 +11,6 @@ import GoogleSignIn
 struct AuthViewControllerProps {
 
     var state: AuthState
-    let dropDownProps: DropDownTextFieldProps
     let signUpButtonAction: (() -> Void)?
     var borderedButtonProps: BorderedButtonProps?
     var signInWithGoogleButtonProps: BorderedButtonProps?
@@ -40,11 +39,8 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     private let segmentControl = UISegmentedControl(items: ["Логин/Пароль", "Google"])
     private let emailTextField = UITextField()
     private let passwordTextField = UITextField()
-    private let organizationsTextField = DropDownTextField()
     private let signInButton = BorderedButton()
     private let signUpButton = UIButton()
-    private let signInWithGoogleButton = BorderedButton()
-    private let progressView = ProgressView()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -65,13 +61,10 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     func render(with props: AuthViewControllerProps) {
         switch props.state {
         case .inProgress(let progressProps):
-            progressView.render(with: progressProps)
+            break
         case .success, .failure:
-            progressView.isHidden = true
             signUpButtonAction = props.signUpButtonAction
-            organizationsTextField.render(with: props.dropDownProps)
             signInButton.render(with: props.borderedButtonProps)
-            signInWithGoogleButton.render(with: props.signInWithGoogleButtonProps)
         }
     }
 }
@@ -126,23 +119,14 @@ private extension AuthViewController {
                 for: .touchUpInside
             )
         }
-        
-        signInWithGoogleButton.addTarget(
-            target: self,
-            action: #selector(handleSignUpWithGoogleButton),
-            for: .touchUpInside
-        )
     }
     
     func addViews() {
         view.addSubview(segmentControl)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
-        view.addSubview(organizationsTextField)
         view.addSubview(signInButton)
         view.addSubview(signUpButton)
-        view.addSubview(signInWithGoogleButton)
-        view.addSubview(progressView)
     }
     
     func setupConstraints() {
@@ -164,45 +148,23 @@ private extension AuthViewController {
             $0.height.equalTo(44)
         }
         
-        organizationsTextField.snp.makeConstraints {
-            $0.top.equalTo(segmentControl.snp.bottom).offset(26)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(44)
-        }
-        
         signUpButton.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-8)
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        signInWithGoogleButton.snp.makeConstraints {
+        signInButton.snp.makeConstraints {
             $0.bottom.equalTo(signUpButton.snp.top).offset(-8)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
-        }
-        
-        signInButton.snp.makeConstraints {
-            $0.bottom.equalTo(signInWithGoogleButton)
-            $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(54)
-        }
-        
-        progressView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
         }
     }
     
     func setDefaultSignIn() {
         UIView.animate(withDuration: 0.5) {
-            self.signInWithGoogleButton.layer.opacity = 0
-            self.organizationsTextField.layer.opacity = 0
-            self.signInButton.layer.opacity = 1
             self.emailTextField.layer.opacity = 1
             self.passwordTextField.layer.opacity = 1
         } completion: { _ in
-            self.signInWithGoogleButton.isHidden = true
-            self.organizationsTextField.isHidden = true
-            self.signInButton.isHidden = false
             self.emailTextField.isHidden = false
             self.passwordTextField.isHidden = false
         }
@@ -210,26 +172,24 @@ private extension AuthViewController {
     
     func setGoogleSignIn() {
         UIView.animate(withDuration: 0.5) {
-            self.signInButton.layer.opacity = 0
             self.emailTextField.layer.opacity = 0
             self.passwordTextField.layer.opacity = 0
-            self.organizationsTextField.layer.opacity = 1
-            self.signInWithGoogleButton.layer.opacity = 1
         } completion: { _ in
-            self.signInButton.isHidden = true
             self.emailTextField.isHidden = true
             self.passwordTextField.isHidden = true
-            self.organizationsTextField.isHidden = false
-            self.signInWithGoogleButton.isHidden = false
         }
     }
     
     // MARK: - UI Actions
     @objc func handleSignInButton() {
-        let email = emailTextField.text
-        let password = passwordTextField.text
-
-        presenter.signIn(email, password)
+        if segmentControl.selectedSegmentIndex == 0 {
+            let email = emailTextField.text
+            let password = passwordTextField.text
+            
+            presenter.signIn(email, password)
+        } else {
+            presenter.signInWithGoggle(view: self)
+        }
     }
     
     @objc func handleSegmentControl() {

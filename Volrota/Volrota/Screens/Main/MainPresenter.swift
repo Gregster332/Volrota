@@ -20,6 +20,14 @@ final class MainPresenter {
     private var globalModel: GlobalModel?
     
     private var loadingTask: Task<Void, Never>?
+    private var lastUsedProps = MainViewControllerProps(
+        sections: [],
+        locationViewProps: nil,
+        mainViewControllerState: .loading,
+        profileViewProps: nil,
+        actualTapCompletion: nil,
+        refreshCompletion: nil
+    )
 
     // MARK: - Initialize
     init(
@@ -37,15 +45,23 @@ final class MainPresenter {
     }
     
     func loading() {
-        let props = MainViewControllerProps(
-            sections: [],
-            locationViewProps: nil,
-            mainViewControllerState: .loading,
-            profileViewProps: nil,
-            actualTapCompletion: nil,
-            refreshCompletion: nil
-        )
-        view?.render(with: props)
+        view?.render(with: lastUsedProps)
+    }
+    
+    func viewWillAppear() {
+        if authenticationService.currentUser == nil {
+            return
+        }
+        Task {
+            if let userImageUrl = await database.getUserInfo(
+                by: authenticationService.currentUser?.uid ?? ""
+            )?.profileImageUrl {
+                lastUsedProps.profileViewProps?.profileImageUrl = userImageUrl
+                DispatchQueue.main.async {
+                    self.view?.render(with: self.lastUsedProps)
+                }
+            }
+        }
     }
     
     func renderError() {
@@ -112,6 +128,8 @@ final class MainPresenter {
                     actualTapCompletion: self.openActual,
                     refreshCompletion: self.fetchGlobalItems
                 )
+                
+                lastUsedProps = props
                 
                 DispatchQueue.main.async {
                     self.view?.render(with: props)

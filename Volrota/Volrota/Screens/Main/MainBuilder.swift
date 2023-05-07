@@ -27,6 +27,7 @@ final class MainBuilder {
         
         view.initialCompletion = presenter.fetchGlobalItems
         view.logOutAction = presenter.logOut
+        view.viewWillAppear = presenter.viewWillAppear
         return view
     }
 }

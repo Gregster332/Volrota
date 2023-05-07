@@ -11,6 +11,7 @@ enum RootRoute: Route {
     case splash
     case onboarding
     case auth
+    case tabBar
 }
 
 final class AppCoordinator: NavigationCoordinator<RootRoute> {
@@ -29,10 +30,13 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
             return .set([splashViewController])
         case .onboarding:
             let onboarding = onboarding()
-            return .push(onboarding)
+            return .presentFullScreen(onboarding)
         case .auth:
             let auth = auth()
             return .presentFullScreen(auth)
+        case .tabBar:
+            let tabbar = tabbar()
+            return .presentFullScreen(tabbar)
         }
     }
     
@@ -49,12 +53,18 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
             router: weakRouter,
             permissionService: dependencies.permissionService,
             locationService: dependencies.locationPermissionService,
-            applicationState: dependencies.applicationState)
+            applicationState: dependencies.applicationState,
+            authenticationService: dependencies.authenticationService)
         return onboarding
     }
     
     private func auth() -> AuthCoordinator {
         let auth = AuthCoordinator(dependencies: dependencies)
         return auth
+    }
+    
+    private func tabbar() -> TabCoordinator {
+        let tabBar = TabCoordinator(dependencies: dependencies)
+        return tabBar
     }
 }

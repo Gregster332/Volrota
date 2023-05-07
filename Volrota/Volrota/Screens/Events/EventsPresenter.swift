@@ -11,7 +11,6 @@ import CoreLocation
 enum FilteringKeys: CaseIterable {
     case assignedToUser
     case expiredSoon
-    case near
     
     var cellName: String {
         switch self {
@@ -19,8 +18,6 @@ enum FilteringKeys: CaseIterable {
             return Strings.Events.alreadySubscribed
         case .expiredSoon:
             return Strings.Events.expiredSoon
-        case .near:
-            return Strings.Events.near
         }
     }
 }
@@ -52,11 +49,11 @@ final class EventsPresenter: EventsPresenterProtocol {
                     filteredEvents = filteredEvents.filter { usersEventsIds.contains($0.eventId) }
                 case .expiredSoon:
                     filteredEvents = filteredEvents.filter { $0.endDate.dateValue().isDateExpiredSoon() }
-                case .near:
-                    filteredEvents = filteredEvents.filter {
-                        abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.04 &&
-                        abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.04
-                    }
+//                case .near:
+//                    filteredEvents = filteredEvents.filter {
+//                        abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.04 &&
+//                        abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.04
+//                    }
                 }
             } else {
                 filteredEvents = events
@@ -90,20 +87,23 @@ final class EventsPresenter: EventsPresenterProtocol {
                 events = eventModels
                 filteredEvents = eventModels
                 
-                let cells = eventModels.map {
-                    return EventsViewControllerProps.EventItem(
-                        name: $0.eventTitle,
-                        imageUrl: $0.eventImageURL,
-                        date: Date.datePeriod(
-                            from: $0.startDate.dateValue(),
-                            endDate: $0.endDate.dateValue()),
-                        place: getEventLocation($0.lat, $0.long)
-                    )
+                var cells = eventModels.map {
+                    mapCell(with: $0)
                 }
+                
+                let locals = eventModels.filter {
+                    abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.05 &&
+                    abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.05
+                }.map {
+                    mapCell(with: $0)
+                }
+                
+                cells = Array(Set(cells).subtracting(locals))
                 
                 let props = EventsViewControllerProps(
                     events: [
-                        .events(cells)
+                        .locals(locals),
+                        .others(cells)
                     ],
                     eventTapCompletion: openEvent
                 )
@@ -154,7 +154,7 @@ private extension EventsPresenter {
             
             let props = EventsViewControllerProps(
                 events: [
-                    .events(cells)
+                    .others(cells)
                 ],
                 eventTapCompletion: self.openEvent
             )
@@ -170,5 +170,17 @@ private extension EventsPresenter {
             longitude: long
         ).fetchPlaceFullName()
         return "\(location?.locality ?? ""), \(location?.name ?? "")"
+    }
+    
+    func mapCell(with event: EventsModel.EventModel) -> EventsViewControllerProps.EventItem {
+        let item = EventsViewControllerProps.EventItem(
+            name: event.eventTitle,
+            imageUrl: event.eventImageURL,
+            date: Date.datePeriod(
+                from: event.startDate.dateValue(),
+                endDate: event.endDate.dateValue()),
+            place: getEventLocation(event.lat, event.long)
+        )
+        return item
     }
 }

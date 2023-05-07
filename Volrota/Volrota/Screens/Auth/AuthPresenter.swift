@@ -6,6 +6,7 @@
 //
 
 import XCoordinator
+import FirebaseAuth
 
 protocol AuthPresenterProtocol: AnyObject {
     func initialAction()
@@ -23,8 +24,6 @@ final class AuthPresenter: AuthPresenterProtocol {
     private var keyChainService: KeychainService
     private let database: FirebaseDatabse
     
-    private var organizations: [Organization] = []
-    private var selectedOrganizationIndex: Int = -1
     private var lastUsedProps: AuthViewControllerProps? {
         didSet {
             if let props = lastUsedProps {
@@ -51,75 +50,17 @@ final class AuthPresenter: AuthPresenterProtocol {
     }
     
     func initialAction() {
+        
+        if let currentUser = authenticationService.currentUser, currentUser.isAnonymous {
+            router.trigger(.signUp)
+        }
+        
         let props = getDefaultProps(
             true,
-            state: .inProgress(
-                ProgressViewProps(
-                    propgress: 0.0,
-                    message: "Синхронизация")
-            )
+            state: .success
         )
-        view?.render(with: props)
         
         lastUsedProps = props
-        
-        Task {
-            do {
-                
-                let organizations = try? await database.getAllOrganizations()
-                self.organizations = organizations?.compactMap { $0 } ?? []
-                
-                if let _ = authenticationService.currentUser {
-                    
-                    lastUsedProps = getDefaultProps(
-                        false,
-                        state: .inProgress(
-                            ProgressViewProps(
-                                propgress: 0.5,
-                                message: "Пробую вход по логину/паролю"
-                            )
-                        )
-                    )
-                    
-                    let user = await authenticationService.signIn(
-                        keyChainService.userEmail ?? "",
-                        keyChainService.userPassword ?? ""
-                    )
-                    if let user = user, !user.isEmpty {
-                        openMainScreen()
-                    }
-                    
-                    try await Task.sleep(nanoseconds: 1000000000)
-                    
-                    lastUsedProps = getDefaultProps(
-                        false,
-                        state: .inProgress(
-                            ProgressViewProps(
-                                propgress: 1,
-                                message: "Пробую вход через Гугл"
-                            )
-                        )
-                    )
-                    
-                    let googleUser = try await authenticationService.signInWithGoogle(vc: nil)
-                    if !googleUser.uid.isEmpty {
-                        openMainScreen()
-                    }
-                    
-                    try await Task.sleep(nanoseconds: 1000000000)
-                } else {
-                    lastUsedProps = getDefaultProps(
-                        false, state: .success
-                    )
-                }
-            } catch {
-                print(error)
-                DispatchQueue.main.async {
-                    let props = self.getDefaultProps(false, state: .failure)
-                    self.view?.render(with: props)
-                }
-            }
-        }
     }
     
     func signIn(_ email: String?, _ password: String?) {
@@ -152,24 +93,19 @@ final class AuthPresenter: AuthPresenterProtocol {
     
     @MainActor
     func signInWithGoggle(view: UIViewController) {
-        
-        if selectedOrganizationIndex == -1 {
-            return
-        }
-        
         Task {
             do {
-                let userId = try await authenticationService.signInWithGoogle(vc: view)
-                
-                if !userId.uid.isEmpty {
-                    try? await database.createNewUser(
-                        userId: userId.uid,
-                        name: userId.displayName ?? "",
-                        secondName: "",
-                        organization: organizations[selectedOrganizationIndex].organizationId,
-                        imageUrl: userId.photoURL?.absoluteString
+                let googleUser = try await authenticationService.signInWithGoogle(vc: view)
+                if googleUser.email == keyChainService.userEmail {
+                    let id = await authenticationService.signIn(
+                        googleUser.email ?? "",
+                        keyChainService.userPassword ?? ""
                     )
                     openMainScreen()
+                } else {
+                    DispatchQueue.main.async {
+                        self.showFailureToSignInWithGoogle()
+                    }
                 }
             } catch {
                 print(error)
@@ -185,10 +121,6 @@ private extension AuthPresenter {
         
         let props = AuthViewControllerProps(
             state: state,
-            dropDownProps: DropDownTextFieldProps(
-                items: organizations.compactMap { $0.name },
-                chooseOrganizationCompletion: chooseOrganization
-            ),
             signUpButtonAction: openSignUpScreen,
             borderedButtonProps: BorderedButtonProps(
                 text: Strings.Auth.signIn
@@ -198,10 +130,6 @@ private extension AuthPresenter {
             )
         )
         return props
-    }
-    
-    func chooseOrganization(index: Int) {
-        selectedOrganizationIndex = index
     }
     
     func openSignUpScreen() {
@@ -228,6 +156,12 @@ private extension AuthPresenter {
             actions: [createAction, cancelAction]
         )
         
+        router.trigger(.alert(alert))
+    }
+    
+    func showFailureToSignInWithGoogle() {
+        let action = Alert.Action(title: "Ok", style: .cancel, action: nil)
+        let alert = Alert(title: "Не удалось войти через гугл", message: "Попробуйте вход по логину/паролю", style: .alert, actions: [action])
         router.trigger(.alert(alert))
     }
     
