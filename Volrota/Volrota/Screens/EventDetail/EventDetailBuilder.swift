@@ -6,6 +6,8 @@
 //
 
 import XCoordinator
+import GeneralServices
+import Utils
 
 final class EventDetailBuilder {
     

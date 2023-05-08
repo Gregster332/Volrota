@@ -5,8 +5,8 @@
 //  Created by Григорий on 30.12.2022.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
 
 protocol SettingsPresenterProtocol: AnyObject {
     func initialize()

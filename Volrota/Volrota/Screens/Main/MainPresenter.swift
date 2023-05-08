@@ -8,6 +8,7 @@
 import XCoordinator
 import FirebaseFirestore
 import CoreLocation
+import GeneralServices
 
 final class MainPresenter {
     

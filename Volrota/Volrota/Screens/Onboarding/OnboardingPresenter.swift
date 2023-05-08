@@ -5,8 +5,8 @@
 //  Created by Greg Zenkov on 3/18/23.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
 
 protocol OnboardingPresenterProtocol: AnyObject {
     func initialize()

@@ -17,7 +17,7 @@ import UIKit.UIGeometry
 
 public protocol Do {}
 
-extension Do where Self: Any {
+public extension Do where Self: Any {
     
     /**
      SparrowKit: Synaxic sugar for code reduction. Access instance or object properties using `do` via closures
@@ -37,7 +37,7 @@ extension Do where Self: Any {
      ```
      */
     @inlinable
-    @discardableResult public func `do`(_ block: (Self) throws -> Void) rethrows -> Self {
+    @discardableResult func `do`(_ block: (Self) throws -> Void) rethrows -> Self {
         try block(self)
         return self
     }

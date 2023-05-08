@@ -5,8 +5,8 @@
 //  Created by Greg Zenkov on 4/1/23.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
 
 protocol SignUpPresenterProtocol: AnyObject {
     func initialAction()

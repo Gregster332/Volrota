@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import ProfileModule
 
 struct MainViewControllerProps {
     let sections: [Section]
@@ -290,8 +291,4 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         }
         
     }
-}
-
-extension Notification.Name {
-    static let logOut = Notification.Name("logOut")
 }
