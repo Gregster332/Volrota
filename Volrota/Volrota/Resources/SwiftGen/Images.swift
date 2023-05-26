@@ -27,6 +27,7 @@ public enum Images {
   public static let dateImage = ImageAsset(name: "date_image")
   public static let errorImge = ImageAsset(name: "error_imge")
   public static let googleLogo = ImageAsset(name: "google_logo")
+  public static let imagePlaceholder = ImageAsset(name: "image_placeholder")
   public static let locationImage = ImageAsset(name: "location_image")
   public static let oscar = ImageAsset(name: "oscar")
   public static let plusAvatarImage = ImageAsset(name: "plus_avatar_image")

@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import GeneralServices
 
 protocol LocationService: AnyObject {
     
@@ -15,6 +16,7 @@ protocol LocationService: AnyObject {
     func fetchCityAndCountry(location: CLLocation) async throws -> (String, String)
     func fetchCityName(location: CLLocation?) async throws -> String?
     func getFullPlacemark(location: CLLocation) async -> CLPlacemark?
+    func findLocation(by query: String, completion: @escaping ([LocationModel]) -> Void)
 }
 
 final class DefaultLocationService: NSObject, LocationService, CLLocationManagerDelegate {
@@ -129,5 +131,43 @@ final class DefaultLocationService: NSObject, LocationService, CLLocationManager
     func getFullPlacemark(location: CLLocation) async -> CLPlacemark? {
         let loc = try? await CLGeocoder().reverseGeocodeLocation(location)
         return loc?.first
+    }
+    
+    func findLocation(by query: String, completion: @escaping ([LocationModel]) -> Void) {
+        let geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(query) { places, error in
+            guard let places = places, error == nil else {
+                completion([])
+                return
+            }
+            
+            let models = places.compactMap {
+                
+                var placeName = ""
+                
+                if let locationName = $0.name {
+                    placeName += locationName
+                }
+                
+                if let region = $0.administrativeArea {
+                    placeName += ", \(region)"
+                }
+                
+                if let locality = $0.locality {
+                    placeName += ", \(locality)"
+                }
+                
+                if let country = $0.country {
+                    placeName += ", \(country)"
+                }
+                
+                return LocationModel(
+                    title: placeName,
+                    coordinates: $0.location?.coordinate)
+            }
+            
+            completion(models)
+        }
     }
 }

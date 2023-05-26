@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseFirestore
-import ProfileModule
 
 struct MainViewControllerProps {
     let sections: [Section]
@@ -30,7 +29,6 @@ struct MainViewControllerProps {
     }
     
     struct NewsViewProps {
-    
         let title: String
         let bannerTitle: String
         let viewBackgroundColor: UIColor
@@ -88,8 +86,8 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     )
     
     private lazy var collectionViewLayout: UICollectionViewLayout = {
-        let layout = UICollectionViewCompositionalLayout { (index, _) -> NSCollectionLayoutSection? in
-            return self.layoutSections[index].layoutSection()
+        let layout = UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
+            return self?.layoutSections[index].layoutSection()
         }
         return layout
     }()

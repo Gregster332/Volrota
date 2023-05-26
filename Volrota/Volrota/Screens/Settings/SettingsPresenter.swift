@@ -45,7 +45,7 @@ final class SettingsPresenter: SettingsPresenterProtocol {
                     .profileCell(
                         SettingsProps.ProfileCellProps(
                             avatarImageUrl: user?.profileImageUrl ?? "",
-                            userFullName: (user?.name ?? "") + " " + (user?.secondName ?? ""),
+                            userFullName: (user?.name ?? ""),
                             action: openProfile)
                     ),
                     .defaultCell(

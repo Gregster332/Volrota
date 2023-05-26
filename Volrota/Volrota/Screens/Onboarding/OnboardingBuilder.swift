@@ -15,8 +15,10 @@ final class OnboardingBuilder {
         permissionService: PermissionService,
         locationService: PermissionService,
         applicationState: ApplicationState,
-        authenticationService: AuthService
+        authenticationService: AuthService,
+        remoteConfigService: FirebaseRemoteConfig
     ) -> OnboardingViewController {
+        
         let view = OnboardingViewController()
         let presenter = OnboardingPresenter(
             view: view,
@@ -24,7 +26,7 @@ final class OnboardingBuilder {
             permissionService: permissionService,
             locationService: locationService,
             applicationState: applicationState,
-            authenticationService: authenticationService
+            remoteConfigService: remoteConfigService
         )
         
         view.presenter = presenter

@@ -135,9 +135,8 @@ private extension SignUpViewController {
     @objc func handleSignUpButton() {
         presenter.signUp(
             tableView.getStringFromTextField(with: 0),
-            tableView.getStringFromTextField(with: 1),
+            tableView.getStringFromTextField(with: 2),
             tableView.getStringFromTextField(with: 3),
-            tableView.getStringFromTextField(with: 4),
             changeProfileButtonView.imageView?.image ?? UIImage()
         )
     }

@@ -37,32 +37,6 @@ final class EventsPresenter: EventsPresenterProtocol {
     private let authenticationService: AuthService
     private let locationService: LocationService
     
-    private var events: [EventsModel.EventModel] = []
-    private var filteredEvents: [EventsModel.EventModel] = []
-    private var usersEventsIds: [String] = []
-    private var currentUserLocation: CLLocation?
-    private var filteringKeys: [FilteringKeys?] = Array(repeating: nil, count: 3) {
-        didSet {
-            let key = filteringKeys.compactMap{ $0 }.first
-            if let key = key {
-                switch key {
-                case .assignedToUser:
-                    filteredEvents = filteredEvents.filter { usersEventsIds.contains($0.eventId) }
-                case .expiredSoon:
-                    filteredEvents = filteredEvents.filter { $0.endDate.dateValue().isDateExpiredSoon() }
-//                case .near:
-//                    filteredEvents = filteredEvents.filter {
-//                        abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.04 &&
-//                        abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.04
-//                    }
-                }
-            } else {
-                filteredEvents = events
-            }
-            renderProps(models: filteredEvents)
-        }
-    }
-
     // MARK: - Initialize
     init(
         view: EventsViewControllerProtocol,
@@ -78,6 +52,27 @@ final class EventsPresenter: EventsPresenterProtocol {
         self.locationService = locationService
     }
     
+    private var events: [EventsModel.EventModel] = []
+    private var filteredEvents: [EventsModel.EventModel] = []
+    private var usersEventsIds: [String] = []
+    private var currentUserLocation: CLLocation?
+    private var filteringKeys: [FilteringKeys?] = Array(repeating: nil, count: 3) {
+        didSet {
+            let key = filteringKeys.compactMap{ $0 }.first
+            if let key = key {
+                switch key {
+                case .assignedToUser:
+                    filteredEvents = filteredEvents.filter { usersEventsIds.contains($0.eventId) }
+                case .expiredSoon:
+                    filteredEvents = filteredEvents.filter { $0.endDate.dateValue().isDateExpiredSoon() }
+                }
+            } else {
+                filteredEvents = events
+            }
+            renderProps(models: filteredEvents)
+        }
+    }
+    
     func initialize() {
         Task {
             do {
@@ -88,26 +83,18 @@ final class EventsPresenter: EventsPresenterProtocol {
                 events = eventModels
                 filteredEvents = eventModels
                 
-                var cells = eventModels.map {
+                let cells = eventModels.map {
                     mapCell(with: $0)
                 }
-                
-                let locals = eventModels.filter {
-                    abs($0.lat - (currentUserLocation?.coordinate.latitude ?? 0.0)) < 0.05 &&
-                    abs($0.long - (currentUserLocation?.coordinate.longitude ?? 0.0)) < 0.05
-                }.map {
-                    mapCell(with: $0)
-                }
-                
-                cells = Array(Set(cells).subtracting(locals))
                 
                 let props = EventsViewControllerProps(
                     events: [
-                        .locals(locals),
                         .others(cells)
                     ],
-                    eventTapCompletion: openEvent
+                    eventTapCompletion: openEvent,
+                    tapOnAddEventCompletion: tapOnAddEventCompletion
                 )
+                
                 DispatchQueue.main.async {
                     self.view?.render(with: props)
                 }
@@ -157,7 +144,8 @@ private extension EventsPresenter {
                 events: [
                     .others(cells)
                 ],
-                eventTapCompletion: self.openEvent
+                eventTapCompletion: self.openEvent,
+                tapOnAddEventCompletion: self.tapOnAddEventCompletion
             )
             DispatchQueue.main.async {
                 self.view?.render(with: props)
@@ -183,5 +171,9 @@ private extension EventsPresenter {
             place: getEventLocation(event.lat, event.long)
         )
         return item
+    }
+    
+    func tapOnAddEventCompletion() {
+        router.trigger(.addNewEvent)
     }
 }

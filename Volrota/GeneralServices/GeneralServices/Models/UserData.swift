@@ -11,14 +11,12 @@ import Foundation
 public struct UserData: Codable {
     
     public let name: String
-    public let secondName: String
     public let organizationId: String
     public let profileImageUrl: String
     public let eventsIds: [String]
     
     enum CodingKeys: String, CodingKey {
         case name
-        case secondName = "second_name"
         case organizationId = "organization_id"
         case profileImageUrl = "image_url"
         case eventsIds = "events_ids"

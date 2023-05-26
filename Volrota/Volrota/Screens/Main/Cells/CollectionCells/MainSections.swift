@@ -41,45 +41,6 @@ struct NewsSection: MainSection {
     }
 }
 
-//struct EventsSection: MainSection {
-//    func layoutSection() -> NSCollectionLayoutSection {
-//        let spacing: CGFloat = 8
-//        
-//        let item = NSCollectionLayoutItem(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .fractionalWidth(1),
-//                heightDimension: .fractionalHeight(1)
-//            )
-//        )
-//        
-//        let group = NSCollectionLayoutGroup.horizontal(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .fractionalWidth(0.9),
-//                heightDimension: .absolute(355)
-//            ),
-//            subitems: [item]
-//        )
-//        
-//        group.interItemSpacing = .fixed(spacing)
-//        
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .groupPaging
-//        section.contentInsets = .init(top: 8, leading: 8, bottom: 8, trailing: 8)
-//        section.interGroupSpacing = spacing
-//        
-//        let header = NSCollectionLayoutBoundarySupplementaryItem(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .fractionalWidth(1),
-//                heightDimension: .absolute(45)
-//            ),
-//            elementKind: UICollectionView.elementKindSectionHeader,
-//            alignment: .top
-//        )
-//        section.boundarySupplementaryItems = [header]
-//        return section
-//    }
-//}
-
 struct ActualsSection: MainSection {
     func layoutSection() -> NSCollectionLayoutSection {
         let spacing: CGFloat = 8
@@ -102,7 +63,6 @@ struct ActualsSection: MainSection {
         group.interItemSpacing = .fixed(spacing)
         
         let section = NSCollectionLayoutSection(group: group)
-        //section.orthogonalScrollingBehavior = .groupPagingCentered
         section.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         section.interGroupSpacing = spacing
         

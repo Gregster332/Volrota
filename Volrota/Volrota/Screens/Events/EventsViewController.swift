@@ -10,15 +10,13 @@ import UIKit
 struct EventsViewControllerProps {
     let events: [EventsSection]
     let eventTapCompletion: ((IndexPath) -> Void)?
+    let tapOnAddEventCompletion: (() -> Void)?
     
     enum EventsSection {
-        case locals([EventItem])
         case others([EventItem])
         
         var headerTitle: String {
             switch self {
-            case .locals:
-                return "Локальные"
             case .others:
                 return "Общие"
             }
@@ -45,17 +43,17 @@ final class EventsViewController: UIViewController, EventsViewControllerProtocol
     // swiftlint:enable implicitly_unwrapped_optional
     private var sections: [EventsViewControllerProps.EventsSection] = []
     private var eventTapCompletion: ((IndexPath) -> Void)?
+    private var tapOnAddEventCompletion: (() -> Void)?
     
     // MARK: - Views
     private let layout = UICollectionViewLayout()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    private let filterButton = UIButton()
+    private let filterButton = UIButton(type: .custom)
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        //setNavigationBar()
         setupConstraints()
         presenter.initialize()
     }
@@ -64,11 +62,7 @@ final class EventsViewController: UIViewController, EventsViewControllerProtocol
     func render(with props: EventsViewControllerProps) {
         sections = props.events
         eventTapCompletion = props.eventTapCompletion
-//        if collectionView.numberOfSections > 0 {
-//            collectionView.reloadSections(IndexSet(integer: 1))
-//        } else {
-//            collectionView.reloadData()
-//        }
+        tapOnAddEventCompletion = props.tapOnAddEventCompletion
         collectionView.reloadData()
         collectionView.isUserInteractionEnabled = true
     }
@@ -118,16 +112,19 @@ private extension EventsViewController {
     }
     
     func setNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: filterButton)
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(customView: filterButton),
+            UIBarButtonItem(
+                barButtonSystemItem: .add,
+                target: self,
+                action: #selector(handleTapOnCreateNewUser)
+            )
+        ]
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
-            if index == 0 {
-                return self?.createLayoutForLocals()
-            } else {
-                return self?.createSection()
-            }
+            return self?.createSection()
         }
         return layout
     }
@@ -154,44 +151,7 @@ private extension EventsViewController {
         let section = NSCollectionLayoutSection(
             group: group
         )
-        //section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
-        section.interGroupSpacing = spacing
-        
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(45)),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top)
-        
-        section.boundarySupplementaryItems = [header]
-        
-        return section
-    }
-    
-    func createLayoutForLocals() -> NSCollectionLayoutSection {
-        
-        let spacing: CGFloat = 8
-        
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1)
-            )
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.9),
-                heightDimension: .absolute(355)),
-            subitems: [item])
-        
-        group.interItemSpacing = .fixed(spacing)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        section.contentInsets = .init(top: 8, leading: 16, bottom: 8, trailing: 16)
         section.interGroupSpacing = spacing
         
         let header = NSCollectionLayoutBoundarySupplementaryItem(
@@ -216,10 +176,6 @@ private extension EventsViewController {
                 self.presenter.filterEvents(with: 1)
                 self.filterButton.menu = self.createMenu(actionTitle: action.title)
             },
-            UIAction(title: "Только локальные") { [unowned self] action in
-                self.presenter.filterEvents(with: 2)
-                self.filterButton.menu = self.createMenu(actionTitle: action.title)
-            }
         ])
         
         if let actionTitle = actionTitle {
@@ -234,6 +190,10 @@ private extension EventsViewController {
         }
         
         return menu
+    }
+    
+    @objc func handleTapOnCreateNewUser() {
+        tapOnAddEventCompletion?()
     }
 }
 
@@ -255,8 +215,6 @@ extension EventsViewController: UICollectionViewDataSource {
         switch section {
         case .others(let events):
             return events.count
-        case .locals(let locals):
-            return locals.count
         }
     }
     
@@ -266,11 +224,6 @@ extension EventsViewController: UICollectionViewDataSource {
         switch section {
         case .others(let events):
             let item = events[indexPath.item]
-            let cell = collectionView.dequeueCell(with: indexPath) as EventCell
-            cell.render(with: item)
-            return cell
-        case .locals(let locals):
-            let item = locals[indexPath.item]
             let cell = collectionView.dequeueCell(with: indexPath) as EventCell
             cell.render(with: item)
             return cell

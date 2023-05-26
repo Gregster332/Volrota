@@ -70,8 +70,17 @@
 "events.near" = "Только локальные";
 "events.navTitle" = "Мероприятия";
 
-// MARK: Event Detail
+// MARK: - Event Detail
 "eventDetail.eventAvailable" = "Событие доступно";
 "eventDetail.eventExpired" = "Не актуально";
 "eventDetail.alreadySusbcribed" = "Вы уже учавствуете";
+
+// MARK: - AddNewEvent
+"addNewEvent.title" = "Название...";
+"addNewEvent.chooseImage" = "Выбрать изображение";
+"addNewEvent.chooseLocation" = "Выбрать место проведения";
+"addNewEvent.titleWarning" = "Название события не может быть пустым";
+"addNewEvent.imageWarning" = "Следует выбрать изображения события";
+"addNewEvent.startDateWarning" = "Дата начала не может быть меньше текущей даты";
+"addNewEvent.endDateWarning" = "Дата конца не может быть меньше текущей даты";
 

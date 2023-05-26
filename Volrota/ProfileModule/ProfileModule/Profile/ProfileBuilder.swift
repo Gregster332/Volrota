@@ -8,9 +8,9 @@
 import XCoordinator
 import GeneralServices
 
-final public class ProfileBuilder {
+final class ProfileBuilder {
     
-    public static func build(
+    static func build(
         router: WeakRouter<ProfileRoute>,
         authenticationService: AuthService,
         keyChainService: KeychainService,

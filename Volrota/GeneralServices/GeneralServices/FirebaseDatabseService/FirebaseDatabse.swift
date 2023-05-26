@@ -14,13 +14,14 @@ public protocol FirebaseDatabse {
     func getGlobalData() async throws -> GlobalModel
     func getEvents(_ dictionary: [String: Any]?) async throws -> [EventsModel.EventModel]
     func getActuals(_ dictionary: [String: Any]?) async throws -> [GlobalModel.ActualModel]
-    func createNewUser(userId: String, name: String, secondName: String, organization: String, imageUrl: String?) async throws
+    func createNewUser(userId: String, name: String, organization: String, imageUrl: String?) async throws
     func getUserInfo(by id: String) async -> UserData?
     func updateUserPhotoUrl(with id: String, _ imageUrl: String) async throws
     func getOrganizationBy(_ id: String) async -> Organization?
     func getAllOrganizations() async throws -> [Organization]
     func updateUserEvents(with eventId: String, userId: String) async
     func updateUserName(with id: String,_ name: String) async throws
+    func addNewEvent(_ eventModel: EventsModel.EventModel, with id: String) async throws
 }
 
 public final class DefaultFirebaseDatabse: FirebaseDatabse {
@@ -30,6 +31,9 @@ public final class DefaultFirebaseDatabse: FirebaseDatabse {
     public init() {
         database = Firestore.firestore()
     }
+    
+    // Методы протокола ...
+    // Приватные методы сервиса ...
     
     public func getGlobalData() async throws -> GlobalModel {
         do {
@@ -99,7 +103,6 @@ public final class DefaultFirebaseDatabse: FirebaseDatabse {
     public func createNewUser(
         userId: String,
         name: String,
-        secondName: String,
         organization: String,
         imageUrl: String?
     ) async throws {
@@ -111,7 +114,6 @@ public final class DefaultFirebaseDatabse: FirebaseDatabse {
             
             var data = [String: Any]()
             data["name"] = name
-            data["second_name"] = secondName
             data["organization_id"] = organization
             data["image_url"] = imageUrl ?? ""
             data["events_ids"] = [String]()
@@ -200,6 +202,25 @@ public final class DefaultFirebaseDatabse: FirebaseDatabse {
         var eventsIds = try? document?.data(as: UserData.self).eventsIds
         eventsIds?.append(eventId)
         try? await document?.reference.updateData(["events_ids": eventsIds])
+    }
+    
+    public func addNewEvent(_ eventModel: EventsModel.EventModel, with id: String) async throws {
+        let collectionRef = database.collection("volrota/global/events")
+        let documentRef = collectionRef.document(id)
+        
+        do {
+            var data = [String: Any]()
+            data["title"] = eventModel.eventTitle
+            data["image"] = eventModel.eventImageURL
+            data["start_date"] = eventModel.startDate
+            data["end_date"] = eventModel.endDate
+            data["event_id"] = id
+            data["lat"] = eventModel.lat
+            data["long"] = eventModel.long
+            try await documentRef.setData(data)
+        } catch {
+            throw error
+        }
     }
 }
 

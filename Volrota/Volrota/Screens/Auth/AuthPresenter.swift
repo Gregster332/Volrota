@@ -53,16 +53,16 @@ final class AuthPresenter: AuthPresenterProtocol {
     
     func initialAction() {
         
-        if let currentUser = authenticationService.currentUser, currentUser.isAnonymous {
-            router.trigger(.signUp)
-        }
-        
         let props = getDefaultProps(
             true,
             state: .success
         )
         
         lastUsedProps = props
+        
+        if let email = keyChainService.userEmail, let password = keyChainService.userPassword {
+            signIn(email, password)
+        }
     }
     
     func signIn(_ email: String?, _ password: String?) {

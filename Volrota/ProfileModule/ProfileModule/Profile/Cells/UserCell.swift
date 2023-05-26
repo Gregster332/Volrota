@@ -36,7 +36,7 @@ class UserCell: UICollectionViewCell {
     
     // MARK: - Methods
     func render(with props: ProfileViewControllerProps.UserCellProps, isEditingMode: Bool) {
-        //profileImageView.kf.setImage(with: URL(string: props.profileImageUrl))
+        profileImageView.kf.setImage(with: URL(string: props.profileImageUrl))
         profileNameTextField.text = props.fullName
         profileNameTextField.isEnabled = isEditingMode
         profileNameTextField.backgroundColor = isEditingMode ? .white : .clear

@@ -11,7 +11,6 @@ import GeneralServices
 protocol SignUpPresenterProtocol: AnyObject {
     func initialAction()
     func signUp(_ name: String,
-                _ secondName: String,
                 _ email: String,
                 _ password: String,
                 _ image: UIImage)
@@ -67,7 +66,6 @@ final class SignUpPresenter: SignUpPresenterProtocol {
     
     func signUp(
         _ name: String,
-        _ secondName: String,
         _ email: String,
         _ password: String,
         _ image: UIImage
@@ -82,7 +80,7 @@ final class SignUpPresenter: SignUpPresenterProtocol {
                 keyChainAccess.userPassword = password
                 
                 if !createdUser.uid.isEmpty {
-                    try await database.createNewUser(userId: createdUser.uid, name: name, secondName: secondName, organization: selectedOrganizationId, imageUrl: nil)
+                    try await database.createNewUser(userId: createdUser.uid, name: name, organization: selectedOrganizationId, imageUrl: nil)
                     
                     try await uploadImage(image)
                     
@@ -122,15 +120,6 @@ private extension SignUpPresenter {
                         )
                     )
                 ),
-                .typing(
-                    SignUpViewControllerProps.TypingSection(
-                        title: Strings.SignUp.secondName,
-                        cellProps: TypingCellProps(
-                            tag: 1,
-                            placeholder: Strings.SignUp.secondNamePlaceholder
-                        )
-                    )
-                ),
                 .dropDown(
                     SignUpViewControllerProps.OrganizationSection(
                         title: Strings.SignUp.organization,
@@ -144,7 +133,7 @@ private extension SignUpPresenter {
                     SignUpViewControllerProps.TypingSection(
                         title: Strings.SignUp.email,
                         cellProps: TypingCellProps(
-                            tag: 3,
+                            tag: 2,
                             placeholder: Strings.SignUp.emailPlaceholder
                         )
                     )
@@ -153,7 +142,7 @@ private extension SignUpPresenter {
                     SignUpViewControllerProps.TypingSection(
                         title: Strings.SignUp.password,
                         cellProps: TypingCellProps(
-                            tag: 4,
+                            tag: 3,
                             placeholder: Strings.SignUp.passwordPlaceholder
                         )
                     )

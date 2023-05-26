@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DDFEE66C49D63317F516D877 /* Pods_GeneralServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB56915A4FCAAB633EA9D29 /* Pods_GeneralServices.framework */; };
+		ED22A1902A10F8F0005DAFA3 /* FirebaseRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22A18F2A10F8F0005DAFA3 /* FirebaseRemoteConfig.swift */; };
+		ED22A1942A10F932005DAFA3 /* OnboardingVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED22A1932A10F932005DAFA3 /* OnboardingVersion.swift */; };
 		EDC7DD9E2A08107600528B65 /* GeneralServices.h in Headers */ = {isa = PBXBuildFile; fileRef = EDC7DD9D2A08107600528B65 /* GeneralServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EDC7DDBC2A08119900528B65 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC7DDBB2A08119900528B65 /* KeychainService.swift */; };
 		EDC7DDC12A08129D00528B65 /* FirebaseDatabse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC7DDB92A08119500528B65 /* FirebaseDatabse.swift */; };
@@ -36,6 +38,9 @@
 /* Begin PBXFileReference section */
 		310C110A66FF22085B9EEB67 /* Pods-GeneralServices.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeneralServices.debug.xcconfig"; path = "Target Support Files/Pods-GeneralServices/Pods-GeneralServices.debug.xcconfig"; sourceTree = "<group>"; };
 		B33151C0DAFD683919ADF353 /* Pods-GeneralServices.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeneralServices.release.xcconfig"; path = "Target Support Files/Pods-GeneralServices/Pods-GeneralServices.release.xcconfig"; sourceTree = "<group>"; };
+		ED22A18F2A10F8F0005DAFA3 /* FirebaseRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfig.swift; sourceTree = "<group>"; };
+		ED22A1932A10F932005DAFA3 /* OnboardingVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVersion.swift; sourceTree = "<group>"; };
+		ED22A1E92A110B73005DAFA3 /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDC7DD9A2A08107600528B65 /* GeneralServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GeneralServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDC7DD9D2A08107600528B65 /* GeneralServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneralServices.h; sourceTree = "<group>"; };
 		EDC7DDB22A08118D00528B65 /* FirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
@@ -74,10 +79,28 @@
 		9116FBDD2383458F2B3F9919 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED22A1E92A110B73005DAFA3 /* FirebaseCore.framework */,
 				EDC7DE102A09754300528B65 /* Utils.framework */,
 				FCB56915A4FCAAB633EA9D29 /* Pods_GeneralServices.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ED22A1912A10F915005DAFA3 /* FirebaseRemoteConfig */ = {
+			isa = PBXGroup;
+			children = (
+				ED22A1922A10F923005DAFA3 /* Settigs */,
+				ED22A18F2A10F8F0005DAFA3 /* FirebaseRemoteConfig.swift */,
+			);
+			path = FirebaseRemoteConfig;
+			sourceTree = "<group>";
+		};
+		ED22A1922A10F923005DAFA3 /* Settigs */ = {
+			isa = PBXGroup;
+			children = (
+				ED22A1932A10F932005DAFA3 /* OnboardingVersion.swift */,
+			);
+			path = Settigs;
 			sourceTree = "<group>";
 		};
 		EDC7DD902A08107600528B65 = {
@@ -102,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				EDC7DD9D2A08107600528B65 /* GeneralServices.h */,
+				ED22A1912A10F915005DAFA3 /* FirebaseRemoteConfig */,
 				EDC7DDCC2A08147300528B65 /* Models */,
 				EDC7DDBB2A08119900528B65 /* KeychainService.swift */,
 				EDC7DDBA2A08119500528B65 /* FirebaseDatabseService */,
@@ -253,8 +277,10 @@
 				EDC7DDD12A08147F00528B65 /* UserData.swift in Sources */,
 				EDC7DDC22A08129F00528B65 /* AuthService.swift in Sources */,
 				EDC7DDBC2A08119900528B65 /* KeychainService.swift in Sources */,
+				ED22A1942A10F932005DAFA3 /* OnboardingVersion.swift in Sources */,
 				EDC7DDD02A08147D00528B65 /* GlobalModel.swift in Sources */,
 				EDC7DDC32A0812A200528B65 /* FirebaseStorage.swift in Sources */,
+				ED22A1902A10F8F0005DAFA3 /* FirebaseRemoteConfig.swift in Sources */,
 				EDC7DDC12A08129D00528B65 /* FirebaseDatabse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

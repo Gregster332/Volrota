@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import CoreLocation
 
 // MARK: - GlobalModel
 public struct GlobalModel: Codable {
@@ -65,6 +66,16 @@ public struct EventsModel: Codable {
         public let long: Double
         public let eventId: String
         
+        public init(eventTitle: String, eventImageURL: String, startDate: Date, endDate: Date, lat: Double, long: Double, eventId: String) {
+            self.eventTitle = eventTitle
+            self.eventImageURL = eventImageURL
+            self.startDate = Timestamp(date: startDate)
+            self.endDate = Timestamp(date: endDate)
+            self.long = long
+            self.lat = lat
+            self.eventId = eventId
+        }
+        
         enum CodingKeys: String, CodingKey {
             case eventTitle = "title"
             case eventImageURL = "image"
@@ -74,5 +85,15 @@ public struct EventsModel: Codable {
             case lat
             case long
         }
+    }
+}
+
+public struct LocationModel {
+    public let title: String
+    public let coordinates: CLLocationCoordinate2D?
+    
+    public init(title: String, coordinates: CLLocationCoordinate2D?) {
+        self.title = title
+        self.coordinates = coordinates
     }
 }

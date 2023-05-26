@@ -10,7 +10,10 @@ import GeneralServices
 
 protocol OnboardingPresenterProtocol: AnyObject {
     func initialize()
-    //func accessNotifications()
+    func configureControllers()
+    func getSelectedIndex() -> Int
+    func setSelectedIndex(_ index: Int)
+    func nextScreen()
 }
 
 final class OnboardingPresenter: OnboardingPresenterProtocol {
@@ -21,7 +24,9 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
     private let permissionService: PermissionService
     private let locationService: PermissionService
     private var applicationState: ApplicationState
-    private let authenticationService: AuthService
+    private let remoteConfigService: FirebaseRemoteConfig
+    
+    private var selectedPageIndex: Int = 0
 
     // MARK: - Initialize
     init(
@@ -30,38 +35,56 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
         permissionService: PermissionService,
         locationService: PermissionService,
         applicationState: ApplicationState,
-        authenticationService: AuthService
+        remoteConfigService: FirebaseRemoteConfig
     ) {
         self.view = view
         self.router = router
         self.permissionService = permissionService
         self.locationService = locationService
         self.applicationState = applicationState
-        self.authenticationService = authenticationService
+        self.remoteConfigService = remoteConfigService
         initialize()
     }
     
     func initialize() {
         Task(priority: .high) {
-            
             let _ = await locationService.request()
-            
-            DispatchQueue.main.async {
-                self.view?.render(
-                    with: OnboardingProps(
-                        borderedButtonProps: BorderedButtonProps(
-                            text: Strings.Onboarding.continue,
-                            actionCompletion: self.accessNotifications
-                        )
-                    )
-                )
-            }
         }
+    }
+    
+    func getSelectedIndex() -> Int {
+        return selectedPageIndex
+    }
+    
+    func setSelectedIndex(_ index: Int) {
+        selectedPageIndex = index
+        view?.setupButtonTitle(with: "Продолжить")
+    }
+    
+    func nextScreen() {
+        accessNotifications()
+    }
+    
+    func configureControllers() {
+        let pages = configurePages()
+        view?.update(with: pages)
+        view?.setupButton(
+            with: "Продолжить",
+            backgroundColor: .black,
+            textColor: .white
+        )
     }
 }
 
 // MARK: - Private Methods
 private extension OnboardingPresenter {
+    
+    func configurePages() -> [UIViewController] {
+        let factory = OnboardingFactory()
+        let onboardingVersion = remoteConfigService.onboardingVersion
+        let pages = factory.build(with: onboardingVersion)
+        return pages
+    }
     
     func accessNotifications() {
         Task {

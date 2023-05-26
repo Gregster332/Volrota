@@ -8,12 +8,16 @@
 import XCoordinator
 import GeneralServices
 import Utils
+import PhotosUI
 
 enum EventsRoute: Route {
     case events
     case eventDetail(EventsModel.EventModel)
     case map(Double, Double)
     case dismiss
+    case addNewEvent
+    case photoPicker(PHPickerViewController)
+    case alert(Alert)
 }
 
 final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
@@ -38,6 +42,13 @@ final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
             return .present(map)
         case .dismiss:
             return .dismiss()
+        case .addNewEvent:
+            let addNewEvent = addNewEvent()
+            return .push(addNewEvent)
+        case .photoPicker(let photoPicker):
+            return .present(photoPicker)
+        case .alert(let alert):
+            return .presentAlert(alert)
         }
     }
     
@@ -69,5 +80,15 @@ final class EventsCoordinator: NavigationCoordinator<EventsRoute> {
             longitude: long
         )
         return map
+    }
+    
+    private func addNewEvent() -> UIViewController {
+        let addNewEvent = AddNewEventBuilder.build(
+            router: weakRouter,
+            storage: dependencies.firebaseStorageService,
+            database: dependencies.firebaseDatabse,
+            locationService: dependencies.locationService
+        )
+        return addNewEvent
     }
 }

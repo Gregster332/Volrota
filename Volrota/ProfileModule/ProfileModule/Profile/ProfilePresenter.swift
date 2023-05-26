@@ -7,8 +7,12 @@
 
 import XCoordinator
 import PhotosUI
-import GeneralServices
 import Utils
+import GeneralServices
+
+protocol PhotoFilterDelegate: AnyObject {
+    func pickImage(_ imageUrl: String)
+}
 
 protocol ProfilePresenterProtocol: AnyObject {
     func initialize()
@@ -17,7 +21,7 @@ protocol ProfilePresenterProtocol: AnyObject {
     func presentPhotoPicker(picker: PHPickerViewController)
 }
 
-final public class ProfilePresenter: ProfilePresenterProtocol {
+final class ProfilePresenter: ProfilePresenterProtocol {
     
     // MARK: - Properties
     private weak var view: ProfileViewControllerProtocol?
@@ -51,16 +55,9 @@ final public class ProfilePresenter: ProfilePresenterProtocol {
         self.keyChainService = keyChainService
         self.databse = databse
         self.firebaseStorageService = firebaseStorageService
-        initialize()
     }
     
     func initialize() {
-        
-        if let currentUser = authenticationService.currentUser, currentUser.isAnonymous {
-            view?.render(with: lastUsedProps)
-            return
-        }
-        
         view?.render(with: lastUsedProps)
         loadUserInfoTask = Task {
             do {
@@ -111,6 +108,10 @@ final public class ProfilePresenter: ProfilePresenterProtocol {
                 )
                 
                 lastUsedProps = props
+                
+                if Task.isCancelled {
+                    return
+                }
                 
                 await render(with: lastUsedProps)
             } catch {
@@ -180,26 +181,12 @@ private extension ProfilePresenter {
     func didEndPhotoPicking(with image: UIImage) {
         lastUsedProps.isLoading = true
         view?.render(with: lastUsedProps)
+        let userId = authenticationService.currentUser?.uid ?? ""
         resizeImage(image: image) { image in
             if let image = image {
-                Task(priority: .background) {
-                    do {
-                        let url = try await self.firebaseStorageService.uploadPhoto(
-                            with: self.authenticationService.currentUser?.uid ?? "",
-                            name: "user_profile_pic",
-                            image: image
-                        )
-                        
-                        try await self.databse.updateUserPhotoUrl(
-                            with: self.authenticationService.currentUser?.uid ?? "",
-                            url
-                        )
-                        
-                        await self.reloadImage(url: url)
-                    } catch {
-                        print(error)
-                    }
-                }
+                self.router.trigger(
+                    .imageEditor(image, userId, self)
+                )
             }
         }
     }
@@ -244,6 +231,26 @@ private extension ProfilePresenter {
     }
 }
 
+extension ProfilePresenter: PhotoFilterDelegate {
+    func pickImage(_ imageUrl: String) {
+        if let cell = lastUsedProps.cells.first {
+            switch cell {
+            case .user(let oldUserProps):
+                var newProps = oldUserProps
+                newProps.profileImageUrl = imageUrl
+                lastUsedProps.cells.removeFirst()
+                lastUsedProps.cells.insert(.user(newProps), at: 0)
+                DispatchQueue.main.async {
+                    self.view?.render(with: self.lastUsedProps)
+                }
+            default:
+                break
+            }
+        }
+    }
+}
+
 public extension Notification.Name {
     static let logOut = Notification.Name("logOut")
+    static let profileImageChanged = Notification.Name("profileImageChanged")
 }

@@ -27,10 +27,15 @@ public final class DefaultFirebaseStorage: FirebaseStorage {
                 let metadata = try await ref.putDataAsync(uploadData)
                 let url = try await ref.downloadURL()
                 return url.absoluteString
+            } else {
+                throw FirebaseStorageError.badData
             }
         } catch {
             throw error
         }
-        return ""
     }
+}
+
+enum FirebaseStorageError: Error {
+    case badData
 }

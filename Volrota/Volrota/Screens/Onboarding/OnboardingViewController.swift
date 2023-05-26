@@ -5,17 +5,15 @@
 //  Created by Greg Zenkov on 3/18/23.
 //
 
-import Lottie
-
-struct OnboardingProps {
-    let borderedButtonProps: BorderedButtonProps?
-}
+import UIKit
 
 protocol OnboardingViewControllerProtocol: AnyObject {
-    func render(with props: OnboardingProps)
+    func update(with configurePages: [UIViewController])
+    func setupButton(with title: String, backgroundColor: UIColor, textColor: UIColor)
+    func setupButtonTitle(with title: String)
 }
 
-final class OnboardingViewController: UIViewController, OnboardingViewControllerProtocol {
+final class OnboardingViewController: UIPageViewController {
     
     // MARK: - Properties
     // swiftlint:disable implicitly_unwrapped_optional
@@ -24,73 +22,71 @@ final class OnboardingViewController: UIViewController, OnboardingViewController
     private var borderedButtonAction: (() -> Void)?
     
     // MARK: - Views
-    private let titleLabel = UILabel()
-    private let animationView = LottieAnimationView(name: "envelope")
-    private let continueButton = BorderedButton()
-
+    private var pages = [UIViewController]()
+    private var continueButton = UIButton()
+    
+    init() {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureControllers()
+        setupNavigationBar()
         setupView()
-        addViews()
         setupConstraints()
-    }
-    
-    // MARK: - Methods
-    func render(with props: OnboardingProps) {
-        borderedButtonAction = props.borderedButtonProps?.actionCompletion
-        continueButton.render(with: props.borderedButtonProps)
+        removeSwipeGesture()
     }
 }
 
 // MARK: - Private Methods
 private extension OnboardingViewController {
     
-    func setupView() {
-        
-        view.do {
-            $0.backgroundColor = .white
-        }
-        
-        titleLabel.do {
-            $0.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
-            $0.textAlignment = .left
-            $0.numberOfLines = 0
-            $0.textColor = .black
-            $0.text = Strings.Onboarding.title
-        }
-        
-        animationView.do {
-            $0.animationSpeed = 1.5
-            $0.loopMode = .repeat(.infinity)
-            $0.contentMode = .scaleAspectFill
-            $0.play()
-        }
-        
-        let tap = UITapGestureRecognizer(
-            target: self,
-            action: #selector(handleContinueButton)
+    func configureControllers() {
+        presenter.configureControllers()
+
+        setViewControllers(
+            [pages[presenter.getSelectedIndex()]],
+            direction: .forward,
+            animated: true
         )
-        continueButton.addGestureRecognizer(tap)
     }
     
-    func addViews() {
+    func setupNavigationBar() {
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    func setupView() {
         
-        view.addSubviews([titleLabel, animationView, continueButton])
+        self.do {
+            $0.delegate = self
+            $0.dataSource = nil
+        }
+        
+        continueButton.do {
+            $0.backgroundColor = Colors.accentColor.color
+            $0.setTitleColor(.white, for: .normal)
+            $0.titleLabel?.font = .systemFont(
+                ofSize: 20,
+                weight: .semibold
+            )
+            $0.layer.cornerRadius = 12
+            $0.addTarget(
+                self,
+                action: #selector(pageDidChanges),
+                for: .touchUpInside
+            )
+        }
     }
     
     func setupConstraints() {
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
-        animationView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(30)
-            $0.size.equalTo(view.frame.size.width)
-            $0.centerX.equalToSuperview()
-        }
+        view.addSubview(continueButton)
         
         continueButton.snp.makeConstraints{
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-8)
@@ -99,8 +95,68 @@ private extension OnboardingViewController {
         }
     }
     
+    func removeSwipeGesture() {
+        for view in view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = false
+            }
+        }
+    }
+    
     // MARK: - UI Actions
-    @objc func handleContinueButton() {
-        borderedButtonAction?()
+    @objc private func pageDidChanges() {
+        let currentIndex = presenter.getSelectedIndex()
+        presenter.setSelectedIndex(currentIndex + 1)
+        if presenter.getSelectedIndex() >= pages.count {
+            presenter.nextScreen()
+        } else {
+            setViewControllers(
+                [pages[presenter.getSelectedIndex()]],
+                direction: .forward,
+                animated: true
+            )
+        }
+    }
+}
+
+extension OnboardingViewController: OnboardingViewControllerProtocol {
+    func update(with configurePages: [UIViewController]) {
+        pages = configurePages
+    }
+    
+    func setupButton(with title: String, backgroundColor: UIColor, textColor: UIColor) {
+        continueButton.setTitle(title, for: .normal)
+        continueButton.backgroundColor = backgroundColor
+        continueButton.setTitleColor(textColor, for: .normal)
+    }
+    
+    func setupButtonTitle(with title: String) {
+        continueButton.setTitle(title, for: .normal)
+    }
+}
+
+extension OnboardingViewController: UIPageViewControllerDelegate {
+    func pageViewController(_: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let currentIndex = pages.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        if currentIndex == 0 {
+            return nil
+        } else {
+            return pages[currentIndex - 1]
+        }
+    }
+    
+    func pageViewController(_: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let currentIndex = pages.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        if currentIndex < pages.count - 1 {
+            return pages[currentIndex + 1]
+        } else {
+            return nil
+        }
     }
 }

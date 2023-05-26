@@ -31,7 +31,7 @@ class OrganizationCell: UICollectionViewCell {
     
     // MARK: - Methods
     func render(with props: ProfileViewControllerProps.OrganizationCell) {
-        //organizationImageView.kf.setImage(with: URL(string: props.organizationImageUrl))
+        organizationImageView.kf.setImage(with: URL(string: props.organizationImageUrl))
         //organizationImageView.kf.setImage(with: URL(string: props.organizationImageUrl))
         organizationTitleLabel.text = props.organizationName
         //organizationNameLabel.text = props.organizationName

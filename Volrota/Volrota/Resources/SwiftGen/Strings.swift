@@ -14,6 +14,22 @@ public enum Strings {
     /// Актуальные
     public static let navTitle = Strings.tr("Localizable", "actuals.navTitle", fallback: "Актуальные")
   }
+  public enum AddNewEvent {
+    /// Выбрать изображение
+    public static let chooseImage = Strings.tr("Localizable", "addNewEvent.chooseImage", fallback: "Выбрать изображение")
+    /// Выбрать место проведения
+    public static let chooseLocation = Strings.tr("Localizable", "addNewEvent.chooseLocation", fallback: "Выбрать место проведения")
+    /// Дата конца не может быть меньше текущей даты
+    public static let endDateWarning = Strings.tr("Localizable", "addNewEvent.endDateWarning", fallback: "Дата конца не может быть меньше текущей даты")
+    /// Следует выбрать изображения события
+    public static let imageWarning = Strings.tr("Localizable", "addNewEvent.imageWarning", fallback: "Следует выбрать изображения события")
+    /// Дата начала не может быть меньше текущей даты
+    public static let startDateWarning = Strings.tr("Localizable", "addNewEvent.startDateWarning", fallback: "Дата начала не может быть меньше текущей даты")
+    /// Название...
+    public static let title = Strings.tr("Localizable", "addNewEvent.title", fallback: "Название...")
+    /// Название события не может быть пустым
+    public static let titleWarning = Strings.tr("Localizable", "addNewEvent.titleWarning", fallback: "Название события не может быть пустым")
+  }
   public enum Auth {
     /// Отмена
     public static let cancel = Strings.tr("Localizable", "auth.cancel", fallback: "Отмена")
