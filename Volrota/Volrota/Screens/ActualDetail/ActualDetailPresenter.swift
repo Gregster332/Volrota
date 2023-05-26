@@ -5,8 +5,8 @@
 //  Created by Greg Zenkov on 3/17/23.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
 
 protocol ActualDetailPresenterProtocol: AnyObject {
 }

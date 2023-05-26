@@ -6,6 +6,8 @@
 //
 
 import XCoordinator
+import ChatModule
+import Utils
 
 enum HelperRoute: Route {
     case news
@@ -23,8 +25,8 @@ final class HelperCoordinator: NavigationCoordinator<HelperRoute> {
     override func prepareTransition(for route: HelperRoute) -> NavigationTransition {
         switch route {
         case .news:
-            let newsViewController = news()
-            return .set([newsViewController])
+            let chatHelper = ChatViewController()
+            return .set([chatHelper])
         }
     }
     

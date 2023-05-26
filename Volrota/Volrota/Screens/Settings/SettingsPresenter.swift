@@ -5,8 +5,8 @@
 //  Created by Григорий on 30.12.2022.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
 
 protocol SettingsPresenterProtocol: AnyObject {
     func initialize()
@@ -45,7 +45,7 @@ final class SettingsPresenter: SettingsPresenterProtocol {
                     .profileCell(
                         SettingsProps.ProfileCellProps(
                             avatarImageUrl: user?.profileImageUrl ?? "",
-                            userFullName: (user?.name ?? "") + " " + (user?.secondName ?? ""),
+                            userFullName: (user?.name ?? ""),
                             action: openProfile)
                     ),
                     .defaultCell(

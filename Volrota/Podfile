@@ -1,35 +1,60 @@
 platform :ios, '14.1'
 
-use_frameworks! :linkage => :static
+workspace 'Volrota.xcworkspace'
+project 'Volrota.xcodeproj'
+
+use_frameworks!
 inhibit_all_warnings!
+
+def utils_pods
+  pod 'XCoordinator', '~> 2.0'
+end 
+
+def general_services_pods
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseStorage' 
+  pod 'FirebaseFirestoreSwift'
+  pod 'Firebase/RemoteConfig'
+  pod 'GoogleSignIn'
+  pod 'KeychainAccess'
+end 
+
+def chat_pods
+  utils_pods
+  pod 'SnapKit'
+  pod 'lottie-ios'
+  pod 'Kingfisher'
+end
 
 target 'Volrota' do
   # Comment the next line if you don't want to use dynamic frameworks
   # use_frameworks!
 
-  #Routing 
-  pod 'XCoordinator', '~> 2.0'
+  chat_pods
+  general_services_pods
 
   #Other
-  pod 'SnapKit'
   pod 'SwiftGen'
-  pod 'lottie-ios'
-  pod 'Kingfisher'
   pod 'IQKeyboardManagerSwift'
   pod 'DropDown'
-
-  #Firebase
-  pod 'FirebaseAnalytics'
-  pod 'FirebaseAuth'
-  pod 'FirebaseFirestore'
-  pod 'FirebaseStorage' 
-  pod 'FirebaseFirestoreSwift'
-  pod 'GoogleSignIn'
-
-  #Keychain
-  pod 'KeychainAccess'
-
+  pod 'FloatingPanel'
 end
+
+target 'ChatModule' do
+   project 'ChatModule/ChatModule.project'
+   chat_pods
+end
+
+target 'GeneralServices' do
+   project 'GeneralServices/GeneralServices.project'
+   general_services_pods
+end
+
+target 'Utils' do
+   project 'Utils/Utils.project'
+   utils_pods
+end 
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
@@ -40,3 +65,4 @@ post_install do |installer|
       end
     end
   end
+

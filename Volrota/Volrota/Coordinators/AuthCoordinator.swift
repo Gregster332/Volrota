@@ -6,6 +6,7 @@
 //
 
 import XCoordinator
+import Utils
 
 enum AuthRoute: Route {
     case auth

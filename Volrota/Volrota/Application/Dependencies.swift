@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import GeneralServices
 
 extension SceneDelegate {
     
@@ -25,6 +26,8 @@ extension SceneDelegate {
         
         let firebaseStorageService = DefaultFirebaseStorage()
         
+        let firebaseRemoteConfig = FirebaseRemoteConfigImpl()
+        
         return Dependencies(
             permissionService: permissionService,
             locationPermissionService: locationPermissionService,
@@ -33,7 +36,8 @@ extension SceneDelegate {
             locationService: locationService,
             authenticationService: authenticationService,
             keyChainService: keyChainService,
-            firebaseStorageService: firebaseStorageService
+            firebaseStorageService: firebaseStorageService,
+            firebaseRemoteConfig: firebaseRemoteConfig
         )
     }
     
@@ -48,4 +52,5 @@ struct Dependencies {
     let authenticationService: AuthService
     let keyChainService: KeychainService
     let firebaseStorageService: FirebaseStorage
+    let firebaseRemoteConfig: FirebaseRemoteConfig
 }

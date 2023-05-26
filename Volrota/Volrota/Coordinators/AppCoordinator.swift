@@ -6,6 +6,8 @@
 //
 
 import XCoordinator
+import Utils
+import GeneralServices
 
 enum RootRoute: Route {
     case splash
@@ -54,7 +56,8 @@ final class AppCoordinator: NavigationCoordinator<RootRoute> {
             permissionService: dependencies.permissionService,
             locationService: dependencies.locationPermissionService,
             applicationState: dependencies.applicationState,
-            authenticationService: dependencies.authenticationService)
+            authenticationService: dependencies.authenticationService,
+            remoteConfigService: dependencies.firebaseRemoteConfig)
         return onboarding
     }
     

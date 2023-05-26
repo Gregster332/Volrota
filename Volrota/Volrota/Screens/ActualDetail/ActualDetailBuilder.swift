@@ -7,6 +7,7 @@
 
 import UIKit
 import XCoordinator
+import GeneralServices
 
 final class ActualDetailBuilder {
     

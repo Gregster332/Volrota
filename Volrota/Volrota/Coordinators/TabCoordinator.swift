@@ -6,6 +6,7 @@
 //
 
 import XCoordinator
+import Utils
 
 enum TabRoute: Route {
     case main
@@ -26,7 +27,7 @@ final class TabCoordinator: TabBarCoordinator<TabRoute> {
     convenience init(dependencies: Dependencies) {
         let mainCoordinator = MainCoordinator(dependencies: dependencies)
         let mainItem = UITabBarItem(
-            title: "Main",
+            title: "Лента",
             image: UIImage(systemName: "house.fill"),
             tag: 1
         )
@@ -42,8 +43,8 @@ final class TabCoordinator: TabBarCoordinator<TabRoute> {
         
         let newsCoordinator = HelperCoordinator(dependencies: dependencies)
         let newsItem = UITabBarItem(
-            title: "Помощник",
-            image: UIImage(systemName: "face.dashed.fill"),
+            title: "Организация",
+            image: UIImage(systemName: "person.and.background.dotted"),
             tag: 3)
         newsCoordinator.rootViewController.tabBarItem = newsItem
         

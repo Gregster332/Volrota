@@ -5,8 +5,8 @@
 //  Created by Greg Zenkov on 3/18/23.
 //
 
-import UIKit
 import XCoordinator
+import GeneralServices
 
 final class OnboardingBuilder {
     
@@ -15,8 +15,10 @@ final class OnboardingBuilder {
         permissionService: PermissionService,
         locationService: PermissionService,
         applicationState: ApplicationState,
-        authenticationService: AuthService
+        authenticationService: AuthService,
+        remoteConfigService: FirebaseRemoteConfig
     ) -> OnboardingViewController {
+        
         let view = OnboardingViewController()
         let presenter = OnboardingPresenter(
             view: view,
@@ -24,7 +26,7 @@ final class OnboardingBuilder {
             permissionService: permissionService,
             locationService: locationService,
             applicationState: applicationState,
-            authenticationService: authenticationService
+            remoteConfigService: remoteConfigService
         )
         
         view.presenter = presenter

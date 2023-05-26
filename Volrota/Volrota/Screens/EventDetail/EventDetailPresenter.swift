@@ -5,8 +5,9 @@
 //  Created by Greg Zenkov on 4/14/23.
 //
 
-import Foundation
 import XCoordinator
+import GeneralServices
+
 
 protocol EventDetailPresenterProtocol: AnyObject {
 }
@@ -74,7 +75,7 @@ private extension EventDetailPresenter {
                 ),
                 .description(
                     EventDetailViewControllerProps.DescriptionSection(
-                        descriptionText: "2023-04-14 19:48:24.678989+0300 Volrota[55469:4482187] 10.4.0 - [FirebaseAnalytics][I-ACS800023] No pending snapshot to activate. SDK name: app_measurement 2023-04-14 19:48:24.686533+0300 Volrota[55469:4482187] 10.4.0 - [FirebaseAnalytics][I-ACS023012] Analytics collection enabled 2023-04-14 19:48:24.687565+0300 Volrota[55469:4482187] 10.4.0 - [FirebaseAnalytics][I-ACS023220] Analytics screen reporting is enabled. Call Analytics.logEvent(AnalyticsEventScreenView, parameters: [...]) to log a screen view event. To disable automatic screen reporting, set the flag FirebaseAutomaticScreenReportingEnabled to NO (boolean) in the Info.plist",
+                        descriptionText: "Здесь должно быть описание события",
                         startDate: model.startDate.dateValue().toString(),
                         endDate: model.endDate.dateValue().toString()
                     )

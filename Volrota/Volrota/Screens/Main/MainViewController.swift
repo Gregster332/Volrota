@@ -29,7 +29,6 @@ struct MainViewControllerProps {
     }
     
     struct NewsViewProps {
-    
         let title: String
         let bannerTitle: String
         let viewBackgroundColor: UIColor
@@ -87,8 +86,8 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
     )
     
     private lazy var collectionViewLayout: UICollectionViewLayout = {
-        let layout = UICollectionViewCompositionalLayout { (index, _) -> NSCollectionLayoutSection? in
-            return self.layoutSections[index].layoutSection()
+        let layout = UICollectionViewCompositionalLayout { [weak self] (index, _) -> NSCollectionLayoutSection? in
+            return self?.layoutSections[index].layoutSection()
         }
         return layout
     }()
@@ -290,8 +289,4 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         }
         
     }
-}
-
-extension Notification.Name {
-    static let logOut = Notification.Name("logOut")
 }
